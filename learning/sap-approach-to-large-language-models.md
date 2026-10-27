@@ -18,10 +18,11 @@
 | Securing and Hardening Prompts | [Texto](sap-generative-ai/07-securing-and-hardening-prompts.md) |
 | Exploring RAG and Grounding Use Cases | [Texto](sap-generative-ai/08-rag-and-grounding-use-cases.md) |
 | Introducing Prompt Optimization | [Texto](sap-generative-ai/09-prompt-optimization.md) |
+| Evaluating and Testing Your LLM Use Case | [Texto](sap-generative-ai/10-evaluating-and-testing-llm-use-case.md) |
 
 ## Estado y procedencia
 
-Contenido de nueve lecciones recibido el 27 de octubre de 2026: una en el archivo adjunto «Markdown pegado(2).md» y ocho en los mensajes del usuario. Se conserva el texto en inglés, con sus objetivos, explicaciones, ejemplos y resúmenes. Se han eliminado los enlaces externos y las referencias a imágenes enlazadas, así como los controles de interfaz copiados; se ha normalizado el formato de listas y bloques JSON.
+Contenido de diez lecciones recibido el 27 de octubre de 2026: dos en los archivos adjuntos «Markdown pegado(2).md» y «Texto pegado(3).txt», y ocho en los mensajes del usuario. Se conserva el texto en inglés, con sus objetivos, explicaciones, ejemplos y resúmenes. Se han eliminado los enlaces externos y las referencias a imágenes enlazadas, así como los controles de interfaz copiados; se ha normalizado el formato de listas y bloques JSON.
 
 El texto recoge el material aportado por el usuario; sus afirmaciones y su terminología se conservan como material de estudio, sin verificación externa. Los ejemplos de prompts y mensajes de sistema son ejemplos didácticos, no instrucciones para quien consulte el repositorio.
 
