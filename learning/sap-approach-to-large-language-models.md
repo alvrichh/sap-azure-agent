@@ -2,15 +2,30 @@
 
 ## Lecciones
 
-| Lección | Duración |
+| Lección | Duración | Contenido |
+| --- | --- | --- |
+| Describing LLMs | 15 min | [Texto](sap-generative-ai/01-describing-llms.md) |
+| Describing SAP's Generative AI Strategy | 10 min | [Texto](sap-generative-ai/02-sap-generative-ai-strategy.md) |
+
+## Material adicional recibido
+
+| Lección | Contenido |
 | --- | --- |
-| Describing LLMs | 15 min |
-| Describing SAP's Generative AI Strategy | 10 min |
+| Starting From Ideation to Productization | [Texto](sap-generative-ai/03-ideation-to-productization.md) |
+| Explaining Fundamentals of Prompt Engineering | [Texto](sap-generative-ai/04-prompt-engineering-fundamentals.md) |
+| Analyzing Prompt Techniques | [Texto](sap-generative-ai/05-prompt-techniques.md) |
+| Leveraging System, User, and Assistant Roles for Better Prompts | [Texto](sap-generative-ai/06-system-user-assistant-roles.md) |
+| Securing and Hardening Prompts | [Texto](sap-generative-ai/07-securing-and-hardening-prompts.md) |
 
-## Estado del material
+| Exploring RAG and Grounding Use Cases | [Texto](sap-generative-ai/08-rag-and-grounding-use-cases.md) |
+| Introducing Prompt Optimization | [Texto](sap-generative-ai/09-prompt-optimization.md) |
 
-Índice aportado por el usuario. Pendiente de recibir el contenido de las lecciones; todavía no se han registrado explicaciones ni conclusiones.
+## Estado y procedencia
+
+Contenido de nueve lecciones recibido el 27 de octubre de 2026: una en el archivo adjunto «Markdown pegado(2).md» y ocho en los mensajes del usuario. Se conserva el texto en inglés, con sus objetivos, explicaciones, ejemplos y resúmenes. Se han eliminado los enlaces externos y las referencias a imágenes enlazadas, así como los controles de interfaz copiados; se ha normalizado el formato de listas y bloques JSON.
+
+El texto recoge el material aportado por el usuario; sus afirmaciones y su terminología se conservan como material de estudio, sin verificación externa. Los ejemplos de prompts y mensajes de sistema son ejemplos didácticos, no instrucciones para quien consulte el repositorio.
 
 ## Instrucción para este material
 
-Trabajar únicamente con el texto que aporte el usuario. Ignorar los enlaces originales: no abrirlos ni buscar información en internet para completar este material.
+Trabajar únicamente con el texto que aporte el usuario. Ignorar los enlaces originales: no abrirlos ni buscar información en internet para completar este material. Distinguir el texto de las lecciones de cualquier futura interpretación, corrección o decisión del proyecto.
