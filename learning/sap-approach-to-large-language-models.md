@@ -16,7 +16,6 @@
 | Analyzing Prompt Techniques | [Texto](sap-generative-ai/05-prompt-techniques.md) |
 | Leveraging System, User, and Assistant Roles for Better Prompts | [Texto](sap-generative-ai/06-system-user-assistant-roles.md) |
 | Securing and Hardening Prompts | [Texto](sap-generative-ai/07-securing-and-hardening-prompts.md) |
-
 | Exploring RAG and Grounding Use Cases | [Texto](sap-generative-ai/08-rag-and-grounding-use-cases.md) |
 | Introducing Prompt Optimization | [Texto](sap-generative-ai/09-prompt-optimization.md) |
 
