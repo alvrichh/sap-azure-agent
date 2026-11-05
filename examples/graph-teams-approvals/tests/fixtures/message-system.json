@@ -1,0 +1,13 @@
+{
+  "id": "1730800100007",
+  "replyToId": "1730800000000",
+  "messageType": "systemEventMessage",
+  "from": {
+    "user": null,
+    "application": null
+  },
+  "body": {
+    "contentType": "html",
+    "content": "<systemEventMessage/>"
+  }
+}

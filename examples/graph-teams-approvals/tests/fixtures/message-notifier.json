@@ -1,0 +1,17 @@
+{
+  "id": "1730800100004",
+  "replyToId": "1730800000000",
+  "messageType": "message",
+  "from": {
+    "user": {
+      "id": "cccccccc-0000-0000-0000-000000000003",
+      "displayName": "svc-sap-teams",
+      "userIdentityType": "aadUser"
+    },
+    "application": null
+  },
+  "body": {
+    "contentType": "html",
+    "content": "<p>APPROVE</p>"
+  }
+}

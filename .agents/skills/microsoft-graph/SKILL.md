@@ -23,7 +23,7 @@ One endpoint (`https://graph.microsoft.com/v1.0`) for Microsoft 365 data. Use `v
 - **Delegated**: app acts as the signed-in user (only what the user can access). **Application**: daemon/background, needs admin consent and is tenant-wide unless scoped.
 - Pick the **narrowest** permission listed on the API page; prefer `.Read` over `.ReadWrite`, and specific scopes over `.All`.
 - **SharePoint/OneDrive for an app**: use `Sites.Selected` (application) and grant per site with `POST /sites/{site-id}/permissions` (`templates/graph/sites-selected-grant.json`; roles `read`/`write`/`manage`/`fullcontrol`). Do **not** also add `Sites.Read.All`, `Files.Read.All` etc.: broader permissions are additive and defeat the restriction.
-- **Teams**: prefer resource-specific consent (RSC) for team/chat-scoped access. Posting channel messages via Graph is a **delegated** operation (`ChannelMessage.Send`); for app-originated messages use a bot or Teams Workflows instead (application permission `Teamwork.Migrate.All` is for message migration only). Send only messages people will read — using Teams as a log file violates the API terms of use.
+- **Teams**: prefer resource-specific consent (RSC) for team/chat-scoped access. Posting channel messages via Graph is a **delegated** operation (`ChannelMessage.Send`); for app-originated messages use a bot or Teams Workflows instead (application permission `Teamwork.Migrate.All` is for message migration only). Send only messages people will read — using Teams as a log file violates the API terms of use. Cards posted through Graph only support `Action.OpenUrl`. Office 365 Connectors / incoming webhooks were retired in May 2026: use Teams **Workflows** for one-way alerts.
 - **Credentials**: managed identity or workload identity federation (no secrets) where possible; otherwise certificates in Key Vault (`azure-auth-entra`). App permissions for managed identities are assigned with Graph app role assignments (no portal consent screen).
 - Limit mailbox access for application permissions with Exchange **RBAC for Applications** (or application access policies), not tenant-wide `Mail.*`.
 
@@ -43,6 +43,9 @@ One endpoint (`https://graph.microsoft.com/v1.0`) for Microsoft 365 data. Use `v
 - Validate every notification (`clientState` from Key Vault; JWT `validationTokens` for rich notifications).
 - Subscriptions **expire** (per-resource maximum, e.g. 30 days for SharePoint lists): renew with `PATCH /subscriptions/{id}`; add a `lifecycleNotificationUrl` to handle reauthorization and missed notifications.
 - Template: `templates/graph/subscription-sharepoint-list.json` (SharePoint lists support `changeType: updated`).
+- **Event Hubs without secrets**: notificationUrl `EventHub:https://<ns>.servicebus.windows.net/eventhubname/<hub>?tenantId=<primary-domain>`, SAS disabled, *Microsoft Graph Change Tracking* (appId `0bf30f3b-4a52-48df-9a82-234910c4a086`) as *Azure Event Hubs Data Sender* — `templates/bicep/eventhubs-graph-notifications.bicep`.
+- Teams `chatMessage` subscriptions: max 4,320 minutes; more than 1 hour requires `lifecycleNotificationUrl`; with resource data an encryption certificate is mandatory.
+- Worked example (Teams approvals for SAP purchase orders, with unit tests): `examples/graph-teams-approvals/`.
 
 ## 5. Bring SAP data into Microsoft 365 Copilot (Copilot connectors)
 

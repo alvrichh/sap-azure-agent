@@ -1,0 +1,17 @@
+{
+  "id": "1730800100003",
+  "replyToId": "1730800000000",
+  "messageType": "message",
+  "from": {
+    "user": {
+      "id": "bbbbbbbb-0000-0000-0000-000000000002",
+      "displayName": "Otto Other",
+      "userIdentityType": "aadUser"
+    },
+    "application": null
+  },
+  "body": {
+    "contentType": "html",
+    "content": "<p>APPROVE</p>"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "1730800100005",
+  "replyToId": "1730800000000",
+  "messageType": "message",
+  "from": {
+    "user": null,
+    "application": {
+      "id": "app-1",
+      "displayName": "Some bot"
+    }
+  },
+  "body": {
+    "contentType": "text",
+    "content": "APPROVE"
+  }
+}

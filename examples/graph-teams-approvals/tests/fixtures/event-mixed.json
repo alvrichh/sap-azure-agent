@@ -1,0 +1,32 @@
+{
+  "value": [
+    {
+      "subscriptionId": "11111111-2222-3333-4444-555555555555",
+      "clientState": "wrong",
+      "changeType": "created",
+      "resource": "teams('19:aaaa1111bbbb2222@thread.tacv2')/channels('19:cccc3333dddd4444@thread.tacv2')/messages('1730800000000')/replies('1')"
+    },
+    {
+      "subscriptionId": "99999999-9999-9999-9999-999999999999",
+      "clientState": "test-client-state",
+      "changeType": "created",
+      "resource": "x"
+    },
+    {
+      "subscriptionId": "11111111-2222-3333-4444-555555555555",
+      "clientState": "test-client-state",
+      "changeType": "updated",
+      "resource": "teams('19:aaaa1111bbbb2222@thread.tacv2')/channels('19:cccc3333dddd4444@thread.tacv2')/messages('1730800000000')/replies('2')"
+    },
+    {
+      "subscriptionId": "11111111-2222-3333-4444-555555555555",
+      "clientState": "test-client-state",
+      "changeType": "created",
+      "resource": "teams('19:aaaa1111bbbb2222@thread.tacv2')/channels('19:cccc3333dddd4444@thread.tacv2')/messages('1730800000000')"
+    },
+    {
+      "subscriptionId": "11111111-2222-3333-4444-555555555555",
+      "lifecycleEvent": "reauthorizationRequired"
+    }
+  ]
+}
