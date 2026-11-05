@@ -1,0 +1,24 @@
+{
+  "EnvironmentVariables": [
+    {
+      "SchemaName": "sap_SapSystem",
+      "Value": "{\"AppServerHost\":\"<sap-dev-app-server-host>\",\"SystemNumber\":\"00\",\"Client\":100,\"LogonType\":\"ApplicationServer\",\"Language\":\"EN\"}"
+    },
+    {
+      "SchemaName": "sap_MaxResults",
+      "Value": "20"
+    }
+  ],
+  "ConnectionReferences": [
+    {
+      "LogicalName": "sap_SapErp",
+      "ConnectionId": "<saperp-connection-id>",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_saperp"
+    },
+    {
+      "LogicalName": "sap_SapOData",
+      "ConnectionId": "<sapodata-connection-id>",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_sapodata"
+    }
+  ]
+}

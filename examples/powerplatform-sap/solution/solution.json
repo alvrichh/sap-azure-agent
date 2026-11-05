@@ -1,0 +1,43 @@
+{
+  "_comment": "Source of truth for the solution's components, checked by tests/validate_example.py. Build the solution in the maker portal from these definitions, then export and unpack it with pac (see README). This is not a pac file format.",
+  "uniqueName": "SapSalesAssistant",
+  "displayName": "SAP Sales Assistant",
+  "publisher": {
+    "uniqueName": "sapazureagent",
+    "prefix": "sap"
+  },
+  "environmentVariables": [
+    {
+      "schemaName": "sap_SapSystem",
+      "displayName": "SAP system",
+      "type": "String",
+      "description": "JSON for the SAP ERP connector 'SAP system' parameter (host, system number, client, SNC). No credentials: those live in the connection."
+    },
+    {
+      "schemaName": "sap_MaxResults",
+      "displayName": "SAP max results",
+      "type": "Number",
+      "description": "Maximum business partners returned to the app."
+    }
+  ],
+  "connectionReferences": [
+    {
+      "logicalName": "sap_SapErp",
+      "displayName": "SAP ERP (RFC/BAPI)",
+      "connectorId": "/providers/Microsoft.PowerApps/apis/shared_saperp"
+    },
+    {
+      "logicalName": "sap_SapOData",
+      "displayName": "SAP OData via API Management",
+      "connectorId": "/providers/Microsoft.PowerApps/apis/shared_sapodata"
+    }
+  ],
+  "flows": [
+    "flows/sap-check-material-availability.json",
+    "flows/sap-search-business-partners.json"
+  ],
+  "canvasApp": {
+    "name": "SAP Sales Assistant",
+    "formulas": "../app/formulas.md"
+  }
+}

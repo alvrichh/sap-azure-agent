@@ -73,6 +73,16 @@ IDocs (worked example `examples/logicapps-sap-idoc/`):
 - **From SAP:** the built-in trigger *When a message is received* (`SapTrigger`) registers a program ID at the SAP gateway: RFC destination of type *Registered Server Program* with **Unicode** (SM59), the same case-sensitive program ID, and a gateway ACL line `P TP=<program-id> HOST=<subnet> ACCESS=*` (SMGW). Make *Respond to SAP server* the first action and don't reject IDocs for data errors.
 - The trigger, *Respond to SAP server* and actions with a transaction ID need **stateful mode**: VNet integration plus `vnetPrivatePortsCount = 2` in `logicapp-standard-sap.bicep`, NSG ports 20000–30000 inside the subnet and a fixed instance count.
 
+### Power Platform (Power Apps, Power Automate, Copilot Studio)
+
+Worked example: `examples/powerplatform-sap/`.
+
+- **SAP ERP connector** (RFC/BAPI, premium): needs the **on-premises data gateway** (3000.194+) with SAP NCo 3.1 x64; use *Call SAP function (V2)* (`CallRfcJson`), since support for v1 ended in July 2026. Put the *SAP system* JSON (host, system number, client, SNC; never credentials) in an **environment variable**. Gateway clusters: failover mode only for stateful sessions. tRFC and receiving from SAP aren't supported, so use Logic Apps for IDocs.
+- **SAP OData connector**: basic, Entra ID integrated **with APIM** (principal propagation), Entra ID with SuccessFactors, or OAuth 2.0 (preview). With APIM, authorize the connector's client app on the API app registration.
+- Connections to both are **not shareable**: each user signs in, so SAP authorizations apply per user. Prefer SSO (Kerberos or certificates with SNC for SAP ERP).
+- ALM: solutions with connection references and environment variables, **deployment settings files** per environment, managed solutions imported with `pac solution import --settings-file`, `pac auth create --githubFederated` for OIDC in GitHub Actions, and DLP with the SAP connectors in the Business group.
+- Escape user input in OData `$filter` literals (`'` → `''`) and cap `$top`.
+
 ## 6. SAP BTP and Integration Suite with Azure
 
 - **Cloud Integration (CPI)** iFlows can call Azure services (Service Bus, Event Grid, Storage, APIM-fronted APIs) — keep credentials in the BTP keystore / Azure Key Vault, not in iFlows.

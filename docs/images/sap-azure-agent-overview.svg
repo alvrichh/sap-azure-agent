@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="820" viewBox="0 0 1280 820" font-family="Segoe UI, -apple-system, Helvetica, Arial, sans-serif" role="img" aria-labelledby="title desc">
   <title id="title">sap-azure-agent overview</title>
-  <desc id="desc">You describe the goal to Claude Code or OpenAI Codex. The agent reads AGENTS.md, picks one of nine skills, checks Microsoft Learn and your Azure context through MCP, and delivers reviewable infrastructure as code, pipelines, API policies and workflows that connect SAP with Azure, Microsoft Fabric and Microsoft 365. Six end-to-end test cases and CI check the templates.</desc>
+  <desc id="desc">You describe the goal to Claude Code or OpenAI Codex. The agent reads AGENTS.md, picks one of nine skills, checks Microsoft Learn and your Azure context through MCP, and delivers reviewable infrastructure as code, pipelines, API policies and workflows that connect SAP with Azure, Microsoft Fabric and Microsoft 365. Seven end-to-end test cases and CI check the templates.</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M0,0 L10,5 L0,10 z" fill="#5b6b7f"/>
@@ -175,13 +175,13 @@
   <text x="1014" y="591" font-size="17" font-weight="700" fill="#5a3fa8">Fabric · Microsoft 365</text>
   <text x="1091" y="614" font-size="13" fill="#0b1f33" text-anchor="middle">Lakehouse · Power BI</text>
   <text x="1091" y="636" font-size="13" fill="#0b1f33" text-anchor="middle">Teams · Copilot · SharePoint</text>
-  <text x="1091" y="656" font-size="12" fill="#4a5a6c" text-anchor="middle">analytics · approvals · search</text>
+  <text x="1091" y="656" font-size="12" fill="#4a5a6c" text-anchor="middle">Power Apps · Power Automate</text>
 
   <!-- ============ VALIDATION STRIP ============ -->
   <rect x="40" y="712" width="1200" height="74" rx="12" fill="#0b1f33"/>
   <use href="#i-check" x="62" y="727" width="22" height="22" color="#9fd3b0"/>
-  <text x="92" y="743" font-size="14" font-weight="700" fill="#ffffff">6 end-to-end test cases, checked by CI on every push</text>
-  <text x="92" y="767" font-size="13" fill="#c9d4e0">S/4HANA → Fabric   ·   SAP OData behind API Management   ·   SAP approvals in Teams (Graph)   ·   Logic Apps: SAP RFC · SAP IDocs   ·   SAP → Snowflake</text>
+  <text x="92" y="743" font-size="14" font-weight="700" fill="#ffffff">7 end-to-end test cases, checked by CI on every push</text>
+  <text x="92" y="767" font-size="13" fill="#c9d4e0">S/4HANA → Fabric  ·  OData + API Management  ·  Teams approvals (Graph)  ·  Logic Apps RFC · IDocs  ·  Snowflake  ·  Power Platform</text>
   <rect x="1046" y="733" width="172" height="32" rx="16" fill="none" stroke="#9fd3b0"/>
   <text x="1132" y="754" font-size="13" font-weight="700" fill="#9fd3b0" text-anchor="middle">GitHub Actions</text>
 </svg>
