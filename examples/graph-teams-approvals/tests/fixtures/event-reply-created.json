@@ -1,0 +1,11 @@
+{
+  "value": [
+    {
+      "subscriptionId": "11111111-2222-3333-4444-555555555555",
+      "clientState": "test-client-state",
+      "changeType": "created",
+      "resource": "teams('19:aaaa1111bbbb2222@thread.tacv2')/channels('19:cccc3333dddd4444@thread.tacv2')/messages('1730800000000')/replies('1730800100000')",
+      "tenantId": "tenant"
+    }
+  ]
+}

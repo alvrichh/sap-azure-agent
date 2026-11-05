@@ -47,3 +47,6 @@ jobs:
 
       - name: SAP OData + API Management test case (static checks)
         run: python3 examples/sap-odata-apim/tests/validate_example.py
+
+      - name: Microsoft Graph + Teams approvals test case (static checks and unit tests)
+        run: python3 examples/graph-teams-approvals/tests/validate_example.py

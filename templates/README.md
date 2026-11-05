@@ -110,6 +110,7 @@ Skill: [`microsoft-graph`](../.agents/skills/microsoft-graph/SKILL.md) · Usage:
 | [`graph/subscription-sharepoint-list.json`](graph/subscription-sharepoint-list.json) | Change-notification subscription for a SharePoint list, with lifecycle notifications. |
 | [`graph/copilot-connector-connection.json`](graph/copilot-connector-connection.json) | Microsoft 365 Copilot connector connection for SAP material data. |
 | [`graph/copilot-connector-schema.json`](graph/copilot-connector-schema.json) | Its schema, with the semantic labels Copilot requires (`title`, `url`, `iconUrl`). |
+| [`bicep/eventhubs-graph-notifications.bicep`](bicep/eventhubs-graph-notifications.bicep) | Event Hubs for Graph change notifications without SAS: Graph Change Tracking as Data Sender, consumer as Data Receiver. Worked example: `examples/graph-teams-approvals/`. |
 
 ## Typical combinations
 

@@ -132,6 +132,7 @@ You don't need to name a skill: describe the outcome and the agent picks it. The
 | --- | --- |
 | [`examples/s4hana-to-fabric`](../examples/s4hana-to-fabric/README.md) | S/4HANA → SAP CDC → Delta → Fabric: five SAP objects, runbook, 14 runtime test cases, validation SQL, gold views, automated static checks. |
 | [`examples/sap-odata-apim`](../examples/sap-odata-apim/README.md) | SAP `API_BUSINESS_PARTNER` behind API Management with Entra ID roles, Key Vault, rate limiting and CSRF handling; runs against the SAP sandbox (no own SAP needed) or your S/4HANA; 11 runtime tests in a script. |
+| [`examples/graph-teams-approvals`](../examples/graph-teams-approvals/README.md) | SAP purchase-order approvals in Teams: Adaptive Card posted with Graph, replies captured with Graph change notifications through Event Hubs (no secrets), decision logic with 14 unit tests; 10 runtime test cases. |
 
 Start there to see how the skills fit together, or copy one as the base for your own project.
 

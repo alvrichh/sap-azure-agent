@@ -6,6 +6,9 @@
 *.key
 secrets/
 examples/**/config/settings.json
+examples/**/state/
+examples/**/*.local.json
+__pycache__/
 .claude/settings.local.json
 
 # Local tooling and build outputs

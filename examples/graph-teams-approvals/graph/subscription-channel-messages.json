@@ -1,0 +1,9 @@
+{
+  "changeType": "created",
+  "notificationUrl": "EventHub:https://<eventhub-namespace>.servicebus.windows.net/eventhubname/graph-notifications?tenantId=<primary-domain>",
+  "lifecycleNotificationUrl": "EventHub:https://<eventhub-namespace>.servicebus.windows.net/eventhubname/graph-notifications?tenantId=<primary-domain>",
+  "resource": "/teams/<team-id>/channels/<channel-id>/messages",
+  "includeResourceData": false,
+  "expirationDateTime": "<expiration-utc>",
+  "clientState": "<client-state>"
+}

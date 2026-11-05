@@ -1,0 +1,25 @@
+{
+  "_comment": "Non-secret values for the Graph + Teams approvals test case. Copy to settings.json (ignored by Git).",
+  "tenantId": "<tenant-id>",
+  "primaryDomain": "<primary-domain>",
+  "teams": {
+    "teamId": "<team-id>",
+    "channelId": "<channel-id>",
+    "channelName": "PO Approvals"
+  },
+  "entra": {
+    "publicClientAppId": "<sap-teams-approvals-app-client-id>",
+    "delegatedPermissions": ["ChannelMessage.Send", "ChannelMessage.Read.All"],
+    "productionListenerPermissions": ["ChannelMessage.Read.Group"],
+    "notifierAccountObjectId": "<svc-sap-teams-object-id>",
+    "approverObjectIds": ["<approver-object-id>"]
+  },
+  "eventHubs": {
+    "namespace": "evhns-sapteams-dev-<suffix>",
+    "hub": "graph-notifications",
+    "consumerGroup": "sap-approvals"
+  },
+  "sap": {
+    "fioriPurchaseOrderUrl": "https://<fiori-host>/sap/bc/ui2/flp#PurchaseOrder-manage?PurchaseOrder="
+  }
+}

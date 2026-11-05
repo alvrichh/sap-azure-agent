@@ -1,0 +1,17 @@
+{
+  "id": "1730800100008",
+  "replyToId": "1730799999999",
+  "messageType": "message",
+  "from": {
+    "user": {
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "displayName": "Ana Approver",
+      "userIdentityType": "aadUser"
+    },
+    "application": null
+  },
+  "body": {
+    "contentType": "html",
+    "content": "<p>APPROVE</p>"
+  }
+}
