@@ -1,5 +1,9 @@
 # sap-azure-agent
 
+[![validate](https://github.com/alvrichh/sap-azure-agent/actions/workflows/validate.yml/badge.svg)](https://github.com/alvrichh/sap-azure-agent/actions/workflows/validate.yml)
+
+![sap-azure-agent overview: you ask in Claude Code or Codex, the agent picks skills and checks Microsoft Learn and Azure, delivers reviewable code, and connects SAP securely with Azure, Fabric and Microsoft 365](docs/images/sap-azure-agent-overview.svg)
+
 A master agent for **Microsoft Azure, Microsoft 365 and SAP integration**. Clone the repository, open it with [Claude Code](https://code.claude.com) or [OpenAI Codex](https://developers.openai.com/codex), and ask in plain language: the agent picks the right skill, checks the official Microsoft documentation, and produces reviewable infrastructure as code, Data Factory pipelines, API policies and step-by-step guidance to connect SAP S/4HANA, ECC, BW or HANA with Azure, Fabric and Microsoft 365.
 
 It also hosts the learning material (SAP generative AI, Microsoft Learn notes) the agent uses as background knowledge.

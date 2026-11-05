@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="820" viewBox="0 0 1280 820" font-family="Segoe UI, -apple-system, Helvetica, Arial, sans-serif" role="img" aria-labelledby="title desc">
+  <title id="title">sap-azure-agent overview</title>
+  <desc id="desc">You describe the goal to Claude Code or OpenAI Codex. The agent reads AGENTS.md, picks one of nine skills, checks Microsoft Learn and your Azure context through MCP, and delivers reviewable infrastructure as code, pipelines, API policies and workflows that connect SAP with Azure, Microsoft Fabric and Microsoft 365. Four end-to-end test cases and CI validate the templates.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5b6b7f"/>
+    </marker>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0b1f33" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- canvas -->
+  <rect x="0" y="0" width="1280" height="820" rx="18" fill="#ffffff"/>
+  <rect x="0.5" y="0.5" width="1279" height="819" rx="18" fill="none" stroke="#dde3ea"/>
+
+  <!-- header -->
+  <text x="40" y="58" font-size="30" font-weight="700" fill="#0b1f33">sap-azure-agent</text>
+  <text x="40" y="88" font-size="16" fill="#4a5a6c">A master agent that turns a plain-language goal into reviewable, secure SAP ↔ Microsoft integrations</text>
+
+  <!-- ============ 1. YOU ============ -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="130" width="230" height="330" rx="14" fill="#f4f7fb" stroke="#c9d4e0"/>
+  </g>
+  <text x="155" y="162" font-size="13" font-weight="700" fill="#5b6b7f" text-anchor="middle" letter-spacing="1.5">1 · YOU ASK</text>
+  <rect x="62" y="180" width="186" height="96" rx="10" fill="#ffffff" stroke="#c9d4e0"/>
+  <text x="155" y="207" font-size="13.5" fill="#0b1f33" text-anchor="middle" font-style="italic">“Load S/4HANA sales</text>
+  <text x="155" y="226" font-size="13.5" fill="#0b1f33" text-anchor="middle" font-style="italic">orders into Fabric</text>
+  <text x="155" y="245" font-size="13.5" fill="#0b1f33" text-anchor="middle" font-style="italic">every hour, without</text>
+  <text x="155" y="264" font-size="13.5" fill="#0b1f33" text-anchor="middle" font-style="italic">secrets in the repo.”</text>
+  <text x="155" y="312" font-size="13" font-weight="600" fill="#0b1f33" text-anchor="middle">in</text>
+  <rect x="70" y="326" width="170" height="38" rx="19" fill="#ffffff" stroke="#d27c4b"/>
+  <text x="155" y="350" font-size="14" font-weight="600" fill="#a0522d" text-anchor="middle">Claude Code</text>
+  <rect x="70" y="374" width="170" height="38" rx="19" fill="#ffffff" stroke="#3b3b3b"/>
+  <text x="155" y="398" font-size="14" font-weight="600" fill="#1f1f1f" text-anchor="middle">OpenAI Codex</text>
+  <text x="155" y="440" font-size="12" fill="#5b6b7f" text-anchor="middle">same AGENTS.md · same skills</text>
+
+  <!-- arrow 1 -> 2 -->
+  <line x1="276" y1="295" x2="316" y2="295" stroke="#5b6b7f" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- ============ 2. AGENT ============ -->
+  <g filter="url(#shadow)">
+    <rect x="322" y="130" width="560" height="330" rx="14" fill="#eef5ff" stroke="#9cbfe8"/>
+  </g>
+  <text x="602" y="162" font-size="13" font-weight="700" fill="#1f5fa8" text-anchor="middle" letter-spacing="1.5">2 · THE AGENT PICKS SKILLS AND CHECKS THE FACTS</text>
+
+  <!-- skill groups -->
+  <g font-size="12.5">
+    <rect x="342" y="178" width="250" height="122" rx="10" fill="#ffffff" stroke="#9cbfe8"/>
+    <text x="356" y="200" font-weight="700" fill="#1f5fa8">Data integration</text>
+    <text x="356" y="222" fill="#0b1f33">azure-data-factory</text>
+    <text x="356" y="241" fill="#0b1f33">adf-sap-pipeline</text>
+    <text x="356" y="260" fill="#0b1f33">sap-cdc-incremental</text>
+    <text x="356" y="279" fill="#0b1f33">adf-cicd</text>
+
+    <rect x="612" y="178" width="250" height="122" rx="10" fill="#ffffff" stroke="#9cbfe8"/>
+    <text x="626" y="200" font-weight="700" fill="#1f5fa8">Analytics · Apps · Microsoft 365</text>
+    <text x="626" y="222" fill="#0b1f33">microsoft-fabric</text>
+    <text x="626" y="241" fill="#0b1f33">sap-api-integration</text>
+    <text x="626" y="260" fill="#0b1f33">microsoft-graph</text>
+
+    <rect x="342" y="312" width="250" height="84" rx="10" fill="#ffffff" stroke="#9cbfe8"/>
+    <text x="356" y="334" font-weight="700" fill="#1f5fa8">Foundations</text>
+    <text x="356" y="356" fill="#0b1f33">azure-auth-entra</text>
+    <text x="356" y="375" fill="#0b1f33">azure-bicep-iac</text>
+
+    <rect x="612" y="312" width="250" height="84" rx="10" fill="#ffffff" stroke="#9cbfe8"/>
+    <text x="626" y="334" font-weight="700" fill="#1f5fa8">Specialist roles</text>
+    <text x="626" y="356" fill="#0b1f33">azure-architect</text>
+    <text x="626" y="375" fill="#0b1f33">sap-integration-expert</text>
+  </g>
+
+  <!-- MCP bar -->
+  <rect x="342" y="408" width="520" height="38" rx="10" fill="#1f5fa8"/>
+  <text x="602" y="432" font-size="13" fill="#ffffff" text-anchor="middle"><tspan font-weight="700">MCP</tspan>  Microsoft Learn (official docs)  ·  Azure (your own az login)</text>
+
+  <!-- arrow 2 -> 3 -->
+  <line x1="888" y1="295" x2="928" y2="295" stroke="#5b6b7f" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- ============ 3. DELIVERS ============ -->
+  <g filter="url(#shadow)">
+    <rect x="934" y="130" width="306" height="330" rx="14" fill="#f2fbf5" stroke="#9fd3b0"/>
+  </g>
+  <text x="1087" y="162" font-size="13" font-weight="700" fill="#1e7a45" text-anchor="middle" letter-spacing="1.5">3 · IT DELIVERS CODE YOU REVIEW</text>
+  <g font-size="13" fill="#0b1f33">
+    <rect x="954" y="178" width="266" height="34" rx="8" fill="#ffffff" stroke="#9fd3b0"/>
+    <text x="968" y="200">Bicep: infrastructure as code</text>
+    <rect x="954" y="220" width="266" height="34" rx="8" fill="#ffffff" stroke="#9fd3b0"/>
+    <text x="968" y="242">Data Factory pipelines (SAP CDC)</text>
+    <rect x="954" y="262" width="266" height="34" rx="8" fill="#ffffff" stroke="#9fd3b0"/>
+    <text x="968" y="284">API Management policies</text>
+    <rect x="954" y="304" width="266" height="34" rx="8" fill="#ffffff" stroke="#9fd3b0"/>
+    <text x="968" y="326">Logic Apps workflows (RFC/BAPI)</text>
+    <rect x="954" y="346" width="266" height="34" rx="8" fill="#ffffff" stroke="#9fd3b0"/>
+    <text x="968" y="368">Graph requests · CI/CD workflows</text>
+  </g>
+  <text x="1087" y="408" font-size="12.5" fill="#1e7a45" text-anchor="middle" font-weight="600">what-if preview before any change</text>
+  <text x="1087" y="428" font-size="12.5" fill="#1e7a45" text-anchor="middle" font-weight="600">asks before billable actions</text>
+
+  <!-- arrow down to landscape -->
+  <line x1="1087" y1="466" x2="1087" y2="508" stroke="#5b6b7f" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- ============ 4. LANDSCAPE ============ -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="514" width="1200" height="176" rx="14" fill="#fbfaf6" stroke="#ddd5bf"/>
+  </g>
+  <text x="640" y="544" font-size="13" font-weight="700" fill="#7a6326" text-anchor="middle" letter-spacing="1.5">4 · THE RESULT: SAP CONNECTED SECURELY WITH MICROSOFT</text>
+
+  <!-- SAP -->
+  <rect x="64" y="562" width="250" height="108" rx="12" fill="#e8f1fb" stroke="#0a6ed1"/>
+  <text x="189" y="590" font-size="17" font-weight="700" fill="#0a6ed1" text-anchor="middle">SAP</text>
+  <text x="189" y="614" font-size="13" fill="#0b1f33" text-anchor="middle">S/4HANA · ECC · BW · HANA</text>
+  <text x="189" y="636" font-size="12" fill="#4a5a6c" text-anchor="middle">ODP / CDC · OData · RFC / BAPI</text>
+  <text x="189" y="656" font-size="12" fill="#4a5a6c" text-anchor="middle">on-premises · RISE · cloud</text>
+
+  <!-- arrows SAP <-> Azure -->
+  <line x1="320" y1="616" x2="404" y2="616" stroke="#5b6b7f" stroke-width="2.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="362" y="606" font-size="11" fill="#5b6b7f" text-anchor="middle">private</text>
+  <text x="362" y="636" font-size="11" fill="#5b6b7f" text-anchor="middle">network</text>
+
+  <!-- Azure -->
+  <rect x="410" y="562" width="460" height="108" rx="12" fill="#eef5ff" stroke="#0078d4"/>
+  <text x="640" y="590" font-size="17" font-weight="700" fill="#0078d4" text-anchor="middle">Azure</text>
+  <text x="640" y="614" font-size="13" fill="#0b1f33" text-anchor="middle">Data Factory · API Management · Logic Apps · Event Hubs</text>
+  <text x="640" y="636" font-size="13" fill="#0b1f33" text-anchor="middle">Data Lake (Delta) · Key Vault · Entra ID</text>
+  <text x="640" y="656" font-size="12" fill="#4a5a6c" text-anchor="middle">managed identities · RBAC · no secrets in code</text>
+
+  <!-- arrows Azure -> consumers -->
+  <line x1="876" y1="616" x2="960" y2="616" stroke="#5b6b7f" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- Fabric + M365 -->
+  <rect x="966" y="562" width="250" height="108" rx="12" fill="#f3f0fb" stroke="#6b4fbb"/>
+  <text x="1091" y="590" font-size="17" font-weight="700" fill="#5a3fa8" text-anchor="middle">Fabric · Microsoft 365</text>
+  <text x="1091" y="614" font-size="13" fill="#0b1f33" text-anchor="middle">Lakehouse · Power BI</text>
+  <text x="1091" y="636" font-size="13" fill="#0b1f33" text-anchor="middle">Teams · Copilot · SharePoint</text>
+  <text x="1091" y="656" font-size="12" fill="#4a5a6c" text-anchor="middle">analytics · approvals · search</text>
+
+  <!-- ============ VALIDATION STRIP ============ -->
+  <rect x="40" y="712" width="1200" height="74" rx="12" fill="#0b1f33"/>
+  <text x="64" y="742" font-size="14" font-weight="700" fill="#ffffff">Proven by 4 end-to-end test cases + CI on every push</text>
+  <text x="64" y="766" font-size="13" fill="#c9d4e0">S/4HANA → Fabric   ·   SAP OData behind API Management   ·   SAP approvals in Teams (Graph)   ·   Logic Apps calling SAP RFC</text>
+  <rect x="1046" y="733" width="172" height="32" rx="16" fill="none" stroke="#9fd3b0"/>
+  <text x="1132" y="754" font-size="13" font-weight="700" fill="#9fd3b0" text-anchor="middle">GitHub Actions</text>
+</svg>
