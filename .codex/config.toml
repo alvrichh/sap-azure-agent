@@ -1,0 +1,9 @@
+# Project-scoped Codex configuration (loaded only when this project is trusted in Codex).
+# Mirrors .mcp.json used by Claude Code.
+
+[mcp_servers.microsoft-learn]
+url = "https://learn.microsoft.com/api/mcp"
+
+[mcp_servers.azure]
+command = "npx"
+args = ["-y", "@azure/mcp@latest", "server", "start"]
