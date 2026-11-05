@@ -134,14 +134,51 @@ You don't need to name a skill: describe the outcome and the agent picks it. The
 | [`examples/sap-odata-apim`](../examples/sap-odata-apim/README.md) | SAP `API_BUSINESS_PARTNER` behind API Management with Entra ID roles, Key Vault, rate limiting and CSRF handling; runs against the SAP sandbox (no own SAP needed) or your S/4HANA; 11 runtime tests in a script. |
 | [`examples/graph-teams-approvals`](../examples/graph-teams-approvals/README.md) | SAP purchase-order approvals in Teams: Adaptive Card posted with Graph, replies captured with Graph change notifications through Event Hubs (no secrets), decision logic with 14 unit tests; 10 runtime test cases. |
 | [`examples/logicapps-sap-rfc`](../examples/logicapps-sap-rfc/README.md) | Logic Apps Standard API calling `BAPI_MATERIAL_AVAILABILITY` and `STFC_CONNECTION` through the SAP built-in connector (VNet, no gateway), password in Key Vault, Try/Catch; unit tests evaluate the real workflow JSON; 10 runtime test cases. |
+| [`examples/logicapps-sap-idoc`](../examples/logicapps-sap-idoc/README.md) | IDocs both ways with the SAP built-in connector: JSON order → ORDERS05 with an explicit transaction ID (no duplicates on retry), IDoc status API, and DEBMAS packets from SAP through a registered program to a downstream API with managed identity; SAP setup (SM59, SMGW ACL, WE20/WE21, BD54); 14 runtime test cases. |
 
-Start there to see how the skills fit together, or copy one as the base for your own project.
+Start there to see how the skills fit together
+, or copy one as the base for your own project.
 
 ## 7. Templates
 
 Every skill points to ready-to-adapt templates under `templates/` (Bicep, ADF JSON, Fabric, API Management, Graph, GitHub Actions). Replace each `<placeholder>`; none of them contains secrets. Index: [templates/README.md](../templates/README.md).
 
 ## 8. Security
+
+### Local settings and secrets
+
+Every example reads its settings the same way:
+
+| Kind of value | Where it lives | Example |
+| --- | --- | --- |
+| Identifiers, host names, URLs | Your local `.env`, copied from [`.env.example`](../.env.example) (`.env` is ignored by Git) | `AZURE_TENANT_ID`, `SAP_APPSERVER_HOST`, `SAP_ODATA_BASE_URL`, `SNOWFLAKE_ACCOUNT` |
+| Passwords, private keys, client secrets | Azure Key Vault; `.env` only holds the secret **name** | `SAP_PASSWORD_SECRET_NAME`, `SNOWFLAKE_PRIVATE_KEY_SECRET_NAME` |
+| Short-lived tokens, SAS trigger URLs | Exported in your shell when you need them (left empty in `.env.example`) | `GRAPH_TOKEN`, `TOKEN_READER`, `*_TRIGGER_URL` |
+| Deployed apps | Bicep parameter files → app settings and Key Vault references | `examples/*/bicep/*.bicepparam` |
+
+```bash
+cp .env.example .env
+```
+
+```bash
+set -a; source .env; set +a
+```
+
+Put the secrets into Key Vault once, without leaving them in your shell history:
+
+```bash
+az keyvault secret set --vault-name "$AZURE_KEY_VAULT_NAME" --name "$SAP_PASSWORD_SECRET_NAME" --value "$(read -rsp 'SAP password: ' p; echo "$p")"
+```
+
+```bash
+az keyvault secret set --vault-name "$AZURE_KEY_VAULT_NAME" --name "$SNOWFLAKE_PRIVATE_KEY_SECRET_NAME" --file "$SNOWFLAKE_PRIVATE_KEY_PATH"
+```
+
+Snowflake uses **key-pair authentication** (no passwords): register the public key on the Snowflake user, keep the private key file outside the repository, and let Data Factory read it from Key Vault through [`templates/adf/linked-services/snowflake-v2.json`](../templates/adf/linked-services/snowflake-v2.json). Test the linked service connection after storing the key: the connector expects the PEM text including its line breaks. Loads into Snowflake use a Snowflake **storage integration** and staging storage with managed identity, so no SAS token is needed ([`templates/adf/pipelines/copy-adls-parquet-to-snowflake.json`](../templates/adf/pipelines/copy-adls-parquet-to-snowflake.json)).
+
+`python3 scripts/check_env_example.py` (also in CI) checks that `.env.example` holds no secrets, that `.env` is ignored and that every variable the scripts and runbooks read is listed.
+
+### Rules
 
 - Never commit secrets. Store them in Azure Key Vault; templates reference Key Vault secrets and managed identities.
 - The agent uses only your own Azure login, previews changes with what-if, and asks for confirmation before creating, changing or deleting billable resources.

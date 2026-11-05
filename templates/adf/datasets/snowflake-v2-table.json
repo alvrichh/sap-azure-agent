@@ -1,0 +1,28 @@
+{
+  "name": "DS_SnowflakeV2Table",
+  "properties": {
+    "type": "SnowflakeV2Table",
+    "linkedServiceName": {
+      "referenceName": "LS_SnowflakeV2",
+      "type": "LinkedServiceReference"
+    },
+    "parameters": {
+      "schema": {
+        "type": "string"
+      },
+      "table": {
+        "type": "string"
+      }
+    },
+    "typeProperties": {
+      "schema": {
+        "value": "@dataset().schema",
+        "type": "Expression"
+      },
+      "table": {
+        "value": "@dataset().table",
+        "type": "Expression"
+      }
+    }
+  }
+}

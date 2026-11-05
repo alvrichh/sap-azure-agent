@@ -1,0 +1,53 @@
+{
+  "sapGatewayHost": {
+    "type": "String",
+    "value": "@appsetting('SAP_GATEWAY_HOST')"
+  },
+  "sapGatewayService": {
+    "type": "String",
+    "value": "@appsetting('SAP_GATEWAY_SERVICE')"
+  },
+  "sapProgramId": {
+    "type": "String",
+    "value": "@appsetting('SAP_PROGRAM_ID')"
+  },
+  "idocSenderPort": {
+    "type": "String",
+    "value": "@appsetting('SAP_IDOC_SENDER_PORT')"
+  },
+  "idocSenderPartner": {
+    "type": "String",
+    "value": "@appsetting('SAP_IDOC_SENDER_PARTNER')"
+  },
+  "idocReceiverPort": {
+    "type": "String",
+    "value": "@appsetting('SAP_IDOC_RECEIVER_PORT')"
+  },
+  "idocReceiverPartner": {
+    "type": "String",
+    "value": "@appsetting('SAP_IDOC_RECEIVER_PARTNER')"
+  },
+  "customerApiUrl": {
+    "type": "String",
+    "value": "@appsetting('CUSTOMER_API_URL')"
+  },
+  "customerApiAudience": {
+    "type": "String",
+    "value": "@appsetting('CUSTOMER_API_AUDIENCE')"
+  },
+  "idocStatusText": {
+    "type": "Object",
+    "value": {
+      "03": "Data passed to port OK",
+      "12": "Dispatch OK",
+      "30": "IDoc ready for dispatch (ALE service)",
+      "51": "Application document not posted",
+      "53": "Application document posted",
+      "56": "IDoc with errors added",
+      "62": "IDoc passed to application",
+      "64": "IDoc ready to be transferred to application",
+      "68": "Error - no further processing",
+      "69": "IDoc was edited"
+    }
+  }
+}

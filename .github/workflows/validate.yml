@@ -55,3 +55,9 @@ jobs:
         run: |
           pip install --quiet lxml jsonschema
           python3 examples/logicapps-sap-rfc/tests/validate_example.py
+
+      - name: Logic Apps + SAP IDoc test case (static checks and unit tests)
+        run: python3 examples/logicapps-sap-idoc/tests/validate_example.py
+
+      - name: Local settings template has no secrets (.env.example)
+        run: python3 scripts/check_env_example.py

@@ -1,0 +1,32 @@
+{
+  "name": "LS_SnowflakeV2",
+  "properties": {
+    "type": "SnowflakeV2",
+    "description": "Snowflake V2 with key-pair authentication; private key and passphrase read from Key Vault (no passwords). Grant the user USAGE on the database, read/write on the schema and CREATE STAGE.",
+    "typeProperties": {
+      "accountIdentifier": "<orgname-account-name>",
+      "database": "<snowflake-database>",
+      "warehouse": "<snowflake-warehouse>",
+      "schema": "<snowflake-schema>",
+      "role": "<snowflake-role>",
+      "authenticationType": "KeyPair",
+      "user": "<snowflake-service-user>",
+      "privateKey": {
+        "type": "AzureKeyVaultSecret",
+        "store": {
+          "referenceName": "LS_KeyVault",
+          "type": "LinkedServiceReference"
+        },
+        "secretName": "snowflake-private-key"
+      },
+      "privateKeyPassphrase": {
+        "type": "AzureKeyVaultSecret",
+        "store": {
+          "referenceName": "LS_KeyVault",
+          "type": "LinkedServiceReference"
+        },
+        "secretName": "snowflake-private-key-passphrase"
+      }
+    }
+  }
+}

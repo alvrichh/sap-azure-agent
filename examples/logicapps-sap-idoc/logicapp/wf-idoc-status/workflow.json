@@ -1,0 +1,93 @@
+{
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "contentVersion": "1.0.0.0",
+    "triggers": {
+      "When_a_HTTP_request_is_received": {
+        "type": "Request",
+        "kind": "Http",
+        "inputs": {
+          "method": "POST",
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "idocNumber"
+            ],
+            "properties": {
+              "idocNumber": {
+                "type": "string",
+                "pattern": "^[0-9]{16}$",
+                "description": "IDoc number (DOCNUM), 16 digits with leading zeros."
+              }
+            }
+          }
+        },
+        "operationOptions": "EnableSchemaValidation"
+      }
+    },
+    "actions": {
+      "Get_IDoc_status": {
+        "type": "ServiceProvider",
+        "runAfter": {},
+        "inputs": {
+          "parameters": {
+            "iDocNumber": "@triggerBody()?['idocNumber']"
+          },
+          "serviceProviderConfiguration": {
+            "connectionName": "sap",
+            "operationId": "getIDocStatus",
+            "serviceProviderId": "/serviceProviders/sap"
+          }
+        },
+        "retryPolicy": {
+          "type": "fixed",
+          "count": 2,
+          "interval": "PT10S"
+        }
+      },
+      "Respond_200": {
+        "type": "Response",
+        "kind": "Http",
+        "runAfter": {
+          "Get_IDoc_status": [
+            "Succeeded"
+          ]
+        },
+        "inputs": {
+          "statusCode": 200,
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "idocNumber": "@triggerBody()?['idocNumber']",
+            "status": "@body('Get_IDoc_status')?['iDocStatus']",
+            "description": "@coalesce(parameters('idocStatusText')?[string(body('Get_IDoc_status')?['iDocStatus'])], 'Unknown status: check WE02 or table TEDS2')"
+          }
+        }
+      },
+      "Respond_502": {
+        "type": "Response",
+        "kind": "Http",
+        "runAfter": {
+          "Get_IDoc_status": [
+            "Failed",
+            "TimedOut"
+          ]
+        },
+        "inputs": {
+          "statusCode": 502,
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "error": "Could not read the IDoc status from SAP.",
+            "runId": "@{workflow()?['run']?['name']}"
+          }
+        }
+      }
+    },
+    "outputs": {}
+  },
+  "kind": "Stateless"
+}

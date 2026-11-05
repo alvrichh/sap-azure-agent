@@ -1,0 +1,11 @@
+{
+  "name": "LS_BlobStaging",
+  "properties": {
+    "type": "AzureBlobStorage",
+    "description": "Interim staging for Snowflake COPY, with the data factory managed identity (Storage Blob Data Contributor). Snowflake reads it through its storage integration (grant the Snowflake service principal Storage Blob Data Reader), so no SAS token is needed.",
+    "typeProperties": {
+      "serviceEndpoint": "https://<staging-storage-account-name>.blob.core.windows.net/",
+      "accountKind": "StorageV2"
+    }
+  }
+}

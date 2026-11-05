@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A message type this workflow must not process (misrouted partner profile). Test data only. -->
+<MATMAS05>
+  <IDOC BEGIN="1">
+    <EDI_DC40 SEGMENT="1">
+      <TABNAM>EDI_DC40</TABNAM>
+      <MANDT>100</MANDT>
+      <DOCNUM>0000000000500001</DOCNUM>
+      <DIRECT>1</DIRECT>
+      <IDOCTYP>MATMAS05</IDOCTYP>
+      <MESTYP>MATMAS</MESTYP>
+      <SNDPRN>S4PCLNT100</SNDPRN>
+    </EDI_DC40>
+    <E1MARAM SEGMENT="1">
+      <MSGFN>005</MSGFN>
+      <MATNR>MAT-1001</MATNR>
+    </E1MARAM>
+  </IDOC>
+</MATMAS05>

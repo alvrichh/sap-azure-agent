@@ -1,0 +1,27 @@
+{
+  "_comment": "Non-secret values for the Logic Apps + SAP IDoc test case. Copy to settings.json (ignored by Git). The SAP password lives only in Key Vault; trigger URLs (SAS) only in your local .env.",
+  "azure": {
+    "resourceGroup": "rg-sapidoc-dev",
+    "location": "westeurope",
+    "logicAppName": "logic-sap-idoc-dev-<suffix>",
+    "integrationSubnetId": "<integration-subnet-resource-id>",
+    "keyVaultName": "<key-vault-name>"
+  },
+  "sap": {
+    "systemId": "S4P",
+    "client": "100",
+    "logicalSystem": "<sap-logical-system>",
+    "appServerHost": "<sap-app-server-host>",
+    "systemNumber": "<system-number>",
+    "gatewayHost": "<sap-gateway-host>",
+    "gatewayService": "<sap-gateway-service>",
+    "programId": "LOGICAPP_IDOC_DEV",
+    "rfcDestination": "LOGICAPP_IDOC_DEV",
+    "technicalUser": "RFC_IDOC_LA",
+    "outbound": { "messageType": "DEBMAS", "basicType": "DEBMAS07", "receiverPort": "<receiver-port>" },
+    "inbound": { "messageType": "ORDERS", "basicType": "ORDERS05", "processCode": "ORDE", "processing": "Trigger by background program" },
+    "testCustomer": "<customer-number>",
+    "testSalesArea": { "salesOrg": "<sales-org>", "distributionChannel": "<distribution-channel>", "division": "<division>" },
+    "testMaterial": "<material-number>"
+  }
+}

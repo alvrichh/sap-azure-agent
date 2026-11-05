@@ -1,0 +1,79 @@
+{
+  "name": "PL_Copy_AdlsParquet_To_Snowflake",
+  "properties": {
+    "description": "Load Parquet files from ADLS Gen2 (e.g. SAP extracts) into a Snowflake table with staged COPY INTO through a storage integration (no SAS). Schema and table names are case-sensitive.",
+    "parameters": {
+      "fileSystem": {
+        "type": "string",
+        "defaultValue": "raw"
+      },
+      "folderPath": {
+        "type": "string",
+        "defaultValue": "sap/T001"
+      },
+      "snowflakeSchema": {
+        "type": "string",
+        "defaultValue": "SAP_RAW"
+      },
+      "snowflakeTable": {
+        "type": "string",
+        "defaultValue": "T001"
+      }
+    },
+    "activities": [
+      {
+        "name": "CopyParquetToSnowflake",
+        "type": "Copy",
+        "policy": {
+          "timeout": "0.06:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 60
+        },
+        "inputs": [
+          {
+            "referenceName": "DS_AdlsParquet",
+            "type": "DatasetReference",
+            "parameters": {
+              "fileSystem": "@pipeline().parameters.fileSystem",
+              "folderPath": "@pipeline().parameters.folderPath"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "DS_SnowflakeV2Table",
+            "type": "DatasetReference",
+            "parameters": {
+              "schema": "@pipeline().parameters.snowflakeSchema",
+              "table": "@pipeline().parameters.snowflakeTable"
+            }
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "ParquetSource",
+            "storeSettings": {
+              "type": "AzureBlobFSReadSettings",
+              "recursive": true
+            }
+          },
+          "sink": {
+            "type": "SnowflakeV2Sink",
+            "importSettings": {
+              "type": "SnowflakeImportCopyCommand",
+              "storageIntegration": "<snowflake-storage-integration>"
+            }
+          },
+          "enableStaging": true,
+          "stagingSettings": {
+            "linkedServiceName": {
+              "referenceName": "LS_BlobStaging",
+              "type": "LinkedServiceReference"
+            },
+            "path": "snowflake-staging"
+          }
+        }
+      }
+    ]
+  }
+}

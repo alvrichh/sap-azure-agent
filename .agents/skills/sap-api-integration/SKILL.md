@@ -67,6 +67,12 @@ Prefer the **built-in connector**. Use a dedicated RFC user with least authoriza
 
 Infrastructure: `templates/bicep/logicapp-standard-sap.bicep` (64-bit, VNet integration, SAP password as Key Vault reference). Worked example with offline tests of the workflow JSON: `examples/logicapps-sap-rfc/`. Build RFC XML with `xml()` from a JSON object (values get escaped) and, inside `'…'` expression literals, use double quotes in XPath (`local-name()="X"`).
 
+IDocs (worked example `examples/logicapps-sap-idoc/`):
+
+- **To SAP:** `[IDoc] Send document to SAP` (`sendIDoc`) with your own **transaction ID** (`guid()`, or one the caller passes to retry), `confirmTid = false`, then `[IDOC - RFC] Confirm transaction Id` after a successful send: a resend with the same TID never creates a duplicate IDoc. Set the SAP partner profile (WE20) inbound processing to **Trigger by background program**, otherwise SAP posts inside the call and the 2-minute action timeout can expire.
+- **From SAP:** the built-in trigger *When a message is received* (`SapTrigger`) registers a program ID at the SAP gateway: RFC destination of type *Registered Server Program* with **Unicode** (SM59), the same case-sensitive program ID, and a gateway ACL line `P TP=<program-id> HOST=<subnet> ACCESS=*` (SMGW). Make *Respond to SAP server* the first action and don't reject IDocs for data errors.
+- The trigger, *Respond to SAP server* and actions with a transaction ID need **stateful mode**: VNet integration plus `vnetPrivatePortsCount = 2` in `logicapp-standard-sap.bicep`, NSG ports 20000–30000 inside the subnet and a fixed instance count.
+
 ## 6. SAP BTP and Integration Suite with Azure
 
 - **Cloud Integration (CPI)** iFlows can call Azure services (Service Bus, Event Grid, Storage, APIM-fronted APIs) — keep credentials in the BTP keystore / Azure Key Vault, not in iFlows.
