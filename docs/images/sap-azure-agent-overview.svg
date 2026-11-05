@@ -8,6 +8,26 @@
     <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
       <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0b1f33" flood-opacity="0.12"/>
     </filter>
+
+    <!-- icons: 24x24 line icons, stroke = currentColor -->
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 9.5h8M8 12.5h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-agent" viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 4v4M9 13h.01M15 13h.01M9.5 16h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="3.5" r="1.3" fill="currentColor"/><path d="M3 12v3M21 12v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v5h5M10 12l-2 2 2 2M14 12l2 2-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-flow" viewBox="0 0 24 24"><rect x="3" y="4" width="6" height="5" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="15" y="15" width="6" height="5" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 6.5h4a2 2 0 0 1 2 2v6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12.5 12.5l2.5 2.5 2.5-2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="5.5" y="12" width="3" height="6" rx=".8" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="10.5" y="7" width="3" height="11" rx=".8" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="15.5" y="10" width="3" height="8" rx=".8" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="17" cy="9" r="2.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 14.2A4.5 4.5 0 0 1 21 18.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v3H6.5A2.5 2.5 0 0 1 4 20.5zM9 7.5h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18h10.5a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.6 9.1 4.5 4.5 0 0 0 7 18z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-cube" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-gateway" viewBox="0 0 24 24"><rect x="8" y="4" width="8" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M2 9h6M2 15h6M16 12h6M19.5 9.5L22 12l-2.5 2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-nodes" viewBox="0 0 24 24"><circle cx="5" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="19" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="18" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M7.5 6h9M6.3 8.2l4.4 7.6M17.7 8.2l-4.4 7.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-loop" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.3-4.9L4 8M4 13a8 8 0 0 0 14.3 4.9L20 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M4 4v4h4M20 20v-4h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="7" ry="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 5.5v13c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-13M5 12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5M12 14.5v2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 12.3l2.6 2.6L16 9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
   </defs>
 
   <!-- canvas -->
@@ -22,7 +42,8 @@
   <g filter="url(#shadow)">
     <rect x="40" y="130" width="230" height="330" rx="14" fill="#f4f7fb" stroke="#c9d4e0"/>
   </g>
-  <text x="155" y="162" font-size="13" font-weight="700" fill="#5b6b7f" text-anchor="middle" letter-spacing="1.5">1 · YOU ASK</text>
+  <use href="#i-chat" x="92" y="145" width="24" height="24" color="#5b6b7f"/>
+  <text x="124" y="163" font-size="13" font-weight="700" fill="#5b6b7f" letter-spacing="1.5">1 · YOU ASK</text>
   <rect x="62" y="180" width="186" height="96" rx="10" fill="#ffffff" stroke="#c9d4e0"/>
   <text x="155" y="207" font-size="13.5" fill="#0b1f33" text-anchor="middle" font-style="italic">“Load S/4HANA sales</text>
   <text x="155" y="226" font-size="13.5" fill="#0b1f33" text-anchor="middle" font-style="italic">orders into Fabric</text>
@@ -42,37 +63,45 @@
   <g filter="url(#shadow)">
     <rect x="322" y="130" width="560" height="330" rx="14" fill="#eef5ff" stroke="#9cbfe8"/>
   </g>
-  <text x="602" y="162" font-size="13" font-weight="700" fill="#1f5fa8" text-anchor="middle" letter-spacing="1.5">2 · THE AGENT PICKS SKILLS AND CHECKS THE FACTS</text>
+  <use href="#i-agent" x="358" y="145" width="24" height="24" color="#1f5fa8"/>
+  <text x="390" y="163" font-size="13" font-weight="700" fill="#1f5fa8" letter-spacing="1.5">2 · THE AGENT PICKS SKILLS AND CHECKS THE FACTS</text>
 
   <!-- skill groups -->
   <g font-size="12.5">
     <rect x="342" y="178" width="250" height="122" rx="10" fill="#ffffff" stroke="#9cbfe8"/>
-    <text x="356" y="200" font-weight="700" fill="#1f5fa8">Data integration</text>
+    <use href="#i-flow" x="354" y="186" width="18" height="18" color="#1f5fa8"/>
+    <text x="378" y="200" font-weight="700" fill="#1f5fa8">Data integration</text>
     <text x="356" y="222" fill="#0b1f33">azure-data-factory</text>
     <text x="356" y="241" fill="#0b1f33">adf-sap-pipeline</text>
     <text x="356" y="260" fill="#0b1f33">sap-cdc-incremental</text>
     <text x="356" y="279" fill="#0b1f33">adf-cicd</text>
 
     <rect x="612" y="178" width="250" height="122" rx="10" fill="#ffffff" stroke="#9cbfe8"/>
-    <text x="626" y="200" font-weight="700" fill="#1f5fa8">Analytics · Apps · Microsoft 365</text>
+    <use href="#i-chart" x="624" y="186" width="18" height="18" color="#1f5fa8"/>
+    <text x="648" y="200" font-weight="700" fill="#1f5fa8">Analytics · Apps · Microsoft 365</text>
     <text x="626" y="222" fill="#0b1f33">microsoft-fabric</text>
     <text x="626" y="241" fill="#0b1f33">sap-api-integration</text>
     <text x="626" y="260" fill="#0b1f33">microsoft-graph</text>
 
     <rect x="342" y="312" width="250" height="84" rx="10" fill="#ffffff" stroke="#9cbfe8"/>
-    <text x="356" y="334" font-weight="700" fill="#1f5fa8">Foundations</text>
+    <use href="#i-shield" x="354" y="320" width="18" height="18" color="#1f5fa8"/>
+    <text x="378" y="334" font-weight="700" fill="#1f5fa8">Foundations</text>
     <text x="356" y="356" fill="#0b1f33">azure-auth-entra</text>
     <text x="356" y="375" fill="#0b1f33">azure-bicep-iac</text>
 
     <rect x="612" y="312" width="250" height="84" rx="10" fill="#ffffff" stroke="#9cbfe8"/>
-    <text x="626" y="334" font-weight="700" fill="#1f5fa8">Specialist roles</text>
+    <use href="#i-people" x="624" y="320" width="18" height="18" color="#1f5fa8"/>
+    <text x="648" y="334" font-weight="700" fill="#1f5fa8">Specialist roles</text>
     <text x="626" y="356" fill="#0b1f33">azure-architect</text>
     <text x="626" y="375" fill="#0b1f33">sap-integration-expert</text>
   </g>
 
   <!-- MCP bar -->
   <rect x="342" y="408" width="520" height="38" rx="10" fill="#1f5fa8"/>
-  <text x="602" y="432" font-size="13" fill="#ffffff" text-anchor="middle"><tspan font-weight="700">MCP</tspan>  Microsoft Learn (official docs)  ·  Azure (your own az login)</text>
+  <use href="#i-book" x="384" y="418" width="18" height="18" color="#ffffff"/>
+  <text x="410" y="432" font-size="13" fill="#ffffff"><tspan font-weight="700">MCP</tspan>  Microsoft Learn (official docs)</text>
+  <use href="#i-cloud" x="640" y="418" width="18" height="18" color="#ffffff"/>
+  <text x="664" y="432" font-size="13" fill="#ffffff">Azure (your own az login)</text>
 
   <!-- arrow 2 -> 3 -->
   <line x1="888" y1="295" x2="928" y2="295" stroke="#5b6b7f" stroke-width="2.5" marker-end="url(#arrow)"/>
@@ -81,21 +110,29 @@
   <g filter="url(#shadow)">
     <rect x="934" y="130" width="306" height="330" rx="14" fill="#f2fbf5" stroke="#9fd3b0"/>
   </g>
-  <text x="1087" y="162" font-size="13" font-weight="700" fill="#1e7a45" text-anchor="middle" letter-spacing="1.5">3 · IT DELIVERS CODE YOU REVIEW</text>
+  <use href="#i-code" x="952" y="145" width="24" height="24" color="#1e7a45"/>
+  <text x="982" y="163" font-size="13" font-weight="700" fill="#1e7a45" letter-spacing="0.6">3 · IT DELIVERS CODE YOU REVIEW</text>
   <g font-size="13" fill="#0b1f33">
     <rect x="954" y="178" width="266" height="34" rx="8" fill="#ffffff" stroke="#9fd3b0"/>
-    <text x="968" y="200">Bicep: infrastructure as code</text>
+    <use href="#i-cube" x="964" y="186" width="18" height="18" color="#1e7a45"/>
+    <text x="992" y="200">Bicep: infrastructure as code</text>
     <rect x="954" y="220" width="266" height="34" rx="8" fill="#ffffff" stroke="#9fd3b0"/>
-    <text x="968" y="242">Data Factory pipelines (SAP CDC)</text>
+    <use href="#i-flow" x="964" y="228" width="18" height="18" color="#1e7a45"/>
+    <text x="992" y="242">Data Factory pipelines (SAP CDC)</text>
     <rect x="954" y="262" width="266" height="34" rx="8" fill="#ffffff" stroke="#9fd3b0"/>
-    <text x="968" y="284">API Management policies</text>
+    <use href="#i-gateway" x="964" y="270" width="18" height="18" color="#1e7a45"/>
+    <text x="992" y="284">API Management policies</text>
     <rect x="954" y="304" width="266" height="34" rx="8" fill="#ffffff" stroke="#9fd3b0"/>
-    <text x="968" y="326">Logic Apps workflows (RFC/BAPI)</text>
+    <use href="#i-nodes" x="964" y="312" width="18" height="18" color="#1e7a45"/>
+    <text x="992" y="326">Logic Apps workflows (RFC/BAPI)</text>
     <rect x="954" y="346" width="266" height="34" rx="8" fill="#ffffff" stroke="#9fd3b0"/>
-    <text x="968" y="368">Graph requests · CI/CD workflows</text>
+    <use href="#i-loop" x="964" y="354" width="18" height="18" color="#1e7a45"/>
+    <text x="992" y="368">Graph requests · CI/CD workflows</text>
   </g>
-  <text x="1087" y="408" font-size="12.5" fill="#1e7a45" text-anchor="middle" font-weight="600">what-if preview before any change</text>
-  <text x="1087" y="428" font-size="12.5" fill="#1e7a45" text-anchor="middle" font-weight="600">asks before billable actions</text>
+  <use href="#i-eye" x="978" y="395" width="16" height="16" color="#1e7a45"/>
+  <text x="1000" y="408" font-size="12.5" fill="#1e7a45" font-weight="600">what-if preview before any change</text>
+  <use href="#i-check" x="978" y="415" width="16" height="16" color="#1e7a45"/>
+  <text x="1000" y="428" font-size="12.5" fill="#1e7a45" font-weight="600">asks before billable actions</text>
 
   <!-- arrow down to landscape -->
   <line x1="1087" y1="466" x2="1087" y2="508" stroke="#5b6b7f" stroke-width="2.5" marker-end="url(#arrow)"/>
@@ -104,23 +141,27 @@
   <g filter="url(#shadow)">
     <rect x="40" y="514" width="1200" height="176" rx="14" fill="#fbfaf6" stroke="#ddd5bf"/>
   </g>
-  <text x="640" y="544" font-size="13" font-weight="700" fill="#7a6326" text-anchor="middle" letter-spacing="1.5">4 · THE RESULT: SAP CONNECTED SECURELY WITH MICROSOFT</text>
+  <use href="#i-link" x="418" y="527" width="24" height="24" color="#7a6326"/>
+  <text x="450" y="545" font-size="13" font-weight="700" fill="#7a6326" letter-spacing="1.5">4 · THE RESULT: SAP CONNECTED SECURELY WITH MICROSOFT</text>
 
   <!-- SAP -->
   <rect x="64" y="562" width="250" height="108" rx="12" fill="#e8f1fb" stroke="#0a6ed1"/>
-  <text x="189" y="590" font-size="17" font-weight="700" fill="#0a6ed1" text-anchor="middle">SAP</text>
+  <use href="#i-db" x="154" y="572" width="24" height="24" color="#0a6ed1"/>
+  <text x="184" y="591" font-size="17" font-weight="700" fill="#0a6ed1">SAP</text>
   <text x="189" y="614" font-size="13" fill="#0b1f33" text-anchor="middle">S/4HANA · ECC · BW · HANA</text>
   <text x="189" y="636" font-size="12" fill="#4a5a6c" text-anchor="middle">ODP / CDC · OData · RFC / BAPI</text>
   <text x="189" y="656" font-size="12" fill="#4a5a6c" text-anchor="middle">on-premises · RISE · cloud</text>
 
   <!-- arrows SAP <-> Azure -->
   <line x1="320" y1="616" x2="404" y2="616" stroke="#5b6b7f" stroke-width="2.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
-  <text x="362" y="606" font-size="11" fill="#5b6b7f" text-anchor="middle">private</text>
-  <text x="362" y="636" font-size="11" fill="#5b6b7f" text-anchor="middle">network</text>
+  <use href="#i-lock" x="352" y="586" width="20" height="20" color="#5b6b7f"/>
+  <text x="362" y="636" font-size="11" fill="#5b6b7f" text-anchor="middle">private</text>
+  <text x="362" y="650" font-size="11" fill="#5b6b7f" text-anchor="middle">network</text>
 
   <!-- Azure -->
   <rect x="410" y="562" width="460" height="108" rx="12" fill="#eef5ff" stroke="#0078d4"/>
-  <text x="640" y="590" font-size="17" font-weight="700" fill="#0078d4" text-anchor="middle">Azure</text>
+  <use href="#i-cloud" x="596" y="572" width="24" height="24" color="#0078d4"/>
+  <text x="626" y="591" font-size="17" font-weight="700" fill="#0078d4">Azure</text>
   <text x="640" y="614" font-size="13" fill="#0b1f33" text-anchor="middle">Data Factory · API Management · Logic Apps · Event Hubs</text>
   <text x="640" y="636" font-size="13" fill="#0b1f33" text-anchor="middle">Data Lake (Delta) · Key Vault · Entra ID</text>
   <text x="640" y="656" font-size="12" fill="#4a5a6c" text-anchor="middle">managed identities · RBAC · no secrets in code</text>
@@ -130,15 +171,17 @@
 
   <!-- Fabric + M365 -->
   <rect x="966" y="562" width="250" height="108" rx="12" fill="#f3f0fb" stroke="#6b4fbb"/>
-  <text x="1091" y="590" font-size="17" font-weight="700" fill="#5a3fa8" text-anchor="middle">Fabric · Microsoft 365</text>
+  <use href="#i-chart" x="984" y="572" width="24" height="24" color="#5a3fa8"/>
+  <text x="1014" y="591" font-size="17" font-weight="700" fill="#5a3fa8">Fabric · Microsoft 365</text>
   <text x="1091" y="614" font-size="13" fill="#0b1f33" text-anchor="middle">Lakehouse · Power BI</text>
   <text x="1091" y="636" font-size="13" fill="#0b1f33" text-anchor="middle">Teams · Copilot · SharePoint</text>
   <text x="1091" y="656" font-size="12" fill="#4a5a6c" text-anchor="middle">analytics · approvals · search</text>
 
   <!-- ============ VALIDATION STRIP ============ -->
   <rect x="40" y="712" width="1200" height="74" rx="12" fill="#0b1f33"/>
-  <text x="64" y="742" font-size="14" font-weight="700" fill="#ffffff">Proven by 4 end-to-end test cases + CI on every push</text>
-  <text x="64" y="766" font-size="13" fill="#c9d4e0">S/4HANA → Fabric   ·   SAP OData behind API Management   ·   SAP approvals in Teams (Graph)   ·   Logic Apps calling SAP RFC</text>
+  <use href="#i-check" x="62" y="727" width="22" height="22" color="#9fd3b0"/>
+  <text x="92" y="743" font-size="14" font-weight="700" fill="#ffffff">Proven by 4 end-to-end test cases + CI on every push</text>
+  <text x="92" y="767" font-size="13" fill="#c9d4e0">S/4HANA → Fabric   ·   SAP OData behind API Management   ·   SAP approvals in Teams (Graph)   ·   Logic Apps calling SAP RFC</text>
   <rect x="1046" y="733" width="172" height="32" rx="16" fill="none" stroke="#9fd3b0"/>
   <text x="1132" y="754" font-size="13" font-weight="700" fill="#9fd3b0" text-anchor="middle">GitHub Actions</text>
 </svg>
