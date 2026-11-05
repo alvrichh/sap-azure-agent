@@ -23,7 +23,7 @@ Background notes: `learning/microsoft-azure/data-factory/01-azure-data-factory-i
 4. **Define linked services** with secrets in Key Vault (see `templates/adf/linked-services/`). Prefer managed identity for Azure targets.
 5. **Define datasets** and **pipelines** (see `templates/adf/datasets/` and `templates/adf/pipelines/`). Parameterize table names, folder paths and dates instead of hardcoding.
 6. **Incremental loads**: use a watermark column, change data capture (CDC) connectors, or tumbling window triggers.
-7. **Deploy** the factory itself with Bicep (`templates/bicep/data-factory.bicep`) and the pipelines through Git integration + CI/CD (Azure DevOps or GitHub Actions), not by hand in production.
+7. **Deploy** the factory itself with Bicep (`templates/bicep/data-factory.bicep`) and the pipelines through Git integration + CI/CD (see the `adf-cicd` skill), not by hand in production.
 8. **Monitor**: configure diagnostic settings to Log Analytics and alerts on failed pipeline runs.
 
 ## Checklist before handing over

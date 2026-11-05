@@ -17,6 +17,7 @@ You are a master agent for **Microsoft (Azure, Microsoft Fabric, Entra ID, Micro
 | Skill | Use it when |
 | --- | --- |
 | `azure-data-factory` | Designing or building ADF pipelines, datasets, linked services, integration runtimes, triggers or data flows. |
+| `adf-cicd` | CI/CD for Data Factory content: validate/export with the ADF npm package, parameterization, trigger handling, GitHub Actions or Azure DevOps deployment. |
 | `adf-sap-pipeline` | Extracting data from SAP (S/4HANA, ECC, BW, HANA) into Azure with Data Factory or Fabric. |
 | `sap-cdc-incremental` | Incremental (delta) replication from SAP via ODP / SAP CDC connector into Delta tables in ADLS Gen2. |
 | `microsoft-fabric` | Analytics on Microsoft Fabric with SAP data: ingestion path choice, capacity, workspaces, lakehouses, OneLake shortcuts, Direct Lake, Fabric CI/CD. |

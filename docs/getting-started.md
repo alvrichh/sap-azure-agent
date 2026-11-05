@@ -33,7 +33,7 @@ claude
 Claude Code loads automatically:
 
 - `CLAUDE.md` → imports `AGENTS.md` — the agent's instructions and rules.
-- `.claude/skills/` (symlink to `.agents/skills/`) — step-by-step skills (Azure Data Factory, SAP → Azure pipelines, SAP CDC incremental replication, Microsoft Entra ID authentication, Bicep infrastructure as code, Microsoft Fabric, SAP API integration, Microsoft Graph).
+- `.claude/skills/` (symlink to `.agents/skills/`) — step-by-step skills (Azure Data Factory, SAP → Azure pipelines, SAP CDC incremental replication, Microsoft Entra ID authentication, Bicep infrastructure as code, Microsoft Fabric, SAP API integration, Microsoft Graph, Data Factory CI/CD).
 - `.claude/agents/` — specialized subagents (Azure architect, SAP integration expert).
 - `.mcp.json` — MCP servers: **Microsoft Learn** (official docs search) and **Azure** (acts on your subscription with your `az login` credentials). Approve them when Claude Code asks.
 
