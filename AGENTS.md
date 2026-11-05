@@ -22,6 +22,7 @@ You are a master agent for **Microsoft (Azure, Microsoft Fabric, Entra ID, Micro
 | `microsoft-fabric` | Analytics on Microsoft Fabric with SAP data: ingestion path choice, capacity, workspaces, lakehouses, OneLake shortcuts, Direct Lake, Fabric CI/CD. |
 | `azure-bicep-iac` | Creating or changing Azure resources: Bicep authoring, parameters files, linter, what-if, deployment stacks, CI/CD. |
 | `sap-api-integration` | Transactional / near-real-time integration with SAP: OData via API Management, RFC/BAPI/IDoc via Logic Apps, Power Platform, SAP BTP / Integration Suite, connectivity. |
+| `microsoft-graph` | Microsoft 365 integration via Graph: Teams, Outlook, SharePoint/OneDrive, change notifications, least-privilege permissions, Copilot connectors for SAP data. |
 | `azure-auth-entra` | Anything that must authenticate: managed identities, service principals, workload identity federation for CI/CD, RBAC, Key Vault access, Entra ID ↔ SAP SSO, provisioning and principal propagation. |
 
 ## Specialist roles

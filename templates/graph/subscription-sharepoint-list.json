@@ -1,0 +1,8 @@
+{
+  "changeType": "updated",
+  "notificationUrl": "https://<your-function-app>.azurewebsites.net/api/graph-notifications",
+  "lifecycleNotificationUrl": "https://<your-function-app>.azurewebsites.net/api/graph-lifecycle",
+  "resource": "sites/<site-id>/lists/<list-id>",
+  "expirationDateTime": "<ISO-8601 UTC, max 30 days ahead for SharePoint lists>",
+  "clientState": "<random-secret-from-key-vault>"
+}
