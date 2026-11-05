@@ -1,10 +1,29 @@
-# MasterAgentSAP
+# sap-azure-agent
 
-Learning lessons and info for LLM and AI developer tools.
+A master agent for **Microsoft Azure and SAP integration**, built for [Claude Code](https://code.claude.com). Clone it, open it with Claude Code, and use it to design, build and deploy solutions on Azure and connect them with SAP S/4HANA or any other service.
 
-Learning repository about SAP and Microsoft (Azure, Microsoft Learn): LLMs, generative AI, data integration, and how they apply to SAP.
+It also hosts the learning material (SAP generative AI, Microsoft Learn notes) the agent uses as its knowledge base.
 
-## Available material
+**Start here:** [Getting started](docs/getting-started.md)
+
+## Repository structure
+
+| Path | Purpose |
+| --- | --- |
+| `CLAUDE.md` | Agent instructions, security rules and conventions. |
+| `.claude/skills/` | Skills: `azure-data-factory`, `adf-sap-pipeline`. |
+| `.claude/agents/` | Subagents: `azure-architect`, `sap-integration-expert`. |
+| `.mcp.json` | MCP servers: Microsoft Learn (docs) and Azure (resources). |
+| `templates/` | Reusable Bicep and ADF JSON templates. |
+| `learning/` | Study notes (knowledge base). |
+| `docs/` | User guides. |
+
+## Roadmap
+
+- Skills: Microsoft Entra ID auth, Bicep/IaC, Microsoft Fabric, SAP OData / Integration Suite, Microsoft Graph.
+- Templates: SAP CDC incremental data flow, CI/CD for Data Factory with GitHub Actions.
+
+## Learning material
 
 ### SAP: Generative AI and LLMs
 

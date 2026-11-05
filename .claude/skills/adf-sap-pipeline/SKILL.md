@@ -1,0 +1,67 @@
+---
+name: adf-sap-pipeline
+description: Build data pipelines that extract data from SAP systems (S/4HANA, ECC, BW, BW/4HANA, HANA) into Azure (Data Lake Storage, Synapse, Fabric, SQL) using Azure Data Factory or Fabric Data Factory. Use when the user wants to connect SAP to Azure for analytics, replication or integration.
+---
+
+# SAP → Azure pipelines with Data Factory
+
+Use together with the `azure-data-factory` skill. Always confirm connector support and prerequisites on Microsoft Learn ("SAP connectors overview" for Data Factory) via the `microsoft-learn` MCP server — they change between releases.
+
+## 1. Classify the SAP source
+
+| Question | Why it matters |
+| --- | --- |
+| Which product? S/4HANA, ECC, BW, BW/4HANA, standalone HANA | Determines the connector. |
+| Deployment? On-premises, RISE with SAP / private cloud, S/4HANA Cloud public edition | Public cloud editions usually expose only APIs (OData), not RFC or database access. |
+| Full or incremental? | Incremental loads favor SAP CDC (ODP-based) connectors. |
+| What objects? Tables, CDS views, extractors, BW InfoProviders | Determines connector and SAP-side setup. |
+| Network path from Azure to SAP? | Almost always requires a self-hosted integration runtime. |
+
+## 2. Choose the connector (verify on Microsoft Learn)
+
+| Need | Typical connector |
+| --- | --- |
+| Incremental / delta extraction from S/4HANA or ECC (CDS views, extractors, SLT) | **SAP CDC** (ODP framework, used in mapping data flows) |
+| Full extraction of tables or views via RFC | **SAP Table** |
+| Data from SAP BW via Open Hub destinations | **SAP BW Open Hub** |
+| BW queries / InfoCubes | **SAP BW (MDX)** |
+| Direct read from a HANA database | **SAP HANA** |
+| Data exposed via OData services (e.g. SAP Gateway, S/4HANA Cloud APIs) | **SAP ECC** / generic **OData** connector |
+
+## 3. Prerequisites
+
+- **Self-hosted integration runtime** on a Windows machine with network access to the SAP system (or to SAP Router / Cloud Connector setups as applicable).
+- **SAP client libraries** on the IR machine as required by the connector (for example SAP .NET Connector for RFC-based connectors, the HANA ODBC driver for SAP HANA). Check the exact versions in the connector docs.
+- **SAP technical user** with the minimum authorizations required by the connector (RFC, ODP, table read). Ask the SAP Basis team; document the roles granted.
+- **Secrets in Azure Key Vault**; the ADF managed identity needs `get`/`list` access to secrets.
+
+## 4. Reference architecture
+
+```
+SAP S/4HANA ──RFC/ODP──► Self-hosted IR ──► ADF / Fabric Data Factory ──► ADLS Gen2 (raw, Parquet)
+                                                                      └──► Transform (data flows / Spark / Databricks)
+                                                                             └──► Synapse / Fabric Lakehouse / SQL ──► Power BI
+```
+
+Land raw data unchanged first (bronze), then curate (silver/gold). Partition by load date.
+
+## 5. Build it
+
+1. Deploy the factory and storage: `templates/bicep/data-factory.bicep`.
+2. Register the self-hosted IR and install SAP prerequisites on it.
+3. Create linked services from:
+   - `templates/adf/linked-services/key-vault.json` (first: the other linked services resolve their secrets through it)
+   - `templates/adf/linked-services/sap-table.json`
+   - `templates/adf/linked-services/adls-gen2.json`
+4. Create datasets from `templates/adf/datasets/`.
+5. Create the pipeline from `templates/adf/pipelines/copy-sap-table-to-adls.json` and parameterize the table name.
+6. For incremental loads, switch to an SAP CDC mapping data flow and configure the delta behavior.
+7. Test with a small table first (e.g. `T001`, company codes), then scale up with partitioning options.
+
+## 6. Common pitfalls
+
+- Missing or wrong SAP client libraries on the IR machine → connection failures.
+- Large tables without partitioning → timeouts and RFC memory issues; use the connector's partition options.
+- Running the IR on an undersized VM → slow throughput; scale up or add nodes.
+- Extracting with a dialog user instead of a technical user, or with excessive authorizations.
+- Licensing: confirm with SAP that the chosen extraction method is permitted under the customer's SAP license (especially direct database access and RFC table reads).

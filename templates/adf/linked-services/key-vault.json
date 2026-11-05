@@ -1,0 +1,10 @@
+{
+  "name": "LS_KeyVault",
+  "properties": {
+    "type": "AzureKeyVault",
+    "description": "Key Vault holding all secrets. Grant the data factory managed identity read access to secrets.",
+    "typeProperties": {
+      "baseUrl": "https://<key-vault-name>.vault.azure.net/"
+    }
+  }
+}
