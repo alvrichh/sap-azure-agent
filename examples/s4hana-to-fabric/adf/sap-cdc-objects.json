@@ -1,0 +1,65 @@
+[
+  {
+    "checkPointKey": "SAPCDC_S4P100_SAPI_2LIS_11_VAHDR",
+    "sapContext": "SAPI",
+    "sapObjectName": "2LIS_11_VAHDR",
+    "sapRunMode": "fullAndIncrementalLoad",
+    "sapKeyColumns": ["VBELN"],
+    "sapPartitions": [],
+    "deltaContainer": "silver",
+    "deltaFolder": "sap/sales_order_header",
+    "deltaKeyColumns": ["VBELN"],
+    "deltaPartition": "VKORG"
+  },
+  {
+    "checkPointKey": "SAPCDC_S4P100_SAPI_2LIS_11_VAITM",
+    "sapContext": "SAPI",
+    "sapObjectName": "2LIS_11_VAITM",
+    "sapRunMode": "fullAndIncrementalLoad",
+    "sapKeyColumns": ["VBELN", "POSNR"],
+    "sapPartitions": [
+      [{ "fieldName": "VBELN", "sign": "I", "option": "BT", "low": "0000000000", "high": "0049999999" }],
+      [{ "fieldName": "VBELN", "sign": "I", "option": "BT", "low": "0050000000", "high": "9999999999" }]
+    ],
+    "deltaContainer": "silver",
+    "deltaFolder": "sap/sales_order_item",
+    "deltaKeyColumns": ["VBELN", "POSNR"],
+    "deltaPartition": "WERKS"
+  },
+  {
+    "checkPointKey": "SAPCDC_S4P100_SAPI_2LIS_13_VDITM",
+    "sapContext": "SAPI",
+    "sapObjectName": "2LIS_13_VDITM",
+    "sapRunMode": "fullAndIncrementalLoad",
+    "sapKeyColumns": ["VBELN", "POSNR"],
+    "sapPartitions": [],
+    "deltaContainer": "silver",
+    "deltaFolder": "sap/billing_item",
+    "deltaKeyColumns": ["VBELN", "POSNR"],
+    "deltaPartition": "VKORG"
+  },
+  {
+    "checkPointKey": "SAPCDC_S4P100_SAPI_0CUSTOMER_ATTR",
+    "sapContext": "SAPI",
+    "sapObjectName": "0CUSTOMER_ATTR",
+    "sapRunMode": "fullAndIncrementalLoad",
+    "sapKeyColumns": ["KUNNR"],
+    "sapPartitions": [],
+    "deltaContainer": "silver",
+    "deltaFolder": "sap/customer",
+    "deltaKeyColumns": ["KUNNR"],
+    "deltaPartition": "LAND1"
+  },
+  {
+    "checkPointKey": "SAPCDC_S4P100_SAPI_0MATERIAL_ATTR",
+    "sapContext": "SAPI",
+    "sapObjectName": "0MATERIAL_ATTR",
+    "sapRunMode": "fullAndIncrementalLoad",
+    "sapKeyColumns": ["MATNR"],
+    "sapPartitions": [],
+    "deltaContainer": "silver",
+    "deltaFolder": "sap/material",
+    "deltaKeyColumns": ["MATNR"],
+    "deltaPartition": "MTART"
+  }
+]

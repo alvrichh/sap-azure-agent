@@ -1,0 +1,11 @@
+{
+  "path": "Tables",
+  "name": "material",
+  "target": {
+    "adlsGen2": {
+      "location": "https://<storage-account-name>.dfs.core.windows.net",
+      "subpath": "/silver/sap/material",
+      "connectionId": "<fabric-cloud-connection-id>"
+    }
+  }
+}

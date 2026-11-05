@@ -67,7 +67,7 @@ Describe the outcome you want; you don't need to name the skill. Examples:
 - "Notify a Teams channel when a purchase order above 50,000 EUR is created in SAP."
 - "Configure GitHub Actions to deploy our Data Factory to test and production without secrets."
 
-More detail: [docs/getting-started.md](docs/getting-started.md).
+More detail: [docs/getting-started.md](docs/getting-started.md). Complete worked example: [S/4HANA → Fabric test case](examples/s4hana-to-fabric/README.md).
 
 ## How the agent works
 
@@ -141,6 +141,8 @@ Full rules: [AGENTS.md](AGENTS.md).
 | `.mcp.json`, `.codex/config.toml` | MCP server configuration for Claude Code and Codex. |
 | `templates/` | Bicep, ADF JSON, Fabric, APIM, Graph and GitHub Actions templates. |
 | `docs/` | User guides. |
+| `examples/` | End-to-end test cases with filled-in configuration, runbook, SQL checks and automated static tests (`examples/s4hana-to-fabric/`). |
+| `.github/workflows/validate.yml` | CI: syntax of every template and the examples' static tests. |
 | `learning/` | Study notes used as background knowledge. |
 
 ## Contributing
@@ -153,7 +155,7 @@ Full rules: [AGENTS.md](AGENTS.md).
 
 ## Roadmap
 
-- Validate the templates end to end against a real SAP system and Azure subscription.
+- Run the runtime test cases of `examples/s4hana-to-fabric` (TC-01…TC-14) against a real SAP dev/QA system and Azure subscription.
 
 ## Learning material
 

@@ -126,17 +126,21 @@ You don't need to name a skill: describe the outcome and the agent picks it. The
 7. **Release**: "Set up CI/CD from dev to test and production" (`adf-cicd`).
 8. **Extend**: "Post an approval card in Teams for large purchase orders" (`sap-api-integration`, `microsoft-graph`).
 
-## 6. Templates
+## 6. Worked example
+
+[`examples/s4hana-to-fabric`](../examples/s4hana-to-fabric/README.md) is a complete S/4HANA → Fabric test case: configuration for five SAP objects, runbook, 14 runtime test cases with expected results, validation SQL, gold views and automated static checks. Start there to see how the skills fit together, or copy it as the base for your own project.
+
+## 7. Templates
 
 Every skill points to ready-to-adapt templates under `templates/` (Bicep, ADF JSON, Fabric, API Management, Graph, GitHub Actions). Replace each `<placeholder>`; none of them contains secrets. Index: [templates/README.md](../templates/README.md).
 
-## 7. Security
+## 8. Security
 
 - Never commit secrets. Store them in Azure Key Vault; templates reference Key Vault secrets and managed identities.
 - The agent uses only your own Azure login, previews changes with what-if, and asks for confirmation before creating, changing or deleting billable resources.
 - Production changes go through CI/CD with approvals, not from a laptop.
 
-## 8. Troubleshooting
+## 9. Troubleshooting
 
 | Symptom | Fix |
 | --- | --- |

@@ -1,0 +1,46 @@
+# Repository checks: syntax of all templates and the static tests of the examples.
+# No Azure or SAP access needed.
+name: validate
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Template syntax (JSON, YAML, XML, TOML)
+        run: |
+          pip install --quiet pyyaml
+          python - <<'PY'
+          import json, sys, tomllib, xml.dom.minidom, yaml
+          from pathlib import Path
+          bad = []
+          for p in Path('.').rglob('*'):
+              if '.git' in p.parts or not p.is_file():
+                  continue
+              try:
+                  if p.suffix == '.json': json.loads(p.read_text())
+                  elif p.suffix in ('.yml', '.yaml'): yaml.safe_load(p.read_text())
+                  elif p.suffix == '.xml': xml.dom.minidom.parse(str(p))
+                  elif p.suffix == '.toml': tomllib.loads(p.read_text())
+              except Exception as exc:
+                  bad.append(f'{p}: {exc}')
+          print('\n'.join(bad) or 'all files parse')
+          sys.exit(1 if bad else 0)
+          PY
+
+      - name: S/4HANA to Fabric test case (static checks)
+        run: python3 examples/s4hana-to-fabric/tests/validate_example.py

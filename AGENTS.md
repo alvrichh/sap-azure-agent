@@ -65,6 +65,7 @@ Both agents get the same two MCP servers: `microsoft-learn` (official docs searc
 - `learning/` — study notes (SAP generative AI, Microsoft Azure). Use them as background; for SAP lessons, follow the rules in `README.md`.
 - `templates/` — reusable Bicep, Data Factory JSON, Fabric, API Management, Microsoft Graph and GitHub Actions templates (index: `templates/README.md`). Placeholders use the form `<placeholder>`.
 - `docs/` — user-facing guides.
+- `examples/` — end-to-end test cases. Use `examples/s4hana-to-fabric/` as the reference when a user asks for an S/4HANA → Azure/Fabric solution, and run its validator (`python3 examples/s4hana-to-fabric/tests/validate_example.py`) after changing it or the templates it uses.
 
 ## Repository layout for multiple agents
 

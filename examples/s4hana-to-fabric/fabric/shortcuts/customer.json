@@ -1,0 +1,11 @@
+{
+  "path": "Tables",
+  "name": "customer",
+  "target": {
+    "adlsGen2": {
+      "location": "https://<storage-account-name>.dfs.core.windows.net",
+      "subpath": "/silver/sap/customer",
+      "connectionId": "<fabric-cloud-connection-id>"
+    }
+  }
+}

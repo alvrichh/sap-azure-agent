@@ -1,0 +1,29 @@
+{
+  "_comment": "Site-specific, non-secret values for the S/4HANA -> Fabric test case. Copy to settings.json and fill in. Secrets (SAP password) go only to Key Vault.",
+  "azure": {
+    "tenantId": "<tenant-id>",
+    "subscriptionId": "<subscription-id>",
+    "resourceGroup": "rg-s4fabric-dev",
+    "location": "westeurope"
+  },
+  "sap": {
+    "systemId": "S4P",
+    "client": "100",
+    "applicationServerHost": "<sap-app-server-host>",
+    "systemNumber": "<system-number>",
+    "technicalUser": "<sap-technical-user>",
+    "keyVaultSecretName": "sap-s4p-100-password"
+  },
+  "dataFactory": {
+    "selfHostedIrName": "shir-s4p",
+    "subscriberName": "ADFS4FDEV_S4P100"
+  },
+  "fabric": {
+    "capacityName": "fabs4fdev",
+    "workspaceName": "ws-sap-sales-dev",
+    "workspaceId": "<fabric-workspace-id>",
+    "lakehouseName": "lh_sap_silver",
+    "lakehouseId": "<fabric-lakehouse-id>",
+    "adlsConnectionId": "<fabric-cloud-connection-id>"
+  }
+}

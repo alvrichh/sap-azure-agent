@@ -1,0 +1,21 @@
+{
+  "name": "LS_SapCdc",
+  "properties": {
+    "type": "SapOdp",
+    "description": "S4P client 100 through shir-s4p. Password from Key Vault.",
+    "typeProperties": {
+      "server": "<sap-app-server-host>",
+      "systemNumber": "<system-number>",
+      "clientId": "100",
+      "language": "EN",
+      "userName": "<sap-technical-user>",
+      "password": {
+        "type": "AzureKeyVaultSecret",
+        "store": { "referenceName": "LS_KeyVault", "type": "LinkedServiceReference" },
+        "secretName": "sap-s4p-100-password"
+      },
+      "subscriberName": "ADFS4FDEV_S4P100"
+    },
+    "connectVia": { "referenceName": "shir-s4p", "type": "IntegrationRuntimeReference" }
+  }
+}
