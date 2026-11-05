@@ -59,5 +59,10 @@ jobs:
       - name: Logic Apps + SAP IDoc test case (static checks and unit tests)
         run: python3 examples/logicapps-sap-idoc/tests/validate_example.py
 
+      - name: SAP to Snowflake with Data Factory test case (static checks and unit tests)
+        run: |
+          pip install --quiet duckdb
+          python3 examples/adf-sap-to-snowflake/tests/validate_example.py
+
       - name: Local settings template has no secrets (.env.example)
         run: python3 scripts/check_env_example.py

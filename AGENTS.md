@@ -71,6 +71,7 @@ Both agents get the same two MCP servers: `microsoft-learn` (official docs searc
   - `examples/graph-teams-approvals/` — SAP PO approvals in Teams with Microsoft Graph and Event Hubs: `python3 examples/graph-teams-approvals/tests/validate_example.py`
   - `examples/logicapps-sap-rfc/` — Logic Apps Standard calling SAP RFC/BAPI with the built-in connector: `python3 examples/logicapps-sap-rfc/tests/validate_example.py` (needs `lxml`, `jsonschema`)
   - `examples/logicapps-sap-idoc/` — Logic Apps Standard sending (ORDERS05, explicit TID) and receiving (DEBMAS) IDocs: `python3 examples/logicapps-sap-idoc/tests/validate_example.py` (needs `lxml`, `jsonschema`)
+  - `examples/adf-sap-to-snowflake/` — SAP tables → ADLS → Snowflake with staged COPY (storage integration), row-count reconciliation and MERGE: `python3 examples/adf-sap-to-snowflake/tests/validate_example.py` (needs `duckdb`)
 - `.env.example` — template of every non-secret setting (Azure, Microsoft 365, SAP hosts and URLs, Snowflake). Users copy it to `.env` (ignored by Git). Real secrets go to Key Vault; only their secret names appear in `.env`. Run `python3 scripts/check_env_example.py` after changing it, and add any new variable that a script or runbook reads.
 
 ## Repository layout for multiple agents

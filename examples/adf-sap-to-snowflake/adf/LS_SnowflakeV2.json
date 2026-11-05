@@ -1,0 +1,32 @@
+{
+  "name": "LS_SnowflakeV2",
+  "properties": {
+    "type": "SnowflakeV2",
+    "description": "Snowflake service user ADF_SAP_SVC with key-pair auth; key and passphrase from Key Vault. Session schema SAP_LANDING (the connector creates its temporary stage there).",
+    "typeProperties": {
+      "accountIdentifier": "<orgname-account-name>",
+      "database": "SAP_DB",
+      "warehouse": "ADF_SAP_WH",
+      "schema": "SAP_LANDING",
+      "role": "ADF_SAP_LOADER",
+      "authenticationType": "KeyPair",
+      "user": "ADF_SAP_SVC",
+      "privateKey": {
+        "type": "AzureKeyVaultSecret",
+        "store": {
+          "referenceName": "LS_KeyVault",
+          "type": "LinkedServiceReference"
+        },
+        "secretName": "snowflake-private-key"
+      },
+      "privateKeyPassphrase": {
+        "type": "AzureKeyVaultSecret",
+        "store": {
+          "referenceName": "LS_KeyVault",
+          "type": "LinkedServiceReference"
+        },
+        "secretName": "snowflake-private-key-passphrase"
+      }
+    }
+  }
+}
