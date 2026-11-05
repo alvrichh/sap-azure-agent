@@ -1,0 +1,57 @@
+[
+  {
+    "checkPointKey": "SAPCDC_PRD100_SAPI_2LIS_11_VAITM",
+    "sapContext": "SAPI",
+    "sapObjectName": "2LIS_11_VAITM",
+    "sapRunMode": "fullAndIncrementalLoad",
+    "sapKeyColumns": [
+      "VBELN",
+      "POSNR"
+    ],
+    "sapPartitions": [],
+    "deltaContainer": "silver",
+    "deltaFolder": "sap/sales_order_items",
+    "deltaKeyColumns": [
+      "VBELN",
+      "POSNR"
+    ],
+    "deltaPartition": "ERDAT"
+  },
+  {
+    "checkPointKey": "SAPCDC_PRD100_ABAP_CDS_<CDS_SQL_VIEW_NAME>",
+    "sapContext": "ABAP_CDS",
+    "sapObjectName": "<CDS_SQL_VIEW_NAME>",
+    "sapRunMode": "fullAndIncrementalLoad",
+    "sapKeyColumns": [
+      "<KEY_FIELD_1>",
+      "<KEY_FIELD_2>"
+    ],
+    "sapPartitions": [
+      [
+        {
+          "fieldName": "GJAHR",
+          "sign": "I",
+          "option": "BT",
+          "low": "2015",
+          "high": "2020"
+        }
+      ],
+      [
+        {
+          "fieldName": "GJAHR",
+          "sign": "I",
+          "option": "BT",
+          "low": "2021",
+          "high": "2030"
+        }
+      ]
+    ],
+    "deltaContainer": "silver",
+    "deltaFolder": "sap/<target_folder>",
+    "deltaKeyColumns": [
+      "<KEY_FIELD_1>",
+      "<KEY_FIELD_2>"
+    ],
+    "deltaPartition": "GJAHR"
+  }
+]

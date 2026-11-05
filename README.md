@@ -11,7 +11,7 @@ It also hosts the learning material (SAP generative AI, Microsoft Learn notes) t
 | Path | Purpose |
 | --- | --- |
 | `CLAUDE.md` | Agent instructions, security rules and conventions. |
-| `.claude/skills/` | Skills: `azure-data-factory`, `adf-sap-pipeline`, `azure-auth-entra`. |
+| `.claude/skills/` | Skills: `azure-data-factory`, `adf-sap-pipeline`, `sap-cdc-incremental`, `azure-auth-entra`. |
 | `.claude/agents/` | Subagents: `azure-architect`, `sap-integration-expert`. |
 | `.mcp.json` | MCP servers: Microsoft Learn (docs) and Azure (resources). |
 | `templates/` | Reusable Bicep and ADF JSON templates. |
@@ -21,7 +21,7 @@ It also hosts the learning material (SAP generative AI, Microsoft Learn notes) t
 ## Roadmap
 
 - Skills: Bicep/IaC, Microsoft Fabric, SAP OData / Integration Suite, Microsoft Graph.
-- Templates: SAP CDC incremental data flow, CI/CD for Data Factory with GitHub Actions.
+- Templates: CI/CD for Data Factory with GitHub Actions.
 
 ## Learning material
 

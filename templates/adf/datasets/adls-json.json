@@ -1,0 +1,28 @@
+{
+  "name": "DS_AdlsJson",
+  "properties": {
+    "type": "Json",
+    "description": "JSON file in ADLS Gen2, used to read control files.",
+    "linkedServiceName": {
+      "referenceName": "LS_AdlsGen2",
+      "type": "LinkedServiceReference"
+    },
+    "parameters": {
+      "fileSystem": { "type": "string" },
+      "fileName": { "type": "string" }
+    },
+    "typeProperties": {
+      "location": {
+        "type": "AzureBlobFSLocation",
+        "fileSystem": {
+          "value": "@dataset().fileSystem",
+          "type": "Expression"
+        },
+        "fileName": {
+          "value": "@dataset().fileName",
+          "type": "Expression"
+        }
+      }
+    }
+  }
+}
