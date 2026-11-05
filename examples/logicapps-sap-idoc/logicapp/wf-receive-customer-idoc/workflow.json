@@ -1,0 +1,136 @@
+{
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "contentVersion": "1.0.0.0",
+    "triggers": {
+      "When_a_message_is_received": {
+        "type": "ServiceProvider",
+        "inputs": {
+          "parameters": {
+            "idocFormat": "SapPlainXml",
+            "DegreeOfParallelism": "1",
+            "ReceiveIDocsWithUnreleasedSegmentsV2": "false",
+            "GatewayHost": "@parameters('sapGatewayHost')",
+            "GatewayService": "@parameters('sapGatewayService')",
+            "ProgramId": "@parameters('sapProgramId')"
+          },
+          "serviceProviderConfiguration": {
+            "connectionName": "sap",
+            "operationId": "SapTrigger",
+            "serviceProviderId": "/serviceProviders/sap"
+          }
+        }
+      }
+    },
+    "actions": {
+      "Respond_to_SAP_server": {
+        "type": "ServiceProvider",
+        "runAfter": {},
+        "inputs": {
+          "parameters": {
+            "body": ""
+          },
+          "serviceProviderConfiguration": {
+            "connectionName": "sap",
+            "operationId": "respondToSapServer",
+            "serviceProviderId": "/serviceProviders/sap"
+          }
+        }
+      },
+      "Is_customer_master_IDoc": {
+        "type": "If",
+        "runAfter": {
+          "Respond_to_SAP_server": [
+            "Succeeded"
+          ]
+        },
+        "expression": {
+          "and": [
+            {
+              "equals": [
+                "@xpath(xml(triggerBody()?['content']), 'string(/*/*[local-name()=\"IDOC\"][1]/*[local-name()=\"EDI_DC40\"]/*[local-name()=\"MESTYP\"])')",
+                "DEBMAS"
+              ]
+            }
+          ]
+        },
+        "actions": {
+          "Extract_customers": {
+            "type": "Select",
+            "runAfter": {},
+            "inputs": {
+              "from": "@xpath(xml(triggerBody()?['content']), '/*/*[local-name()=\"IDOC\"]')",
+              "select": {
+                "idocNumber": "@xpath(xml(item()), 'string(/*/*[local-name()=\"EDI_DC40\"]/*[local-name()=\"DOCNUM\"])')",
+                "sapSystem": "@xpath(xml(item()), 'string(/*/*[local-name()=\"EDI_DC40\"]/*[local-name()=\"SNDPRN\"])')",
+                "customer": "@xpath(xml(item()), 'string(/*/*[local-name()=\"E1KNA1M\"]/*[local-name()=\"KUNNR\"])')",
+                "name": "@xpath(xml(item()), 'string(/*/*[local-name()=\"E1KNA1M\"]/*[local-name()=\"NAME1\"])')",
+                "country": "@xpath(xml(item()), 'string(/*/*[local-name()=\"E1KNA1M\"]/*[local-name()=\"LAND1\"])')",
+                "city": "@xpath(xml(item()), 'string(/*/*[local-name()=\"E1KNA1M\"]/*[local-name()=\"ORT01\"])')",
+                "deletionFlag": "@xpath(xml(item()), 'string(/*/*[local-name()=\"E1KNA1M\"]/*[local-name()=\"LOEVM\"])')"
+              }
+            }
+          },
+          "Forward_to_customer_API": {
+            "type": "Http",
+            "runAfter": {
+              "Extract_customers": [
+                "Succeeded"
+              ]
+            },
+            "inputs": {
+              "method": "POST",
+              "uri": "@parameters('customerApiUrl')",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": {
+                "source": "SAP",
+                "messageType": "DEBMAS",
+                "customers": "@body('Extract_customers')"
+              },
+              "authentication": {
+                "type": "ManagedServiceIdentity",
+                "audience": "@parameters('customerApiAudience')"
+              }
+            },
+            "retryPolicy": {
+              "type": "exponential",
+              "count": 4,
+              "interval": "PT10S"
+            }
+          },
+          "Mark_run_failed": {
+            "type": "Terminate",
+            "runAfter": {
+              "Forward_to_customer_API": [
+                "Failed",
+                "TimedOut"
+              ]
+            },
+            "inputs": {
+              "runStatus": "Failed",
+              "runError": {
+                "code": "DownstreamFailed",
+                "message": "IDoc accepted by Azure (status 03 in SAP) but not delivered downstream: resubmit this run."
+              }
+            }
+          }
+        },
+        "else": {
+          "actions": {
+            "Ignore_unexpected_message_type": {
+              "type": "Terminate",
+              "runAfter": {},
+              "inputs": {
+                "runStatus": "Cancelled"
+              }
+            }
+          }
+        }
+      }
+    },
+    "outputs": {}
+  },
+  "kind": "Stateful"
+}

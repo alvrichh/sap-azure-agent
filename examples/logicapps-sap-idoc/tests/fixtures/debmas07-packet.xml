@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sample SAP plain-XML IDoc packet (2 customers) as sent by SAP for message type DEBMAS. Test data only. -->
+<DEBMAS07>
+  <IDOC BEGIN="1">
+    <EDI_DC40 SEGMENT="1">
+      <TABNAM>EDI_DC40</TABNAM>
+      <MANDT>100</MANDT>
+      <DOCNUM>0000000000412345</DOCNUM>
+      <DOCREL>758</DOCREL>
+      <STATUS>30</STATUS>
+      <DIRECT>1</DIRECT>
+      <IDOCTYP>DEBMAS07</IDOCTYP>
+      <MESTYP>DEBMAS</MESTYP>
+      <SNDPOR>SAPS4P</SNDPOR>
+      <SNDPRT>LS</SNDPRT>
+      <SNDPRN>S4PCLNT100</SNDPRN>
+      <RCVPOR>LOGICAPP</RCVPOR>
+      <RCVPRT>LS</RCVPRT>
+      <RCVPRN>LOGICAPP</RCVPRN>
+    </EDI_DC40>
+    <E1KNA1M SEGMENT="1">
+      <MSGFN>005</MSGFN>
+      <KUNNR>0000100001</KUNNR>
+      <LAND1>ES</LAND1>
+      <NAME1>Contoso Iberia &amp; Co</NAME1>
+      <ORT01>Madrid</ORT01>
+      <KTOKD>0001</KTOKD>
+    </E1KNA1M>
+  </IDOC>
+  <IDOC BEGIN="1">
+    <EDI_DC40 SEGMENT="1">
+      <TABNAM>EDI_DC40</TABNAM>
+      <MANDT>100</MANDT>
+      <DOCNUM>0000000000412346</DOCNUM>
+      <DOCREL>758</DOCREL>
+      <STATUS>30</STATUS>
+      <DIRECT>1</DIRECT>
+      <IDOCTYP>DEBMAS07</IDOCTYP>
+      <MESTYP>DEBMAS</MESTYP>
+      <SNDPOR>SAPS4P</SNDPOR>
+      <SNDPRT>LS</SNDPRT>
+      <SNDPRN>S4PCLNT100</SNDPRN>
+      <RCVPOR>LOGICAPP</RCVPOR>
+      <RCVPRT>LS</RCVPRT>
+      <RCVPRN>LOGICAPP</RCVPRN>
+    </EDI_DC40>
+    <E1KNA1M SEGMENT="1">
+      <MSGFN>005</MSGFN>
+      <KUNNR>0000100002</KUNNR>
+      <LAND1>PT</LAND1>
+      <LOEVM>X</LOEVM>
+      <NAME1>Fabrikam Lisboa</NAME1>
+      <ORT01>Lisboa</ORT01>
+      <KTOKD>0001</KTOKD>
+    </E1KNA1M>
+  </IDOC>
+</DEBMAS07>

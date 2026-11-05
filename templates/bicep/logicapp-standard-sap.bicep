@@ -4,6 +4,9 @@
 // - SAP password as a Key Vault reference resolved by the app's system-assigned identity (Key Vault Secrets User).
 // - SAP NCo DLLs (rscp4n.dll, sapnco.dll, sapnco_utils.dll) are NOT deployed here: SAP licenses them; upload them as
 //   "Client/SDK Assembly (.NET Framework)" or deploy them in lib/builtinOperationSdks/net472 with the project.
+// - Optional VNet private ports (stateful mode): required by the SAP trigger "When a message is received",
+//   "Respond to SAP server" and actions that use a Transaction ID (e.g. sending IDocs with an explicit TID).
+// - Optional extra app settings (non-secret values such as SAP gateway, program ID, IDoc partners, downstream URLs).
 // The deployer needs permission to create role assignments on the Key Vault.
 
 @description('Logic app name (globally unique).')
@@ -35,6 +38,14 @@ param sapUser string
 
 @description('SAP logon language.')
 param sapLanguage string = 'EN'
+
+@description('VNet private ports for stateful mode of the SAP built-in connector (0 = off; 2 when using the SAP trigger, Respond to SAP server or Transaction IDs). NSGs must allow ports 20000-30000 inside the subnet.')
+@minValue(0)
+@maxValue(2)
+param vnetPrivatePortsCount int = 0
+
+@description('Extra non-secret app settings as { NAME: value }. Secrets go in Key Vault, never here.')
+param additionalAppSettings object = {}
 
 @description('Tags applied to all resources.')
 param tags object = {}
@@ -75,6 +86,8 @@ resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
   name: keyVaultName
 }
 
+var extraSettings = map(items(additionalAppSettings), s => { name: s.key, value: string(s.value) })
+
 var storageConnection = 'DefaultEndpointsProtocol=https;AccountName=${storage.name};AccountKey=${storage.listKeys().keys[0].value};EndpointSuffix=${environment().suffixes.storage}'
 
 resource logicApp 'Microsoft.Web/sites@2023-12-01' = {
@@ -93,9 +106,10 @@ resource logicApp 'Microsoft.Web/sites@2023-12-01' = {
       use32BitWorkerProcess: false
       netFrameworkVersion: 'v6.0'
       vnetRouteAllEnabled: true
+      vnetPrivatePortsCount: vnetPrivatePortsCount
       ftpsState: 'Disabled'
       minTlsVersion: '1.2'
-      appSettings: [
+      appSettings: concat([
         { name: 'APP_KIND', value: 'workflowApp' }
         { name: 'FUNCTIONS_EXTENSION_VERSION', value: '~4' }
         { name: 'FUNCTIONS_WORKER_RUNTIME', value: 'dotnet' }
@@ -108,7 +122,7 @@ resource logicApp 'Microsoft.Web/sites@2023-12-01' = {
         { name: 'SAP_USER', value: sapUser }
         { name: 'SAP_LANGUAGE', value: sapLanguage }
         { name: 'SAP_PASSWORD', value: '@Microsoft.KeyVault(VaultName=${keyVaultName};SecretName=${sapPasswordSecretName})' }
-      ]
+      ], extraSettings)
     }
   }
 }

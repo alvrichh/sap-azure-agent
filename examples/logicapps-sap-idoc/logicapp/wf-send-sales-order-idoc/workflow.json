@@ -1,0 +1,324 @@
+{
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "contentVersion": "1.0.0.0",
+    "triggers": {
+      "When_a_HTTP_request_is_received": {
+        "type": "Request",
+        "kind": "Http",
+        "inputs": {
+          "method": "POST",
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "orderId",
+              "customer",
+              "salesOrg",
+              "distributionChannel",
+              "division",
+              "orderType",
+              "items"
+            ],
+            "properties": {
+              "transactionId": {
+                "type": "string",
+                "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+                "description": "Optional. Reuse the value returned in a 502 to retry without creating a duplicate IDoc."
+              },
+              "orderId": {
+                "type": "string",
+                "pattern": "^[A-Z0-9-]{1,35}$",
+                "description": "Customer purchase order number (BSTKD)."
+              },
+              "customer": {
+                "type": "string",
+                "pattern": "^[A-Z0-9]{1,10}$",
+                "description": "Sold-to party (KUNNR)."
+              },
+              "salesOrg": {
+                "type": "string",
+                "pattern": "^[A-Z0-9]{4}$"
+              },
+              "distributionChannel": {
+                "type": "string",
+                "pattern": "^[A-Z0-9]{2}$"
+              },
+              "division": {
+                "type": "string",
+                "pattern": "^[A-Z0-9]{2}$"
+              },
+              "orderType": {
+                "type": "string",
+                "pattern": "^[A-Z0-9]{2,4}$",
+                "description": "Sales document type, e.g. TA/OR."
+              },
+              "items": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 100,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "position",
+                    "material",
+                    "quantity",
+                    "unit"
+                  ],
+                  "properties": {
+                    "position": {
+                      "type": "string",
+                      "pattern": "^[0-9]{6}$",
+                      "description": "Customer item number (POSEX)."
+                    },
+                    "material": {
+                      "type": "string",
+                      "pattern": "^[A-Z0-9-]{1,40}$"
+                    },
+                    "quantity": {
+                      "type": "string",
+                      "pattern": "^[0-9]{1,13}(\\.[0-9]{1,3})?$"
+                    },
+                    "unit": {
+                      "type": "string",
+                      "pattern": "^[A-Z0-9]{1,3}$",
+                      "description": "Unit in SAP internal or ISO format, as the partner profile expects."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationOptions": "EnableSchemaValidation"
+      }
+    },
+    "actions": {
+      "Initialize_IDoc_transaction_ID": {
+        "type": "InitializeVariable",
+        "runAfter": {},
+        "inputs": {
+          "variables": [
+            {
+              "name": "idocTransactionId",
+              "type": "string",
+              "value": "@{coalesce(triggerBody()?['transactionId'], guid())}"
+            }
+          ]
+        }
+      },
+      "Map_items": {
+        "type": "Select",
+        "runAfter": {
+          "Initialize_IDoc_transaction_ID": [
+            "Succeeded"
+          ]
+        },
+        "inputs": {
+          "from": "@triggerBody()?['items']",
+          "select": {
+            "@SEGMENT": "1",
+            "POSEX": "@item()?['position']",
+            "MENGE": "@item()?['quantity']",
+            "MENEE": "@item()?['unit']",
+            "E1EDP19": {
+              "@SEGMENT": "1",
+              "QUALF": "002",
+              "IDTNR": "@item()?['material']"
+            }
+          }
+        }
+      },
+      "Build_ORDERS05_IDoc": {
+        "type": "Compose",
+        "runAfter": {
+          "Map_items": [
+            "Succeeded"
+          ]
+        },
+        "inputs": {
+          "ORDERS05": {
+            "IDOC": {
+              "@BEGIN": "1",
+              "EDI_DC40": {
+                "@SEGMENT": "1",
+                "TABNAM": "EDI_DC40",
+                "DIRECT": "2",
+                "IDOCTYP": "ORDERS05",
+                "MESTYP": "ORDERS",
+                "SNDPOR": "@parameters('idocSenderPort')",
+                "SNDPRT": "LS",
+                "SNDPRN": "@parameters('idocSenderPartner')",
+                "RCVPOR": "@parameters('idocReceiverPort')",
+                "RCVPRT": "LS",
+                "RCVPRN": "@parameters('idocReceiverPartner')"
+              },
+              "E1EDK01": {
+                "@SEGMENT": "1",
+                "BELNR": "@triggerBody()?['orderId']"
+              },
+              "E1EDK14": [
+                {
+                  "@SEGMENT": "1",
+                  "QUALF": "008",
+                  "ORGID": "@triggerBody()?['salesOrg']"
+                },
+                {
+                  "@SEGMENT": "1",
+                  "QUALF": "007",
+                  "ORGID": "@triggerBody()?['distributionChannel']"
+                },
+                {
+                  "@SEGMENT": "1",
+                  "QUALF": "006",
+                  "ORGID": "@triggerBody()?['division']"
+                },
+                {
+                  "@SEGMENT": "1",
+                  "QUALF": "012",
+                  "ORGID": "@triggerBody()?['orderType']"
+                }
+              ],
+              "E1EDKA1": {
+                "@SEGMENT": "1",
+                "PARVW": "AG",
+                "PARTN": "@triggerBody()?['customer']"
+              },
+              "E1EDK02": {
+                "@SEGMENT": "1",
+                "QUALF": "001",
+                "BELNR": "@triggerBody()?['orderId']"
+              },
+              "E1EDP01": "@body('Map_items')"
+            }
+          }
+        }
+      },
+      "Try": {
+        "type": "Scope",
+        "runAfter": {
+          "Build_ORDERS05_IDoc": [
+            "Succeeded"
+          ]
+        },
+        "actions": {
+          "Send_ORDERS05_to_SAP": {
+            "type": "ServiceProvider",
+            "runAfter": {},
+            "inputs": {
+              "parameters": {
+                "idocFormat": "SapPlainXml",
+                "body": "@{xml(outputs('Build_ORDERS05_IDoc'))}",
+                "tId": "@variables('idocTransactionId')",
+                "confirmTid": "false",
+                "allowUnreleasedSegmentV2": "false"
+              },
+              "serviceProviderConfiguration": {
+                "connectionName": "sap",
+                "operationId": "sendIDoc",
+                "serviceProviderId": "/serviceProviders/sap"
+              }
+            },
+            "retryPolicy": {
+              "type": "fixed",
+              "count": 3,
+              "interval": "PT15S"
+            }
+          },
+          "Confirm_transaction_ID": {
+            "type": "ServiceProvider",
+            "runAfter": {
+              "Send_ORDERS05_to_SAP": [
+                "Succeeded"
+              ]
+            },
+            "inputs": {
+              "parameters": {
+                "tId": "@variables('idocTransactionId')"
+              },
+              "serviceProviderConfiguration": {
+                "connectionName": "sap",
+                "operationId": "confirmTransactionId",
+                "serviceProviderId": "/serviceProviders/sap"
+              }
+            },
+            "retryPolicy": {
+              "type": "fixed",
+              "count": 3,
+              "interval": "PT15S"
+            }
+          },
+          "Get_IDoc_numbers": {
+            "type": "ServiceProvider",
+            "runAfter": {
+              "Confirm_transaction_ID": [
+                "Succeeded"
+              ]
+            },
+            "inputs": {
+              "parameters": {
+                "direction": "Receive",
+                "tId": "@variables('idocTransactionId')"
+              },
+              "serviceProviderConfiguration": {
+                "connectionName": "sap",
+                "operationId": "getIDocList",
+                "serviceProviderId": "/serviceProviders/sap"
+              }
+            }
+          },
+          "Respond_202": {
+            "type": "Response",
+            "kind": "Http",
+            "runAfter": {
+              "Get_IDoc_numbers": [
+                "Succeeded"
+              ]
+            },
+            "inputs": {
+              "statusCode": 202,
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": {
+                "transactionId": "@variables('idocTransactionId')",
+                "idocNumbers": "@body('Get_IDoc_numbers')?['iDocNumbers']",
+                "orderId": "@triggerBody()?['orderId']"
+              }
+            }
+          }
+        }
+      },
+      "Catch": {
+        "type": "Scope",
+        "runAfter": {
+          "Try": [
+            "Failed",
+            "TimedOut"
+          ]
+        },
+        "actions": {
+          "Respond_502": {
+            "type": "Response",
+            "kind": "Http",
+            "runAfter": {},
+            "inputs": {
+              "statusCode": 502,
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": {
+                "error": "The IDoc could not be transferred to SAP. Retry with the same transactionId.",
+                "transactionId": "@variables('idocTransactionId')",
+                "runId": "@{workflow()?['run']?['name']}"
+              }
+            }
+          }
+        }
+      }
+    },
+    "outputs": {}
+  },
+  "kind": "Stateful"
+}

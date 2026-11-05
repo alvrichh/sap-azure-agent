@@ -122,19 +122,19 @@ az deployment group create --resource-group rg-saprfc-dev --parameters examples/
 ### Phase 3 — Run the tests
 
 ```bash
-export PING_URL='<wf-sap-ping trigger URL>'
+export PING_TRIGGER_URL='<wf-sap-ping trigger URL>'
 ```
 
 ```bash
-export AVAIL_URL='<wf-material-availability trigger URL>'
+export AVAIL_TRIGGER_URL='<wf-material-availability trigger URL>'
 ```
 
 ```bash
-curl -s "$PING_URL"
+curl -s "$PING_TRIGGER_URL"
 ```
 
 ```bash
-curl -s -X POST "$AVAIL_URL" -H "Content-Type: application/json" -d '{"material":"<material-number>","plant":"<plant>","unit":"ST"}'
+curl -s -X POST "$AVAIL_TRIGGER_URL" -H "Content-Type: application/json" -d '{"material":"<material-number>","plant":"<plant>","unit":"ST"}'
 ```
 
 ## 6. Runtime test cases

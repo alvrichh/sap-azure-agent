@@ -71,7 +71,9 @@ Describe the outcome you want; you don't need to name the skill. Examples:
 - "Notify a Teams channel when a purchase order above 50,000 EUR is created in SAP."
 - "Configure GitHub Actions to deploy our Data Factory to test and production without secrets."
 
-More detail: [docs/getting-started.md](docs/getting-started.md). Complete worked examples: [S/4HANA → Fabric](examples/s4hana-to-fabric/README.md), [SAP OData behind API Management](examples/sap-odata-apim/README.md) , [SAP approvals in Teams with Microsoft Graph](examples/graph-teams-approvals/README.md) and [Logic Apps calling SAP RFC](examples/logicapps-sap-rfc/README.md).
+More detail: [docs/getting-started.md](docs/getting-started.md). Complete worked examples: [S/4HANA → Fabric](examples/s4hana-to-fabric/README.md), [SAP OData behind API Management](examples/sap-odata-apim/README.md) , [SAP approvals in Teams with Microsoft Graph](examples/graph-teams-approvals/README.md) , [Logic Apps calling SAP RFC](examples/logicapps-sap-rfc/README.md) and [IDocs to and from SAP with Logic Apps](examples/logicapps-sap-idoc/README.md).
+
+Local settings: copy [`.env.example`](.env.example) to `.env` (ignored by Git) and fill in your tenant, SAP hosts and URLs and Snowflake account. Secrets stay in Key Vault; `.env` holds only their names.
 
 ## How the agent works
 
@@ -126,7 +128,7 @@ All templates use `<placeholder>` values and contain **no secrets**. Index: [tem
 
 ## Security rules
 
-- No credentials, keys, tokens or connection strings in the repository; secrets live in Azure Key Vault.
+- No credentials, keys, tokens or connection strings in the repository; secrets live in Azure Key Vault. Local values go in `.env` (from `.env.example`, ignored by Git).
 - Managed identities and Entra ID / OIDC over passwords and client secrets.
 - Least-privilege RBAC and SAP authorizations, always stated.
 - Private connectivity for SAP data in production (private endpoints, managed VNets, no internet-exposed SAP).
@@ -145,7 +147,8 @@ Full rules: [AGENTS.md](AGENTS.md).
 | `.mcp.json`, `.codex/config.toml` | MCP server configuration for Claude Code and Codex. |
 | `templates/` | Bicep, ADF JSON, Fabric, APIM, Graph and GitHub Actions templates. |
 | `docs/` | User guides. |
-| `examples/` | End-to-end test cases with configuration, runbook, test cases and automated checks: `s4hana-to-fabric/` (data), `sap-odata-apim/` (APIs), `graph-teams-approvals/` (Microsoft 365) and `logicapps-sap-rfc/` (RFC/BAPI). |
+| `examples/` | End-to-end test cases with configuration, runbook, test cases and automated checks: `s4hana-to-fabric/` (data), `sap-odata-apim/` (APIs), `graph-teams-approvals/` (Microsoft 365) `logicapps-sap-rfc/` (RFC/BAPI) and `logicapps-sap-idoc/` (IDoc). |
+| `.env.example`, `scripts/check_env_example.py` | Template for local settings (no secrets) and the check that keeps it clean. |
 | `.github/workflows/validate.yml` | CI: syntax of every template and the examples' static checks and unit tests. |
 | `learning/` | Study notes used as background knowledge. |
 
@@ -159,7 +162,7 @@ Full rules: [AGENTS.md](AGENTS.md).
 
 ## Roadmap
 
-- Run the runtime test cases of `examples/s4hana-to-fabric` (TC-01…TC-14) `examples/sap-odata-apim` (TC-01…TC-11) `examples/graph-teams-approvals` (TC-01…TC-10) and `examples/logicapps-sap-rfc` (TC-01…TC-10) against real SAP, Azure and Microsoft 365 environments.
+- Run the runtime test cases of `examples/s4hana-to-fabric` (TC-01…TC-14) `examples/sap-odata-apim` (TC-01…TC-11) `examples/graph-teams-approvals` (TC-01…TC-10) `examples/logicapps-sap-rfc` (TC-01…TC-10) and `examples/logicapps-sap-idoc` (TC-01…TC-14) against real SAP, Azure and Microsoft 365 environments.
 
 ## Learning material
 
