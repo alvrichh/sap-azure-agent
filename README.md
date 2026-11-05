@@ -12,7 +12,7 @@ It also hosts the learning material (SAP generative AI, Microsoft Learn notes) t
 | --- | --- |
 | `AGENTS.md` | Agent instructions, security rules and conventions (single source for all agents). |
 | `CLAUDE.md` | Claude Code entry point; imports `AGENTS.md`. |
-| `.agents/skills/` | Skills (open Agent Skills format; `.claude/skills` links here): `azure-data-factory`, `adf-sap-pipeline`, `sap-cdc-incremental`, `azure-auth-entra`, `azure-bicep-iac`, `microsoft-fabric`, `sap-api-integration`, `microsoft-graph`. |
+| `.agents/skills/` | Skills (open Agent Skills format; `.claude/skills` links here): `azure-data-factory`, `adf-sap-pipeline`, `sap-cdc-incremental`, `azure-auth-entra`, `azure-bicep-iac`, `microsoft-fabric`, `sap-api-integration`, `microsoft-graph`, `adf-cicd`. |
 | `.claude/agents/` | Specialist roles / Claude Code subagents: `azure-architect`, `sap-integration-expert`. |
 | `.mcp.json`, `.codex/config.toml` | MCP servers for Claude Code and Codex: Microsoft Learn (docs) and Azure (resources). |
 | `templates/` | Reusable Bicep and ADF JSON templates. |
@@ -21,7 +21,7 @@ It also hosts the learning material (SAP generative AI, Microsoft Learn notes) t
 
 ## Roadmap
 
-- Templates: CI/CD for Data Factory with GitHub Actions.
+- Validate templates end-to-end against a real SAP system and Azure subscription.
 
 ## Learning material
 

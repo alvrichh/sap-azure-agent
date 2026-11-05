@@ -1,0 +1,133 @@
+# Azure Data Factory CI/CD (automated publish, no adf_publish branch).
+# Build: validate all ADF resources from Git and export the ARM template with
+#        @microsoft/azure-data-factory-utilities (Node.js 20).
+# Deploy: test, then production (protected environment with required reviewers):
+#        stop triggers -> ARM deployment -> start triggers and clean up deleted resources.
+# Only the DEV factory is connected to Git; test/prod are updated exclusively by this workflow.
+# See templates/adf-cicd/README.md for the variables and secrets.
+
+name: adf-cicd
+
+on:
+  push:
+    branches: [main]            # ADF collaboration branch
+    paths: ['adf/**', 'build/**']
+  pull_request:
+    branches: [main]
+    paths: ['adf/**', 'build/**']
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install ADF utilities
+        working-directory: build
+        run: npm install
+
+      - name: Validate and export ARM template
+        working-directory: build
+        run: |
+          npm run build export "$GITHUB_WORKSPACE/${{ vars.ADF_ROOT_FOLDER }}" "${{ vars.DEV_FACTORY_ID }}" "ArmTemplate"
+          ls -la ArmTemplate
+
+      - name: Add environment parameter files
+        run: |
+          if [ -d "${{ vars.ADF_ROOT_FOLDER }}/cicd" ]; then cp ${{ vars.ADF_ROOT_FOLDER }}/cicd/*.parameters.json build/ArmTemplate/ 2>/dev/null || true; fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: adf-arm-template
+          path: build/ArmTemplate
+
+  deploy-test:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: test
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: adf-arm-template
+          path: arm
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          enable-AzPSSession: true
+
+      - name: Stop triggers, deploy, start triggers
+        uses: azure/powershell@v2
+        env:
+          RG: ${{ vars.TEST_RESOURCE_GROUP }}
+          DF: ${{ vars.TEST_FACTORY_NAME }}
+        with:
+          azPSVersion: latest
+          inlineScript: |
+            $ErrorActionPreference = 'Stop'
+            $template = 'arm/ARMTemplateForFactory.json'
+            $params = if (Test-Path 'arm/test.parameters.json') { 'arm/test.parameters.json' } else { 'arm/ARMTemplateParametersForFactory.json' }
+            $script = Get-ChildItem arm -Filter 'PrePostDeploymentScript.Ver2.ps1' | Select-Object -First 1
+            if (-not $script) { $script = Get-ChildItem arm -Filter 'PrePostDeploymentScript*.ps1' | Select-Object -First 1 }
+            if (-not $script) { throw 'Pre/post-deployment script not found in the exported artifact.' }
+
+            & $script.FullName -armTemplate $template -ResourceGroupName $env:RG -DataFactoryName $env:DF -predeployment $true -deleteDeployment $false
+
+            New-AzResourceGroupDeployment -Name "adf-${{ github.run_number }}" -ResourceGroupName $env:RG `
+              -TemplateFile $template -TemplateParameterFile $params -factoryName $env:DF -Mode Incremental
+
+            & $script.FullName -armTemplate $template -ResourceGroupName $env:RG -DataFactoryName $env:DF -predeployment $false -deleteDeployment $true
+
+  deploy-prod:
+    if: github.event_name != 'pull_request'
+    needs: deploy-test
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: adf-arm-template
+          path: arm
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          enable-AzPSSession: true
+
+      - name: Stop triggers, deploy, start triggers
+        uses: azure/powershell@v2
+        env:
+          RG: ${{ vars.PROD_RESOURCE_GROUP }}
+          DF: ${{ vars.PROD_FACTORY_NAME }}
+        with:
+          azPSVersion: latest
+          inlineScript: |
+            $ErrorActionPreference = 'Stop'
+            $template = 'arm/ARMTemplateForFactory.json'
+            $params = if (Test-Path 'arm/prod.parameters.json') { 'arm/prod.parameters.json' } else { 'arm/ARMTemplateParametersForFactory.json' }
+            $script = Get-ChildItem arm -Filter 'PrePostDeploymentScript.Ver2.ps1' | Select-Object -First 1
+            if (-not $script) { $script = Get-ChildItem arm -Filter 'PrePostDeploymentScript*.ps1' | Select-Object -First 1 }
+            if (-not $script) { throw 'Pre/post-deployment script not found in the exported artifact.' }
+
+            & $script.FullName -armTemplate $template -ResourceGroupName $env:RG -DataFactoryName $env:DF -predeployment $true -deleteDeployment $false
+
+            New-AzResourceGroupDeployment -Name "adf-${{ github.run_number }}" -ResourceGroupName $env:RG `
+              -TemplateFile $template -TemplateParameterFile $params -factoryName $env:DF -Mode Incremental
+
+            & $script.FullName -armTemplate $template -ResourceGroupName $env:RG -DataFactoryName $env:DF -predeployment $false -deleteDeployment $true

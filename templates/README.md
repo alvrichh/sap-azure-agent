@@ -11,6 +11,7 @@ Reusable, parameterized templates. Replace every `<placeholder>`; never put secr
 | `bicep/fabric-capacity.bicep`, `bicep/params/fabric-capacity.dev.bicepparam` | Microsoft Fabric capacity (F SKU). |
 | `fabric/shortcut-adls-delta.json` | REST body for a OneLake shortcut to a Delta table in ADLS Gen2 (see `fabric/README.md`). |
 | `graph/*.json` | Microsoft Graph request bodies: Sites.Selected grant, SharePoint list subscription, Copilot connector connection and schema (see `graph/README.md`). |
+| `adf-cicd/package.json`, `github-actions/adf-cicd.yml` | Data Factory CI/CD: validate + export ARM template, deploy to test and production with trigger handling (see `adf-cicd/README.md`). |
 | `bicep/github-oidc-identity.bicep` | User-assigned managed identity with a GitHub Actions federated credential (OIDC, no secrets) and a role assignment. |
 | `github-actions/azure-login-oidc.yml` | Example workflow: Azure login with OIDC and Bicep deployment. |
 | `adf/linked-services/key-vault.json` | Key Vault linked service used to resolve all secrets. |
