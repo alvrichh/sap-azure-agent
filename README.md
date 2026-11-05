@@ -1,6 +1,6 @@
 # sap-azure-agent
 
-A master agent for **Microsoft Azure and SAP integration**, built for [Claude Code](https://code.claude.com). Clone it, open it with Claude Code, and use it to design, build and deploy solutions on Azure and connect them with SAP S/4HANA or any other service.
+A master agent for **Microsoft Azure and SAP integration**, compatible with [Claude Code](https://code.claude.com) and [OpenAI Codex](https://developers.openai.com/codex). Clone it, open it with either agent, and use it to design, build and deploy solutions on Azure and connect them with SAP S/4HANA or any other service.
 
 It also hosts the learning material (SAP generative AI, Microsoft Learn notes) the agent uses as its knowledge base.
 
@@ -10,10 +10,11 @@ It also hosts the learning material (SAP generative AI, Microsoft Learn notes) t
 
 | Path | Purpose |
 | --- | --- |
-| `CLAUDE.md` | Agent instructions, security rules and conventions. |
-| `.claude/skills/` | Skills: `azure-data-factory`, `adf-sap-pipeline`, `sap-cdc-incremental`, `azure-auth-entra`, `azure-bicep-iac`, `microsoft-fabric`, `sap-api-integration`. |
-| `.claude/agents/` | Subagents: `azure-architect`, `sap-integration-expert`. |
-| `.mcp.json` | MCP servers: Microsoft Learn (docs) and Azure (resources). |
+| `AGENTS.md` | Agent instructions, security rules and conventions (single source for all agents). |
+| `CLAUDE.md` | Claude Code entry point; imports `AGENTS.md`. |
+| `.agents/skills/` | Skills (open Agent Skills format; `.claude/skills` links here): `azure-data-factory`, `adf-sap-pipeline`, `sap-cdc-incremental`, `azure-auth-entra`, `azure-bicep-iac`, `microsoft-fabric`, `sap-api-integration`. |
+| `.claude/agents/` | Specialist roles / Claude Code subagents: `azure-architect`, `sap-integration-expert`. |
+| `.mcp.json`, `.codex/config.toml` | MCP servers for Claude Code and Codex: Microsoft Learn (docs) and Azure (resources). |
 | `templates/` | Reusable Bicep and ADF JSON templates. |
 | `learning/` | Study notes (knowledge base). |
 | `docs/` | User guides. |
