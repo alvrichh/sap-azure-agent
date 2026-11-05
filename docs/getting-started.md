@@ -126,9 +126,14 @@ You don't need to name a skill: describe the outcome and the agent picks it. The
 7. **Release**: "Set up CI/CD from dev to test and production" (`adf-cicd`).
 8. **Extend**: "Post an approval card in Teams for large purchase orders" (`sap-api-integration`, `microsoft-graph`).
 
-## 6. Worked example
+## 6. Worked examples
 
-[`examples/s4hana-to-fabric`](../examples/s4hana-to-fabric/README.md) is a complete S/4HANA → Fabric test case: configuration for five SAP objects, runbook, 14 runtime test cases with expected results, validation SQL, gold views and automated static checks. Start there to see how the skills fit together, or copy it as the base for your own project.
+| Example | What it covers |
+| --- | --- |
+| [`examples/s4hana-to-fabric`](../examples/s4hana-to-fabric/README.md) | S/4HANA → SAP CDC → Delta → Fabric: five SAP objects, runbook, 14 runtime test cases, validation SQL, gold views, automated static checks. |
+| [`examples/sap-odata-apim`](../examples/sap-odata-apim/README.md) | SAP `API_BUSINESS_PARTNER` behind API Management with Entra ID roles, Key Vault, rate limiting and CSRF handling; runs against the SAP sandbox (no own SAP needed) or your S/4HANA; 11 runtime tests in a script. |
+
+Start there to see how the skills fit together, or copy one as the base for your own project.
 
 ## 7. Templates
 

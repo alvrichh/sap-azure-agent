@@ -44,3 +44,6 @@ jobs:
 
       - name: S/4HANA to Fabric test case (static checks)
         run: python3 examples/s4hana-to-fabric/tests/validate_example.py
+
+      - name: SAP OData + API Management test case (static checks)
+        run: python3 examples/sap-odata-apim/tests/validate_example.py
