@@ -1,0 +1,32 @@
+{
+  "_comment": "Non-secret values for the SAP -> Snowflake test case. Copy to settings.json (ignored by Git). The Snowflake private key and the SAP password live only in Key Vault.",
+  "azure": {
+    "resourceGroup": "rg-sapsf-dev",
+    "location": "westeurope",
+    "dataFactory": "adf-sapsfdev",
+    "storageAccount": "<storage-account-name>",
+    "keyVault": "<key-vault-name>",
+    "selfHostedIntegrationRuntime": "<self-hosted-ir-name>"
+  },
+  "sap": {
+    "systemId": "S4P",
+    "client": "100",
+    "appServerHost": "<sap-app-server-host>",
+    "systemNumber": "<system-number>",
+    "technicalUser": "<sap-technical-user>",
+    "passwordSecretName": "sap-rfc-password",
+    "tables": ["KNA1", "MARA", "VBAK"]
+  },
+  "snowflake": {
+    "account": "<orgname-account-name>",
+    "database": "SAP_DB",
+    "warehouse": "ADF_SAP_WH",
+    "role": "ADF_SAP_LOADER",
+    "user": "ADF_SAP_SVC",
+    "landingSchema": "SAP_LANDING",
+    "coreSchema": "SAP_CORE",
+    "storageIntegration": "ADF_SAP_AZURE_INT",
+    "privateKeySecretName": "snowflake-private-key",
+    "privateKeyPassphraseSecretName": "snowflake-private-key-passphrase"
+  }
+}

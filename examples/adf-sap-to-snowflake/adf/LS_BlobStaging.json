@@ -1,0 +1,11 @@
+{
+  "name": "LS_BlobStaging",
+  "properties": {
+    "type": "AzureBlobStorage",
+    "description": "Staging container snowflake-staging on the factory's storage account, with the factory managed identity. Snowflake reads it through ADF_SAP_AZURE_INT.",
+    "typeProperties": {
+      "serviceEndpoint": "https://<storage-account-name>.blob.core.windows.net/",
+      "accountKind": "StorageV2"
+    }
+  }
+}

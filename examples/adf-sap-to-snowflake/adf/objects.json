@@ -1,0 +1,51 @@
+{
+  "_comment": "Source of truth for the SAP objects loaded into Snowflake. Edit this file, then run: python3 examples/adf-sap-to-snowflake/tools/generate.py",
+  "landingSchema": "SAP_LANDING",
+  "targetSchema": "SAP_CORE",
+  "objects": [
+    {
+      "sapTable": "KNA1",
+      "description": "Customer master (general data)",
+      "sapFilter": "",
+      "keyColumns": ["KUNNR"],
+      "columns": [
+        { "name": "KUNNR", "type": "VARCHAR(10)" },
+        { "name": "NAME1", "type": "VARCHAR(35)" },
+        { "name": "LAND1", "type": "VARCHAR(3)" },
+        { "name": "ORT01", "type": "VARCHAR(35)" },
+        { "name": "KTOKD", "type": "VARCHAR(4)" },
+        { "name": "LOEVM", "type": "VARCHAR(1)" },
+        { "name": "ERDAT", "type": "DATE", "sapType": "DATS" }
+      ]
+    },
+    {
+      "sapTable": "MARA",
+      "description": "Material master (general data)",
+      "sapFilter": "",
+      "keyColumns": ["MATNR"],
+      "columns": [
+        { "name": "MATNR", "type": "VARCHAR(40)" },
+        { "name": "MTART", "type": "VARCHAR(4)" },
+        { "name": "MATKL", "type": "VARCHAR(9)" },
+        { "name": "MEINS", "type": "VARCHAR(3)" },
+        { "name": "BRGEW", "type": "NUMBER(13,3)" },
+        { "name": "ERSDA", "type": "DATE", "sapType": "DATS" }
+      ]
+    },
+    {
+      "sapTable": "VBAK",
+      "description": "Sales document header (created since 2026-01-01)",
+      "sapFilter": "ERDAT GE '20260101'",
+      "keyColumns": ["VBELN"],
+      "columns": [
+        { "name": "VBELN", "type": "VARCHAR(10)" },
+        { "name": "AUART", "type": "VARCHAR(4)" },
+        { "name": "VKORG", "type": "VARCHAR(4)" },
+        { "name": "KUNNR", "type": "VARCHAR(10)" },
+        { "name": "NETWR", "type": "NUMBER(15,2)" },
+        { "name": "WAERK", "type": "VARCHAR(5)" },
+        { "name": "ERDAT", "type": "DATE", "sapType": "DATS" }
+      ]
+    }
+  ]
+}

@@ -59,6 +59,16 @@ Land raw data unchanged first (bronze), then curate (silver/gold). Partition by 
 6. For incremental loads, follow the `sap-cdc-incremental` skill (SAP CDC connector, metadata-driven pipeline to Delta).
 7. Test with a small table first (e.g. `T001`, company codes), then scale up with partitioning options.
 
+### Target: Snowflake
+
+When the destination is Snowflake instead of Azure storage or Fabric (worked example: `examples/adf-sap-to-snowflake/`):
+
+- Use the **Snowflake V2** connector (`SnowflakeV2`; V1 is removed) with **key-pair authentication**; keep the private key and passphrase in Key Vault (`templates/adf/linked-services/snowflake-v2.json`).
+- Land SAP data in ADLS as Parquet first, then load Snowflake with a **staged copy** (`enableStaging`) and a Snowflake **storage integration** in `importSettings`: the staging container is read by Snowflake's own Entra ID app (*Storage Blob Data Reader* on that container), so no SAS token is needed (`templates/adf/pipelines/copy-adls-parquet-to-snowflake.json`).
+- The Snowflake user needs `USAGE` on database and schema, read/write on the tables and `CREATE STAGE` on the session schema.
+- Load a landing table (truncate + copy), reconcile row counts, then `MERGE` into the core table with a Script activity. On connector version 1.0 a script block holds one statement and has no script parameters; version 1.1 adds both.
+- Snowflake V2 Lookup/Script return `NUMBER` as a string and timestamps as `DateTimeOffset`: convert with `int()`/`float()`/`formatDateTime()` in expressions.
+
 ## 6. Common pitfalls
 
 - Missing or wrong SAP client libraries on the IR machine → connection failures.

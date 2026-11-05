@@ -1,0 +1,6 @@
+{
+  "_comment": "Activity outputs as Data Factory returns them (Snowflake V2 Lookup returns NUMBER as a string). Used by the unit tests.",
+  "match": { "CopySapToAdls": { "rowsCopied": 12873 }, "CountLandingRows": { "firstRow": { "ROW_COUNT": "12873" } } },
+  "mismatch": { "CopySapToAdls": { "rowsCopied": 12873 }, "CountLandingRows": { "firstRow": { "ROW_COUNT": "12000" } } },
+  "empty": { "CopySapToAdls": { "rowsCopied": 0 }, "CountLandingRows": { "firstRow": { "ROW_COUNT": "0" } } }
+}
