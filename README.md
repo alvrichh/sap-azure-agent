@@ -2,9 +2,11 @@
 
 Learning lessons and info for LLM and AI developer tools.
 
-Repositorio de aprendizaje sobre LLMs, IA generativa y su aplicación en SAP, construido con el material que aporta el usuario.
+Repositorio de aprendizaje sobre SAP y Microsoft (Azure, Microsoft Learn): LLMs, IA generativa, integración de datos y su aplicación en SAP.
 
 ## Material disponible
+
+### SAP: IA generativa y LLMs
 
 [Índice de lecciones: fundamentos de LLMs, estrategia de SAP e ingeniería de prompts](learning/sap-approach-to-large-language-models.md)
 
@@ -19,8 +21,16 @@ Repositorio de aprendizaje sobre LLMs, IA generativa y su aplicación en SAP, co
 - [Introducing Prompt Optimization](learning/sap-generative-ai/09-prompt-optimization.md)
 - [Evaluating and Testing Your LLM Use Case](learning/sap-generative-ai/10-evaluating-and-testing-llm-use-case.md)
 
+### Microsoft Azure
+
+[Índice de Microsoft Azure y Microsoft Learn](learning/microsoft-azure/README.md)
+
+- [¿Qué es Azure Data Factory?](learning/microsoft-azure/data-factory/01-introduccion-azure-data-factory.md)
+
 ## Criterio de conservación
 
 Guardar y organizar el material aportado, las decisiones y las correcciones del usuario. Mantener las ideas provisionales como provisionales y distinguir las fuentes de las interpretaciones.
 
-Para las lecciones actuales, usar solo el texto aportado: ignorar los enlaces externos y no buscar información adicional en internet.
+Para las lecciones de SAP, usar solo el texto aportado: ignorar los enlaces externos y no buscar información adicional en internet.
+
+Para la sección de Microsoft Azure sí se consultan las páginas públicas de Microsoft Learn, citando la URL y la fecha de consulta y marcando los complementos propios.
