@@ -9,6 +9,10 @@ examples/**/config/settings.json
 examples/**/state/
 examples/**/*.local.json
 __pycache__/
+
+# SAP NCo libraries are licensed by SAP: never commit them
+examples/**/lib/builtinOperationSdks/**/*.dll
+examples/**/lib/builtinOperationSdks/**/*.exe
 .claude/settings.local.json
 
 # Local tooling and build outputs

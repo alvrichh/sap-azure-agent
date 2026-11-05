@@ -69,6 +69,7 @@ Both agents get the same two MCP servers: `microsoft-learn` (official docs searc
   - `examples/s4hana-to-fabric/` — S/4HANA → ADLS (SAP CDC) → Fabric: `python3 examples/s4hana-to-fabric/tests/validate_example.py`
   - `examples/sap-odata-apim/` — SAP OData behind API Management with Entra ID: `python3 examples/sap-odata-apim/tests/validate_example.py`
   - `examples/graph-teams-approvals/` — SAP PO approvals in Teams with Microsoft Graph and Event Hubs: `python3 examples/graph-teams-approvals/tests/validate_example.py`
+  - `examples/logicapps-sap-rfc/` — Logic Apps Standard calling SAP RFC/BAPI with the built-in connector: `python3 examples/logicapps-sap-rfc/tests/validate_example.py` (needs `lxml`, `jsonschema`)
 
 ## Repository layout for multiple agents
 

@@ -1,0 +1,50 @@
+{
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "contentVersion": "1.0.0.0",
+    "triggers": {
+      "When_a_HTTP_request_is_received": {
+        "type": "Request",
+        "kind": "Http",
+        "inputs": {
+          "method": "GET"
+        }
+      }
+    },
+    "actions": {
+      "Call_STFC_CONNECTION": {
+        "type": "ServiceProvider",
+        "inputs": {
+          "parameters": {
+            "rfcName": "STFC_CONNECTION",
+            "body": "<STFC_CONNECTION xmlns=\"http://Microsoft.LobServices.Sap/2007/03/Rfc/\"><REQUTEXT>logicapp-ping</REQUTEXT></STFC_CONNECTION>"
+          },
+          "serviceProviderConfiguration": {
+            "connectionName": "sap",
+            "operationId": "callRfc",
+            "serviceProviderId": "/serviceProviders/sap"
+          }
+        },
+        "runAfter": {}
+      },
+      "Respond": {
+        "type": "Response",
+        "kind": "Http",
+        "inputs": {
+          "statusCode": 200,
+          "body": {
+            "echo": "@{xpath(xml(body('Call_STFC_CONNECTION')), 'string(/*[local-name()=\"STFC_CONNECTIONResponse\"]/*[local-name()=\"ECHOTEXT\"])')}",
+            "sapInfo": "@{xpath(xml(body('Call_STFC_CONNECTION')), 'string(/*[local-name()=\"STFC_CONNECTIONResponse\"]/*[local-name()=\"RESPTEXT\"])')}"
+          }
+        },
+        "runAfter": {
+          "Call_STFC_CONNECTION": [
+            "Succeeded"
+          ]
+        }
+      }
+    },
+    "outputs": {}
+  },
+  "kind": "Stateful"
+}

@@ -1,0 +1,4 @@
+<STFC_CONNECTIONResponse xmlns="http://Microsoft.LobServices.Sap/2007/03/Rfc/">
+  <ECHOTEXT>logicapp-ping</ECHOTEXT>
+  <RESPTEXT>SAP R/3 Rel. 758   Sysid: S4P      Date: 20261105   Time: 101500   Logon_Data: 100/RFC_LOGICAPP/E</RESPTEXT>
+</STFC_CONNECTIONResponse>

@@ -67,7 +67,7 @@ Describe the outcome you want; you don't need to name the skill. Examples:
 - "Notify a Teams channel when a purchase order above 50,000 EUR is created in SAP."
 - "Configure GitHub Actions to deploy our Data Factory to test and production without secrets."
 
-More detail: [docs/getting-started.md](docs/getting-started.md). Complete worked examples: [S/4HANA → Fabric](examples/s4hana-to-fabric/README.md), [SAP OData behind API Management](examples/sap-odata-apim/README.md) and [SAP approvals in Teams with Microsoft Graph](examples/graph-teams-approvals/README.md).
+More detail: [docs/getting-started.md](docs/getting-started.md). Complete worked examples: [S/4HANA → Fabric](examples/s4hana-to-fabric/README.md), [SAP OData behind API Management](examples/sap-odata-apim/README.md) , [SAP approvals in Teams with Microsoft Graph](examples/graph-teams-approvals/README.md) and [Logic Apps calling SAP RFC](examples/logicapps-sap-rfc/README.md).
 
 ## How the agent works
 
@@ -141,7 +141,7 @@ Full rules: [AGENTS.md](AGENTS.md).
 | `.mcp.json`, `.codex/config.toml` | MCP server configuration for Claude Code and Codex. |
 | `templates/` | Bicep, ADF JSON, Fabric, APIM, Graph and GitHub Actions templates. |
 | `docs/` | User guides. |
-| `examples/` | End-to-end test cases with configuration, runbook, test cases and automated checks: `s4hana-to-fabric/` (data), `sap-odata-apim/` (APIs) and `graph-teams-approvals/` (Microsoft 365). |
+| `examples/` | End-to-end test cases with configuration, runbook, test cases and automated checks: `s4hana-to-fabric/` (data), `sap-odata-apim/` (APIs), `graph-teams-approvals/` (Microsoft 365) and `logicapps-sap-rfc/` (RFC/BAPI). |
 | `.github/workflows/validate.yml` | CI: syntax of every template and the examples' static checks and unit tests. |
 | `learning/` | Study notes used as background knowledge. |
 
@@ -155,7 +155,7 @@ Full rules: [AGENTS.md](AGENTS.md).
 
 ## Roadmap
 
-- Run the runtime test cases of `examples/s4hana-to-fabric` (TC-01…TC-14) `examples/sap-odata-apim` (TC-01…TC-11) and `examples/graph-teams-approvals` (TC-01…TC-10) against real SAP, Azure and Microsoft 365 environments.
+- Run the runtime test cases of `examples/s4hana-to-fabric` (TC-01…TC-14) `examples/sap-odata-apim` (TC-01…TC-11) `examples/graph-teams-approvals` (TC-01…TC-10) and `examples/logicapps-sap-rfc` (TC-01…TC-10) against real SAP, Azure and Microsoft 365 environments.
 
 ## Learning material
 

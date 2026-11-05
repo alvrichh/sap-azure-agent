@@ -1,0 +1,187 @@
+{
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "contentVersion": "1.0.0.0",
+    "triggers": {
+      "When_a_HTTP_request_is_received": {
+        "type": "Request",
+        "kind": "Http",
+        "inputs": {
+          "method": "POST",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "material": {
+                "type": "string",
+                "pattern": "^[A-Z0-9_\\-]{1,18}$"
+              },
+              "plant": {
+                "type": "string",
+                "pattern": "^[A-Z0-9]{4}$"
+              },
+              "unit": {
+                "type": "string",
+                "pattern": "^[A-Z0-9]{1,3}$"
+              }
+            },
+            "required": [
+              "material",
+              "plant",
+              "unit"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "operationOptions": "EnableSchemaValidation"
+      }
+    },
+    "actions": {
+      "Build_RFC_request": {
+        "type": "Compose",
+        "inputs": {
+          "BAPI_MATERIAL_AVAILABILITY": {
+            "@xmlns": "http://Microsoft.LobServices.Sap/2007/03/Rfc/",
+            "PLANT": "@triggerBody()?['plant']",
+            "MATERIAL": "@triggerBody()?['material']",
+            "UNIT": "@triggerBody()?['unit']",
+            "WMDVSX": "",
+            "WMDVEX": ""
+          }
+        },
+        "runAfter": {}
+      },
+      "Try": {
+        "type": "Scope",
+        "runAfter": {
+          "Build_RFC_request": [
+            "Succeeded"
+          ]
+        },
+        "actions": {
+          "Call_BAPI_MATERIAL_AVAILABILITY": {
+            "type": "ServiceProvider",
+            "inputs": {
+              "parameters": {
+                "rfcName": "BAPI_MATERIAL_AVAILABILITY",
+                "body": "@{xml(outputs('Build_RFC_request'))}"
+              },
+              "serviceProviderConfiguration": {
+                "connectionName": "sap",
+                "operationId": "callRfc",
+                "serviceProviderId": "/serviceProviders/sap"
+              }
+            },
+            "runAfter": {},
+            "retryPolicy": {
+              "type": "fixed",
+              "count": 2,
+              "interval": "PT10S"
+            }
+          },
+          "Parse_SAP_response": {
+            "type": "Compose",
+            "inputs": {
+              "availableQuantity": "@{xpath(xml(body('Call_BAPI_MATERIAL_AVAILABILITY')), 'string(/*[local-name()=\"BAPI_MATERIAL_AVAILABILITYResponse\"]/*[local-name()=\"AV_QTY_PLT\"])')}",
+              "endLeadTime": "@{xpath(xml(body('Call_BAPI_MATERIAL_AVAILABILITY')), 'string(/*[local-name()=\"BAPI_MATERIAL_AVAILABILITYResponse\"]/*[local-name()=\"ENDLEADTME\"])')}",
+              "returnType": "@{xpath(xml(body('Call_BAPI_MATERIAL_AVAILABILITY')), 'string(/*[local-name()=\"BAPI_MATERIAL_AVAILABILITYResponse\"]/*[local-name()=\"RETURN\"]/*[local-name()=\"TYPE\"])')}",
+              "returnMessage": "@{xpath(xml(body('Call_BAPI_MATERIAL_AVAILABILITY')), 'string(/*[local-name()=\"BAPI_MATERIAL_AVAILABILITYResponse\"]/*[local-name()=\"RETURN\"]/*[local-name()=\"MESSAGE\"])')}"
+            },
+            "runAfter": {
+              "Call_BAPI_MATERIAL_AVAILABILITY": [
+                "Succeeded"
+              ]
+            }
+          },
+          "SAP_reported_error": {
+            "type": "If",
+            "expression": {
+              "or": [
+                {
+                  "equals": [
+                    "@outputs('Parse_SAP_response')?['returnType']",
+                    "E"
+                  ]
+                },
+                {
+                  "equals": [
+                    "@outputs('Parse_SAP_response')?['returnType']",
+                    "A"
+                  ]
+                }
+              ]
+            },
+            "actions": {
+              "Respond_422": {
+                "type": "Response",
+                "kind": "Http",
+                "inputs": {
+                  "statusCode": 422,
+                  "body": {
+                    "error": "SAP returned an error",
+                    "sapMessage": "@outputs('Parse_SAP_response')?['returnMessage']",
+                    "material": "@triggerBody()?['material']",
+                    "plant": "@triggerBody()?['plant']"
+                  }
+                },
+                "runAfter": {}
+              }
+            },
+            "else": {
+              "actions": {
+                "Respond_200": {
+                  "type": "Response",
+                  "kind": "Http",
+                  "inputs": {
+                    "statusCode": 200,
+                    "headers": {
+                      "Content-Type": "application/json"
+                    },
+                    "body": {
+                      "material": "@triggerBody()?['material']",
+                      "plant": "@triggerBody()?['plant']",
+                      "unit": "@triggerBody()?['unit']",
+                      "availableQuantity": "@float(outputs('Parse_SAP_response')?['availableQuantity'])",
+                      "endLeadTime": "@outputs('Parse_SAP_response')?['endLeadTime']",
+                      "sapMessage": "@outputs('Parse_SAP_response')?['returnMessage']"
+                    }
+                  },
+                  "runAfter": {}
+                }
+              }
+            },
+            "runAfter": {
+              "Parse_SAP_response": [
+                "Succeeded"
+              ]
+            }
+          }
+        }
+      },
+      "Catch": {
+        "type": "Scope",
+        "runAfter": {
+          "Try": [
+            "Failed",
+            "TimedOut"
+          ]
+        },
+        "actions": {
+          "Respond_502": {
+            "type": "Response",
+            "kind": "Http",
+            "inputs": {
+              "statusCode": 502,
+              "body": {
+                "error": "SAP call failed",
+                "runId": "@workflow()?['run']?['name']"
+              }
+            },
+            "runAfter": {}
+          }
+        }
+      }
+    },
+    "outputs": {}
+  },
+  "kind": "Stateful"
+}

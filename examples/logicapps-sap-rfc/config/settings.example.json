@@ -1,0 +1,21 @@
+{
+  "_comment": "Non-secret values for the Logic Apps + SAP RFC test case. Copy to settings.json (ignored by Git). The SAP password lives only in Key Vault.",
+  "azure": {
+    "resourceGroup": "rg-sapfrc-dev",
+    "location": "westeurope",
+    "logicAppName": "logic-sap-rfc-dev-<suffix>",
+    "integrationSubnetId": "<integration-subnet-resource-id>",
+    "keyVaultName": "<key-vault-name>"
+  },
+  "sap": {
+    "systemId": "S4P",
+    "client": "100",
+    "appServerHost": "<sap-app-server-host>",
+    "systemNumber": "<system-number>",
+    "technicalUser": "RFC_LOGICAPP",
+    "authorizedFunctions": ["STFC_CONNECTION", "BAPI_MATERIAL_AVAILABILITY"],
+    "testMaterial": "<material-number>",
+    "testPlant": "<plant>",
+    "testUnit": "<base-unit-internal-format>"
+  }
+}
