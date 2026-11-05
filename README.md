@@ -151,12 +151,14 @@ Full rules: [AGENTS.md](AGENTS.md).
 | `.env.example`, `scripts/check_env_example.py` | Template for local settings (no secrets) and the check that keeps it clean. |
 | `.github/workflows/validate.yml` | CI: syntax of every template, Bicep compilation and linter (`scripts/build_bicep.sh`), and the examples' static checks and unit tests. |
 | `LICENSE` | MIT license. |
+| `CHANGELOG.md` | Release history ([Semantic Versioning](https://semver.org/)); checked in CI by `scripts/check_changelog.py`. |
 | `learning/` | Study notes used as background knowledge. |
 
 ## Contributing
 
 - Branches: work on `main`; use `dev` for changes that aren't ready. No other branches.
 - Commits: Conventional Commits (`feat:`, `fix:`, `docs:`), no `Co-Authored-By` or other attribution trailers.
+- Changelog: record every user-visible change under `[Unreleased]` in [CHANGELOG.md](CHANGELOG.md); releases follow Semantic Versioning and are tagged `vX.Y.Z`.
 - Language: all documentation in English.
 - Instructions: edit `AGENTS.md` (not `CLAUDE.md`).
 - New skill: create `.agents/skills/<name>/SKILL.md` with `name` and `description` front matter, verify facts on Microsoft Learn, add any templates under `templates/`, and register the skill in `AGENTS.md` and this README.

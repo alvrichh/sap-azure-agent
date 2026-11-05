@@ -42,6 +42,9 @@ jobs:
           sys.exit(1 if bad else 0)
           PY
 
+      - name: Changelog format (Keep a Changelog, Semantic Versioning)
+        run: python3 scripts/check_changelog.py
+
       - name: Bicep templates and parameter files compile (linter errors fail)
         run: bash scripts/build_bicep.sh
 
