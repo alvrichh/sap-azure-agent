@@ -1,0 +1,19 @@
+{
+  "name": "DS_SapOData",
+  "properties": {
+    "type": "SapEccResource",
+    "linkedServiceName": {
+      "referenceName": "LS_SapOData",
+      "type": "LinkedServiceReference"
+    },
+    "parameters": {
+      "entitySet": { "type": "string" }
+    },
+    "typeProperties": {
+      "path": {
+        "value": "@dataset().entitySet",
+        "type": "Expression"
+      }
+    }
+  }
+}
