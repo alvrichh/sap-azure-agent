@@ -1,0 +1,4 @@
+{ "d": { "results": [
+  { "BusinessPartner": "1000010", "BusinessPartnerFullName": "Contoso Iberia S.L.", "BusinessPartnerCategory": "2" },
+  { "BusinessPartner": "1000011", "BusinessPartnerFullName": "Contoso O'Brien", "BusinessPartnerCategory": "1" }
+] } }

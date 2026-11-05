@@ -1,0 +1,325 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_saperp": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "sap_SapErp"
+        },
+        "api": {
+          "name": "shared_saperp"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "SAP system (sap_SapSystem)": {
+          "defaultValue": "",
+          "type": "String",
+          "metadata": {
+            "schemaName": "sap_SapSystem"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "Material",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Material number",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_1": {
+                  "title": "Plant",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Plant (4 characters)",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_2": {
+                  "title": "Unit",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Unit of measure in SAP internal format",
+                  "x-ms-content-hint": "TEXT"
+                }
+              },
+              "required": [
+                "text",
+                "text_1",
+                "text_2"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Validate_input": {
+          "type": "If",
+          "runAfter": {},
+          "expression": {
+            "and": [
+              {
+                "lessOrEquals": [
+                  "@length(trim(triggerBody()['text']))",
+                  40
+                ]
+              },
+              {
+                "greater": [
+                  "@length(trim(triggerBody()['text']))",
+                  0
+                ]
+              },
+              {
+                "equals": [
+                  "@length(trim(triggerBody()['text_1']))",
+                  4
+                ]
+              },
+              {
+                "lessOrEquals": [
+                  "@length(trim(triggerBody()['text_2']))",
+                  3
+                ]
+              }
+            ]
+          },
+          "actions": {},
+          "else": {
+            "actions": {
+              "Respond_invalid_input": {
+                "type": "Response",
+                "kind": "PowerApp",
+                "runAfter": {},
+                "inputs": {
+                  "statusCode": 200,
+                  "body": {
+                    "status": "error",
+                    "quantity": "",
+                    "message": "Check material (1-40), plant (4) and unit (1-3)."
+                  },
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "title": "status",
+                        "type": "string"
+                      },
+                      "quantity": {
+                        "title": "quantity",
+                        "type": "string"
+                      },
+                      "message": {
+                        "title": "message",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "Stop_invalid_input": {
+                "type": "Terminate",
+                "runAfter": {
+                  "Respond_invalid_input": [
+                    "Succeeded"
+                  ]
+                },
+                "inputs": {
+                  "runStatus": "Succeeded"
+                }
+              }
+            }
+          }
+        },
+        "Try": {
+          "type": "Scope",
+          "runAfter": {
+            "Validate_input": [
+              "Succeeded"
+            ]
+          },
+          "actions": {
+            "Call_BAPI_MATERIAL_AVAILABILITY": {
+              "type": "OpenApiConnection",
+              "runAfter": {},
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_saperp",
+                  "operationId": "CallRfcJson",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_saperp"
+                },
+                "parameters": {
+                  "x-ms-sap-system": "@parameters('SAP system (sap_SapSystem)')",
+                  "rfcName": "BAPI_MATERIAL_AVAILABILITY",
+                  "rfcInputs": {
+                    "MATERIAL": "@toUpper(trim(triggerBody()['text']))",
+                    "PLANT": "@toUpper(trim(triggerBody()['text_1']))",
+                    "UNIT": "@toUpper(trim(triggerBody()['text_2']))",
+                    "CHECK_RULE": "A"
+                  }
+                },
+                "authentication": "@parameters('$authentication')"
+              },
+              "retryPolicy": {
+                "type": "exponential",
+                "count": 2,
+                "interval": "PT10S"
+              }
+            },
+            "SAP_reported_error": {
+              "type": "If",
+              "runAfter": {
+                "Call_BAPI_MATERIAL_AVAILABILITY": [
+                  "Succeeded"
+                ]
+              },
+              "expression": {
+                "or": [
+                  {
+                    "equals": [
+                      "@body('Call_BAPI_MATERIAL_AVAILABILITY')?['RETURN']?['TYPE']",
+                      "E"
+                    ]
+                  },
+                  {
+                    "equals": [
+                      "@body('Call_BAPI_MATERIAL_AVAILABILITY')?['RETURN']?['TYPE']",
+                      "A"
+                    ]
+                  }
+                ]
+              },
+              "actions": {
+                "Respond_sap_error": {
+                  "type": "Response",
+                  "kind": "PowerApp",
+                  "runAfter": {},
+                  "inputs": {
+                    "statusCode": 200,
+                    "body": {
+                      "status": "error",
+                      "quantity": "",
+                      "message": "@{body('Call_BAPI_MATERIAL_AVAILABILITY')?['RETURN']?['MESSAGE']}"
+                    },
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "title": "status",
+                          "type": "string"
+                        },
+                        "quantity": {
+                          "title": "quantity",
+                          "type": "string"
+                        },
+                        "message": {
+                          "title": "message",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "else": {
+                "actions": {
+                  "Respond_quantity": {
+                    "type": "Response",
+                    "kind": "PowerApp",
+                    "runAfter": {},
+                    "inputs": {
+                      "statusCode": 200,
+                      "body": {
+                        "status": "ok",
+                        "quantity": "@{body('Call_BAPI_MATERIAL_AVAILABILITY')?['AV_QTY_PLT']}",
+                        "message": "@{coalesce(body('Call_BAPI_MATERIAL_AVAILABILITY')?['RETURN']?['MESSAGE'], '')}"
+                      },
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "title": "status",
+                            "type": "string"
+                          },
+                          "quantity": {
+                            "title": "quantity",
+                            "type": "string"
+                          },
+                          "message": {
+                            "title": "message",
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Catch": {
+          "type": "Scope",
+          "runAfter": {
+            "Try": [
+              "Failed",
+              "TimedOut"
+            ]
+          },
+          "actions": {
+            "Respond_technical_error": {
+              "type": "Response",
+              "kind": "PowerApp",
+              "runAfter": {},
+              "inputs": {
+                "statusCode": 200,
+                "body": {
+                  "status": "error",
+                  "quantity": "",
+                  "message": "@{concat('SAP is not reachable right now. Reference: ', workflow()?['run']?['name'])}"
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "title": "status",
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "title": "quantity",
+                      "type": "string"
+                    },
+                    "message": {
+                      "title": "message",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {}
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}

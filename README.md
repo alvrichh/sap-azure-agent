@@ -71,7 +71,7 @@ Describe the outcome you want; you don't need to name the skill. Examples:
 - "Notify a Teams channel when a purchase order above 50,000 EUR is created in SAP."
 - "Configure GitHub Actions to deploy our Data Factory to test and production without secrets."
 
-More detail: [docs/getting-started.md](docs/getting-started.md). Complete worked examples: [S/4HANA → Fabric](examples/s4hana-to-fabric/README.md), [SAP OData behind API Management](examples/sap-odata-apim/README.md) , [SAP approvals in Teams with Microsoft Graph](examples/graph-teams-approvals/README.md) , [Logic Apps calling SAP RFC](examples/logicapps-sap-rfc/README.md), [IDocs to and from SAP with Logic Apps](examples/logicapps-sap-idoc/README.md) and [SAP to Snowflake with Data Factory](examples/adf-sap-to-snowflake/README.md).
+More detail: [docs/getting-started.md](docs/getting-started.md). Complete worked examples: [S/4HANA → Fabric](examples/s4hana-to-fabric/README.md), [SAP OData behind API Management](examples/sap-odata-apim/README.md) , [SAP approvals in Teams with Microsoft Graph](examples/graph-teams-approvals/README.md) , [Logic Apps calling SAP RFC](examples/logicapps-sap-rfc/README.md), [IDocs to and from SAP with Logic Apps](examples/logicapps-sap-idoc/README.md), [SAP to Snowflake with Data Factory](examples/adf-sap-to-snowflake/README.md) and [SAP with Power Platform](examples/powerplatform-sap/README.md).
 
 Local settings: copy [`.env.example`](.env.example) to `.env` (ignored by Git) and fill in your tenant, SAP hosts and URLs and Snowflake account. Secrets stay in Key Vault; `.env` holds only their names.
 
@@ -147,7 +147,7 @@ Full rules: [AGENTS.md](AGENTS.md).
 | `.mcp.json`, `.codex/config.toml` | MCP server configuration for Claude Code and Codex. |
 | `templates/` | Bicep, ADF JSON, Fabric, APIM, Graph and GitHub Actions templates. |
 | `docs/` | User guides. |
-| `examples/` | End-to-end test cases with configuration, runbook, test cases and automated checks: `s4hana-to-fabric/` (data), `sap-odata-apim/` (APIs), `graph-teams-approvals/` (Microsoft 365) `logicapps-sap-rfc/` (RFC/BAPI) `logicapps-sap-idoc/` (IDoc) and `adf-sap-to-snowflake/` (Snowflake). |
+| `examples/` | End-to-end test cases with configuration, runbook, test cases and automated checks: `s4hana-to-fabric/` (data), `sap-odata-apim/` (APIs), `graph-teams-approvals/` (Microsoft 365) `logicapps-sap-rfc/` (RFC/BAPI) `logicapps-sap-idoc/` (IDoc) `adf-sap-to-snowflake/` (Snowflake) and `powerplatform-sap/` (Power Platform). |
 | `.env.example`, `scripts/check_env_example.py` | Template for local settings (no secrets) and the check that keeps it clean. |
 | `.github/workflows/validate.yml` | CI: syntax of every template and the examples' static checks and unit tests. |
 | `learning/` | Study notes used as background knowledge. |
@@ -162,7 +162,7 @@ Full rules: [AGENTS.md](AGENTS.md).
 
 ## Roadmap
 
-- Run the runtime test cases of `examples/s4hana-to-fabric` (TC-01…TC-14) `examples/sap-odata-apim` (TC-01…TC-11) `examples/graph-teams-approvals` (TC-01…TC-10) `examples/logicapps-sap-rfc` (TC-01…TC-10) `examples/logicapps-sap-idoc` (TC-01…TC-14) and `examples/adf-sap-to-snowflake` (TC-01…TC-12) against real SAP, Azure and Microsoft 365 environments.
+- Run the runtime test cases of `examples/s4hana-to-fabric` (TC-01…TC-14) `examples/sap-odata-apim` (TC-01…TC-11) `examples/graph-teams-approvals` (TC-01…TC-10) `examples/logicapps-sap-rfc` (TC-01…TC-10) `examples/logicapps-sap-idoc` (TC-01…TC-14) `examples/adf-sap-to-snowflake` (TC-01…TC-12) and `examples/powerplatform-sap` (TC-01…TC-14) against real SAP, Azure and Microsoft 365 environments.
 
 ## Learning material
 

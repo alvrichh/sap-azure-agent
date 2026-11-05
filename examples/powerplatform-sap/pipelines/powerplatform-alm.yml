@@ -1,0 +1,115 @@
+# ALM for the SAP Sales Assistant solution with the Power Platform CLI and GitHub OIDC (no client secret).
+# Copy to .github/workflows/ in the repository that holds the solution.
+# - export:  on demand, exports the unmanaged solution from dev, unpacks it and uploads it for review (commit it from a PR)
+# - build:   packs the unpacked source as a managed solution and runs the solution checker
+# - deploy:  imports the managed solution into test, then prod (protected environment with reviewers),
+#            with the deployment settings file of each environment (connection references + environment variables)
+# Repository variables (identifiers, not secrets): PP_TENANT_ID, PP_APP_ID, PP_DEV_URL, PP_TEST_URL, PP_PROD_URL.
+# The Entra app has federated credentials for this repository and is an application user in each environment.
+name: powerplatform-sap-alm
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: export (from dev) or deploy (to test and prod)
+        type: choice
+        options: [export, deploy]
+        default: deploy
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  SOLUTION_NAME: SapSalesAssistant
+  SOLUTION_FOLDER: examples/powerplatform-sap/solution/src
+  SETTINGS_FOLDER: examples/powerplatform-sap/deployment
+
+jobs:
+  export:
+    if: inputs.action == 'export'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Install Power Platform CLI
+        run: dotnet tool install --global Microsoft.PowerApps.CLI.Tool
+      - name: Sign in to dev with GitHub federation
+        run: pac auth create --githubFederated --tenant "${{ vars.PP_TENANT_ID }}" --applicationId "${{ vars.PP_APP_ID }}" --environment "${{ vars.PP_DEV_URL }}"
+      - name: Export and unpack
+        run: |
+          pac solution export --name "$SOLUTION_NAME" --path out/solution.zip --overwrite
+          pac solution unpack --zipfile out/solution.zip --folder "$SOLUTION_FOLDER" --packagetype Unmanaged --allowDelete
+          pac solution create-settings --solution-folder "$SOLUTION_FOLDER" --settings-file out/settings.generated.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: unpacked-solution
+          path: |
+            ${{ env.SOLUTION_FOLDER }}
+            out/settings.generated.json
+
+  build:
+    if: inputs.action == 'deploy'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Install Power Platform CLI
+        run: dotnet tool install --global Microsoft.PowerApps.CLI.Tool
+      - name: Offline checks of the definitions
+        run: |
+          pip install --quiet pyyaml
+          python3 examples/powerplatform-sap/tests/validate_example.py --strict
+      - name: Pack managed solution
+        run: pac solution pack --zipfile out/SapSalesAssistant_managed.zip --folder "$SOLUTION_FOLDER" --packagetype Managed
+      - name: Solution checker
+        run: |
+          pac auth create --githubFederated --tenant "${{ vars.PP_TENANT_ID }}" --applicationId "${{ vars.PP_APP_ID }}" --environment "${{ vars.PP_DEV_URL }}"
+          pac solution check --path out/SapSalesAssistant_managed.zip --outputDirectory out/checker
+      - uses: actions/upload-artifact@v4
+        with:
+          name: managed-solution
+          path: out/
+
+  deploy-test:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: powerplatform-test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: managed-solution
+          path: out/
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet tool install --global Microsoft.PowerApps.CLI.Tool
+      - name: Import into test
+        run: |
+          pac auth create --githubFederated --tenant "${{ vars.PP_TENANT_ID }}" --applicationId "${{ vars.PP_APP_ID }}" --environment "${{ vars.PP_TEST_URL }}"
+          pac solution import --path out/SapSalesAssistant_managed.zip --settings-file "$SETTINGS_FOLDER/settings.test.json" --activate-plugins --async
+
+  deploy-prod:
+    needs: deploy-test
+    runs-on: ubuntu-latest
+    environment: powerplatform-prod
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: managed-solution
+          path: out/
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet tool install --global Microsoft.PowerApps.CLI.Tool
+      - name: Import into prod
+        run: |
+          pac auth create --githubFederated --tenant "${{ vars.PP_TENANT_ID }}" --applicationId "${{ vars.PP_APP_ID }}" --environment "${{ vars.PP_PROD_URL }}"
+          pac solution import --path out/SapSalesAssistant_managed.zip --settings-file "$SETTINGS_FOLDER/settings.prod.json" --activate-plugins --async

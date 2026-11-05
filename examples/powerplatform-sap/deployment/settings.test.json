@@ -1,0 +1,24 @@
+{
+  "EnvironmentVariables": [
+    {
+      "SchemaName": "sap_SapSystem",
+      "Value": "{\"MessageServerHost\":\"<sap-qas-message-server-host>\",\"SystemId\":\"QAS\",\"LogonGroup\":\"PUBLIC\",\"Client\":200,\"LogonType\":\"Group\",\"Language\":\"EN\",\"UseSnc\":\"Yes\",\"SncLibraryPath\":\"sapcrypto.dll\",\"SncPartnerName\":\"<sap-snc-partner-name>\",\"SncQop\":\"Maximum\"}"
+    },
+    {
+      "SchemaName": "sap_MaxResults",
+      "Value": "20"
+    }
+  ],
+  "ConnectionReferences": [
+    {
+      "LogicalName": "sap_SapErp",
+      "ConnectionId": "<saperp-connection-id>",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_saperp"
+    },
+    {
+      "LogicalName": "sap_SapOData",
+      "ConnectionId": "<sapodata-connection-id>",
+      "ConnectorId": "/providers/Microsoft.PowerApps/apis/shared_sapodata"
+    }
+  ]
+}

@@ -1,0 +1,254 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sapodata": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "sap_SapOData"
+        },
+        "api": {
+          "name": "shared_sapodata"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "SAP max results (sap_MaxResults)": {
+          "defaultValue": 20,
+          "type": "Int",
+          "metadata": {
+            "schemaName": "sap_MaxResults"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "Name starts with",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "At least 3 characters",
+                  "x-ms-content-hint": "TEXT"
+                }
+              },
+              "required": [
+                "text"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Validate_input": {
+          "type": "If",
+          "runAfter": {},
+          "expression": {
+            "and": [
+              {
+                "greaterOrEquals": [
+                  "@length(trim(triggerBody()['text']))",
+                  3
+                ]
+              },
+              {
+                "lessOrEquals": [
+                  "@length(trim(triggerBody()['text']))",
+                  40
+                ]
+              }
+            ]
+          },
+          "actions": {},
+          "else": {
+            "actions": {
+              "Respond_invalid_input": {
+                "type": "Response",
+                "kind": "PowerApp",
+                "runAfter": {},
+                "inputs": {
+                  "statusCode": 200,
+                  "body": {
+                    "status": "error",
+                    "partners": "[]",
+                    "message": "Type 3 to 40 characters."
+                  },
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "title": "status",
+                        "type": "string"
+                      },
+                      "partners": {
+                        "title": "partners",
+                        "type": "string"
+                      },
+                      "message": {
+                        "title": "message",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "Stop_invalid_input": {
+                "type": "Terminate",
+                "runAfter": {
+                  "Respond_invalid_input": [
+                    "Succeeded"
+                  ]
+                },
+                "inputs": {
+                  "runStatus": "Succeeded"
+                }
+              }
+            }
+          }
+        },
+        "Try": {
+          "type": "Scope",
+          "runAfter": {
+            "Validate_input": [
+              "Succeeded"
+            ]
+          },
+          "actions": {
+            "Query_business_partners": {
+              "type": "OpenApiConnection",
+              "runAfter": {},
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sapodata",
+                  "operationId": "GetEntityData",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sapodata"
+                },
+                "parameters": {
+                  "entity": "A_BusinessPartner",
+                  "filter": "@{concat('startswith(BusinessPartnerFullName,''', replace(trim(triggerBody()['text']), '''', ''''''), ''') eq true')}",
+                  "select": "BusinessPartner,BusinessPartnerFullName,BusinessPartnerCategory",
+                  "top": "@min(parameters('SAP max results (sap_MaxResults)'), 50)",
+                  "orderby": "BusinessPartnerFullName"
+                },
+                "authentication": "@parameters('$authentication')"
+              },
+              "retryPolicy": {
+                "type": "exponential",
+                "count": 2,
+                "interval": "PT10S"
+              }
+            },
+            "Shape_results": {
+              "type": "Select",
+              "runAfter": {
+                "Query_business_partners": [
+                  "Succeeded"
+                ]
+              },
+              "inputs": {
+                "from": "@coalesce(body('Query_business_partners')?['value'], body('Query_business_partners')?['d']?['results'], json('[]'))",
+                "select": {
+                  "id": "@item()?['BusinessPartner']",
+                  "name": "@item()?['BusinessPartnerFullName']",
+                  "category": "@if(equals(item()?['BusinessPartnerCategory'], '1'), 'Person', 'Organization')"
+                }
+              }
+            },
+            "Respond_partners": {
+              "type": "Response",
+              "kind": "PowerApp",
+              "runAfter": {
+                "Shape_results": [
+                  "Succeeded"
+                ]
+              },
+              "inputs": {
+                "statusCode": 200,
+                "body": {
+                  "status": "ok",
+                  "partners": "@{string(body('Shape_results'))}",
+                  "message": ""
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "title": "status",
+                      "type": "string"
+                    },
+                    "partners": {
+                      "title": "partners",
+                      "type": "string"
+                    },
+                    "message": {
+                      "title": "message",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Catch": {
+          "type": "Scope",
+          "runAfter": {
+            "Try": [
+              "Failed",
+              "TimedOut"
+            ]
+          },
+          "actions": {
+            "Respond_technical_error": {
+              "type": "Response",
+              "kind": "PowerApp",
+              "runAfter": {},
+              "inputs": {
+                "statusCode": 200,
+                "body": {
+                  "status": "error",
+                  "partners": "[]",
+                  "message": "@{concat('SAP is not reachable right now. Reference: ', workflow()?['run']?['name'])}"
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "title": "status",
+                      "type": "string"
+                    },
+                    "partners": {
+                      "title": "partners",
+                      "type": "string"
+                    },
+                    "message": {
+                      "title": "message",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {}
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}

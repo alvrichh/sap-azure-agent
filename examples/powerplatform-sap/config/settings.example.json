@@ -1,0 +1,20 @@
+{
+  "_comment": "Non-secret values for the Power Platform + SAP test case. Copy to settings.json (ignored by Git). SAP credentials are never stored: each user signs in through their own connection.",
+  "powerPlatform": {
+    "tenantId": "<tenant-id>",
+    "devEnvironmentUrl": "https://<dev-org>.crm4.dynamics.com",
+    "testEnvironmentUrl": "https://<test-org>.crm4.dynamics.com",
+    "prodEnvironmentUrl": "https://<prod-org>.crm4.dynamics.com",
+    "almAppClientId": "<alm-app-client-id>",
+    "gatewayName": "<on-premises-data-gateway-name>"
+  },
+  "sap": {
+    "systemId": "S4P",
+    "client": "100",
+    "odataBaseUri": "https://<apim-name>.azure-api.net/sap/opu/odata/sap/API_BUSINESS_PARTNER",
+    "odataResourceUri": "api://sap-odata-apim-test",
+    "testMaterial": "<material-number>",
+    "testPlant": "<plant>",
+    "testPartnerPrefix": "<partner-name-prefix>"
+  }
+}
