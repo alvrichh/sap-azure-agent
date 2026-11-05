@@ -27,7 +27,7 @@ cd sap-azure-agent && claude
 Claude Code loads automatically:
 
 - `CLAUDE.md` — the agent's instructions and rules.
-- `.claude/skills/` — step-by-step skills (Azure Data Factory, SAP → Azure pipelines, Microsoft Entra ID authentication).
+- `.claude/skills/` — step-by-step skills (Azure Data Factory, SAP → Azure pipelines, SAP CDC incremental replication, Microsoft Entra ID authentication).
 - `.claude/agents/` — specialized subagents (Azure architect, SAP integration expert).
 - `.mcp.json` — MCP servers: **Microsoft Learn** (official docs search) and **Azure** (acts on your subscription with your `az login` credentials). Approve them when Claude Code asks.
 

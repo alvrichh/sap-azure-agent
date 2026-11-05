@@ -55,7 +55,7 @@ Land raw data unchanged first (bronze), then curate (silver/gold). Partition by 
    - `templates/adf/linked-services/adls-gen2.json`
 4. Create datasets from `templates/adf/datasets/`.
 5. Create the pipeline from `templates/adf/pipelines/copy-sap-table-to-adls.json` and parameterize the table name.
-6. For incremental loads, switch to an SAP CDC mapping data flow and configure the delta behavior.
+6. For incremental loads, follow the `sap-cdc-incremental` skill (SAP CDC connector, metadata-driven pipeline to Delta).
 7. Test with a small table first (e.g. `T001`, company codes), then scale up with partitioning options.
 
 ## 6. Common pitfalls

@@ -10,6 +10,11 @@ Reusable, parameterized templates. Replace every `<placeholder>`; never put secr
 | `adf/linked-services/key-vault.json` | Key Vault linked service used to resolve all secrets. |
 | `adf/linked-services/sap-table.json` | SAP Table (RFC) connection through a self-hosted integration runtime. |
 | `adf/linked-services/adls-gen2.json` | ADLS Gen2 connection with managed identity. |
+| `adf/linked-services/sap-cdc.json` | SAP CDC (`SapOdp`) connection for incremental ODP extraction. |
+| `adf/datasets/sap-cdc.json` | Optional parameterized SAP CDC (`SapOdpResource`) dataset. |
+| `adf/datasets/adls-json.json` | JSON file dataset in ADLS Gen2 (control files). |
+| `adf/control-files/sap-cdc-objects.json` | Example control file: SAP objects to replicate incrementally. |
+| `adf/pipelines/sap-cdc-incremental-to-delta.json` | Metadata-driven SAP CDC pipeline (Lookup → ForEach → data flow) into Delta tables. |
 | `adf/datasets/sap-table.json` | Parameterized SAP table dataset. |
 | `adf/datasets/adls-parquet.json` | Parameterized Parquet dataset in ADLS Gen2. |
 | `adf/pipelines/copy-sap-table-to-adls.json` | Full copy of one SAP table to ADLS, partitioned by load date. |

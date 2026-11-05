@@ -1,0 +1,25 @@
+{
+  "name": "DS_SapCdc",
+  "properties": {
+    "type": "SapOdpResource",
+    "description": "Optional. The recommended SAP CDC data flow uses an inline source instead; this dataset is useful for preview and testing in ADF Studio.",
+    "linkedServiceName": {
+      "referenceName": "LS_SapCdc",
+      "type": "LinkedServiceReference"
+    },
+    "parameters": {
+      "context": { "type": "string", "defaultValue": "ABAP_CDS" },
+      "objectName": { "type": "string" }
+    },
+    "typeProperties": {
+      "context": {
+        "value": "@dataset().context",
+        "type": "Expression"
+      },
+      "objectName": {
+        "value": "@dataset().objectName",
+        "type": "Expression"
+      }
+    }
+  }
+}

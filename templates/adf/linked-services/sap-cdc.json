@@ -1,0 +1,27 @@
+{
+  "name": "LS_SapCdc",
+  "properties": {
+    "type": "SapOdp",
+    "description": "SAP CDC connector (ODP framework over RFC). Requires a self-hosted integration runtime with the SAP .NET Connector. subscriberName: UPPERCASE, unique per linked service, max 32 characters.",
+    "typeProperties": {
+      "server": "<sap-application-server-host>",
+      "systemNumber": "<system-number>",
+      "clientId": "<sap-client>",
+      "language": "EN",
+      "userName": "<sap-technical-user>",
+      "password": {
+        "type": "AzureKeyVaultSecret",
+        "store": {
+          "referenceName": "LS_KeyVault",
+          "type": "LinkedServiceReference"
+        },
+        "secretName": "<sap-password-secret-name>"
+      },
+      "subscriberName": "<FACTORYNAME_SAPCDC>"
+    },
+    "connectVia": {
+      "referenceName": "<self-hosted-ir-name>",
+      "type": "IntegrationRuntimeReference"
+    }
+  }
+}

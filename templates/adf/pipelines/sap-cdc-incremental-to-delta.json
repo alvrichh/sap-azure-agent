@@ -1,0 +1,144 @@
+{
+  "name": "PL_SapCdc_Incremental_To_Delta",
+  "properties": {
+    "description": "Metadata-driven SAP CDC replication: reads a control file, then runs one SAP CDC mapping data flow per ODP object (full on first run, incremental afterwards) and merges changes into Delta tables in ADLS Gen2.",
+    "parameters": {
+      "controlFileSystem": {
+        "type": "string",
+        "defaultValue": "config"
+      },
+      "controlFileName": {
+        "type": "string",
+        "defaultValue": "sap-cdc-objects.json"
+      },
+      "stagingFolder": {
+        "type": "string",
+        "defaultValue": "staging/sapcdc"
+      }
+    },
+    "activities": [
+      {
+        "name": "LookupControlFile",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "JsonSource",
+            "storeSettings": {
+              "type": "AzureBlobFSReadSettings",
+              "recursive": false
+            }
+          },
+          "dataset": {
+            "referenceName": "DS_AdlsJson",
+            "type": "DatasetReference",
+            "parameters": {
+              "fileSystem": "@pipeline().parameters.controlFileSystem",
+              "fileName": "@pipeline().parameters.controlFileName"
+            }
+          },
+          "firstRowOnly": false
+        }
+      },
+      {
+        "name": "ForEachSapObject",
+        "type": "ForEach",
+        "dependsOn": [
+          {
+            "activity": "LookupControlFile",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "items": {
+            "value": "@activity('LookupControlFile').output.value",
+            "type": "Expression"
+          },
+          "isSequential": false,
+          "batchCount": 4,
+          "activities": [
+            {
+              "name": "ReplicateSapObject",
+              "type": "ExecuteDataFlow",
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0
+              },
+              "typeProperties": {
+                "dataflow": {
+                  "referenceName": "DF_SapCdc_To_Delta",
+                  "type": "DataFlowReference",
+                  "parameters": {
+                    "sapContext": {
+                      "value": "'@{item().sapContext}'",
+                      "type": "Expression"
+                    },
+                    "sapObjectName": {
+                      "value": "'@{item().sapObjectName}'",
+                      "type": "Expression"
+                    },
+                    "sapRunMode": {
+                      "value": "'@{item().sapRunMode}'",
+                      "type": "Expression"
+                    },
+                    "sapKeyColumns": {
+                      "value": "@{item().sapKeyColumns}",
+                      "type": "Expression"
+                    },
+                    "sapPartitions": {
+                      "value": "'@{string(item().sapPartitions)}'",
+                      "type": "Expression"
+                    },
+                    "deltaContainer": {
+                      "value": "'@{item().deltaContainer}'",
+                      "type": "Expression"
+                    },
+                    "deltaFolder": {
+                      "value": "'@{item().deltaFolder}'",
+                      "type": "Expression"
+                    },
+                    "deltaKeyColumns": {
+                      "value": "@{item().deltaKeyColumns}",
+                      "type": "Expression"
+                    },
+                    "deltaPartition": {
+                      "value": "'@{item().deltaPartition}'",
+                      "type": "Expression"
+                    }
+                  }
+                },
+                "staging": {
+                  "linkedService": {
+                    "referenceName": "LS_AdlsGen2",
+                    "type": "LinkedServiceReference"
+                  },
+                  "folderPath": {
+                    "value": "@pipeline().parameters.stagingFolder",
+                    "type": "Expression"
+                  }
+                },
+                "compute": {
+                  "coreCount": 8,
+                  "computeType": "General"
+                },
+                "traceLevel": "Coarse",
+                "continuationSettings": {
+                  "customizedCheckpointKey": {
+                    "value": "@item().checkPointKey",
+                    "type": "Expression"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
