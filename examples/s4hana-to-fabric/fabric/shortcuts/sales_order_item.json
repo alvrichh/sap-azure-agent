@@ -1,0 +1,11 @@
+{
+  "path": "Tables",
+  "name": "sales_order_item",
+  "target": {
+    "adlsGen2": {
+      "location": "https://<storage-account-name>.dfs.core.windows.net",
+      "subpath": "/silver/sap/sales_order_item",
+      "connectionId": "<fabric-cloud-connection-id>"
+    }
+  }
+}

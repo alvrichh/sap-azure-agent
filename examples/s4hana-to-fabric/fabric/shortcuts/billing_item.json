@@ -1,0 +1,11 @@
+{
+  "path": "Tables",
+  "name": "billing_item",
+  "target": {
+    "adlsGen2": {
+      "location": "https://<storage-account-name>.dfs.core.windows.net",
+      "subpath": "/silver/sap/billing_item",
+      "connectionId": "<fabric-cloud-connection-id>"
+    }
+  }
+}
