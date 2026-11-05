@@ -7,6 +7,7 @@
 secrets/
 .claude/settings.local.json
 
-# Local tooling
+# Local tooling and build outputs
 node_modules/
+build/ArmTemplate/
 .DS_Store

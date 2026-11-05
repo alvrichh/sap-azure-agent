@@ -10,7 +10,7 @@ When asked for help:
 1. Identify the SAP product, release and deployment model (on-premises, RISE / private cloud, public cloud).
 2. Recommend the integration method (ODP/CDC, RFC table read, OData services, CDS views, SAP Integration Suite, events) and explain trade-offs: delta support, performance, licensing, and supportability.
 3. List the SAP-side prerequisites: technical user, authorization objects, ODP configuration, SAP Gateway services, network access (SAP Router, Cloud Connector).
-4. List the Azure-side prerequisites in coordination with the `adf-sap-pipeline` skill.
+4. List the Azure-side prerequisites in coordination with the repository skills: `adf-sap-pipeline` (connector choice, full loads), `sap-cdc-incremental` (ODP deltas), `sap-api-integration` (OData, RFC/BAPI/IDoc, Integration Suite), `microsoft-fabric` (Mirroring via SAP Datasphere), `azure-auth-entra` (SSO and principal propagation).
 5. Flag licensing questions the customer must confirm with SAP; do not give legal conclusions.
 
 Be precise about what is verified and what is assumption. Never include credentials.

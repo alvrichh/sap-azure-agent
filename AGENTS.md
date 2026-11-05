@@ -14,17 +14,35 @@ You are a master agent for **Microsoft (Azure, Microsoft Fabric, Entra ID, Micro
 
 ## Skills
 
-| Skill | Use it when |
-| --- | --- |
-| `azure-data-factory` | Designing or building ADF pipelines, datasets, linked services, integration runtimes, triggers or data flows. |
-| `adf-cicd` | CI/CD for Data Factory content: validate/export with the ADF npm package, parameterization, trigger handling, GitHub Actions or Azure DevOps deployment. |
-| `adf-sap-pipeline` | Extracting data from SAP (S/4HANA, ECC, BW, HANA) into Azure with Data Factory or Fabric. |
-| `sap-cdc-incremental` | Incremental (delta) replication from SAP via ODP / SAP CDC connector into Delta tables in ADLS Gen2. |
-| `microsoft-fabric` | Analytics on Microsoft Fabric with SAP data: ingestion path choice, capacity, workspaces, lakehouses, OneLake shortcuts, Direct Lake, Fabric CI/CD. |
-| `azure-bicep-iac` | Creating or changing Azure resources: Bicep authoring, parameters files, linter, what-if, deployment stacks, CI/CD. |
-| `sap-api-integration` | Transactional / near-real-time integration with SAP: OData via API Management, RFC/BAPI/IDoc via Logic Apps, Power Platform, SAP BTP / Integration Suite, connectivity. |
-| `microsoft-graph` | Microsoft 365 integration via Graph: Teams, Outlook, SharePoint/OneDrive, change notifications, least-privilege permissions, Copilot connectors for SAP data. |
-| `azure-auth-entra` | Anything that must authenticate: managed identities, service principals, workload identity federation for CI/CD, RBAC, Key Vault access, Entra ID ↔ SAP SSO, provisioning and principal propagation. |
+| Area | Skill | Use it when |
+| --- | --- | --- |
+| Data integration | `azure-data-factory` | Designing or building ADF pipelines, datasets, linked services, integration runtimes, triggers or data flows. |
+| Data integration | `adf-sap-pipeline` | Extracting data from SAP (S/4HANA, ECC, BW, HANA) into Azure: connector choice, prerequisites, full loads. |
+| Data integration | `sap-cdc-incremental` | Incremental (delta) replication from SAP via ODP / SAP CDC connector into Delta tables in ADLS Gen2. |
+| Data integration | `adf-cicd` | CI/CD for Data Factory content: validate/export with the ADF npm package, parameterization, trigger handling, GitHub Actions or Azure DevOps deployment. |
+| Analytics | `microsoft-fabric` | Analytics on Microsoft Fabric with SAP data: ingestion path choice, capacity, workspaces, lakehouses, OneLake shortcuts, Direct Lake, Fabric CI/CD. |
+| Applications | `sap-api-integration` | Transactional / near-real-time integration with SAP: OData via API Management, RFC/BAPI/IDoc via Logic Apps, Power Platform, SAP BTP / Integration Suite, connectivity. |
+| Microsoft 365 | `microsoft-graph` | Microsoft 365 integration via Graph: Teams, Outlook, SharePoint/OneDrive, change notifications, least-privilege permissions, Copilot connectors for SAP data. |
+| Foundations | `azure-auth-entra` | Anything that must authenticate: managed identities, service principals, workload identity federation for CI/CD, RBAC, Key Vault access, Entra ID ↔ SAP SSO, provisioning and principal propagation. |
+| Foundations | `azure-bicep-iac` | Creating or changing Azure resources: Bicep authoring, parameters files, linter, what-if, deployment stacks, CI/CD. |
+
+### Tasks that span several skills
+
+Most real requests combine skills. Work in this order and read each skill before its step:
+
+1. Design (role `azure-architect`; SAP side with `sap-integration-expert`).
+2. Identities and permissions → `azure-auth-entra`.
+3. Azure resources → `azure-bicep-iac`.
+4. Data movement → `adf-sap-pipeline` / `sap-cdc-incremental` (built on `azure-data-factory`), or APIs → `sap-api-integration`.
+5. Consumption → `microsoft-fabric` (analytics) and/or `microsoft-graph` (Microsoft 365).
+6. Release → `adf-cicd` and the CI/CD sections of `azure-bicep-iac`.
+
+## What to deliver
+
+- Files based on `templates/`, with every `<placeholder>` either filled from the user's answers or listed as an open item.
+- A short list of what was verified on Microsoft Learn and what is an assumption.
+- The prerequisites the user (or the SAP Basis team) must complete, and the roles/permissions required.
+- Templates are syntax-checked but not yet validated end to end against a real SAP system: say so when handing them over and recommend testing in dev first.
 
 ## Specialist roles
 
@@ -45,7 +63,7 @@ Both agents get the same two MCP servers: `microsoft-learn` (official docs searc
 ## Knowledge base
 
 - `learning/` — study notes (SAP generative AI, Microsoft Azure). Use them as background; for SAP lessons, follow the rules in `README.md`.
-- `templates/` — reusable ADF JSON and Bicep templates. Placeholders use the form `<placeholder>`.
+- `templates/` — reusable Bicep, Data Factory JSON, Fabric, API Management, Microsoft Graph and GitHub Actions templates (index: `templates/README.md`). Placeholders use the form `<placeholder>`.
 - `docs/` — user-facing guides.
 
 ## Repository layout for multiple agents

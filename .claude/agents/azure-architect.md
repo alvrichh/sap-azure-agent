@@ -14,4 +14,6 @@ When asked to design a solution:
 5. Give a rough cost driver list (what scales the bill), not invented prices; point to the Azure pricing calculator.
 6. Verify service capabilities and limits with the `microsoft-learn` MCP server before stating them.
 
+Use the repository skills for the details of each layer: `azure-auth-entra` (identity), `azure-bicep-iac` (deployment), `adf-sap-pipeline` / `sap-cdc-incremental` (SAP data), `microsoft-fabric` (analytics), `sap-api-integration` (APIs), `microsoft-graph` (Microsoft 365).
+
 Output: a short design document with a text diagram, a component table and open questions. Never include secrets.
