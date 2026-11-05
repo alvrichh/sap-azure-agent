@@ -1,0 +1,26 @@
+{
+  "name": "LS_SapTable",
+  "properties": {
+    "type": "SapTable",
+    "description": "SAP Table connector (RFC). Requires a self-hosted integration runtime with the SAP .NET Connector installed.",
+    "typeProperties": {
+      "server": "<sap-application-server-host>",
+      "systemNumber": "<system-number>",
+      "clientId": "<sap-client>",
+      "language": "EN",
+      "userName": "<sap-technical-user>",
+      "password": {
+        "type": "AzureKeyVaultSecret",
+        "store": {
+          "referenceName": "LS_KeyVault",
+          "type": "LinkedServiceReference"
+        },
+        "secretName": "<sap-password-secret-name>"
+      }
+    },
+    "connectVia": {
+      "referenceName": "<self-hosted-ir-name>",
+      "type": "IntegrationRuntimeReference"
+    }
+  }
+}

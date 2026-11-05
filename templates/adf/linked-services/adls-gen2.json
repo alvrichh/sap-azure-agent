@@ -1,0 +1,10 @@
+{
+  "name": "LS_AdlsGen2",
+  "properties": {
+    "type": "AzureBlobFS",
+    "description": "ADLS Gen2 using the data factory system-assigned managed identity (grant it Storage Blob Data Contributor).",
+    "typeProperties": {
+      "url": "https://<storage-account-name>.dfs.core.windows.net/"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "name": "PL_Copy_SapTable_To_Adls",
+  "properties": {
+    "description": "Full copy of one SAP table into ADLS Gen2 as Parquet, partitioned by load date.",
+    "parameters": {
+      "tableName": { "type": "string", "defaultValue": "T001" },
+      "fileSystem": { "type": "string", "defaultValue": "raw" }
+    },
+    "activities": [
+      {
+        "name": "CopySapTable",
+        "type": "Copy",
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 60
+        },
+        "inputs": [
+          {
+            "referenceName": "DS_SapTable",
+            "type": "DatasetReference",
+            "parameters": {
+              "tableName": "@pipeline().parameters.tableName"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "DS_AdlsParquet",
+            "type": "DatasetReference",
+            "parameters": {
+              "fileSystem": "@pipeline().parameters.fileSystem",
+              "folderPath": "@concat('sap/', pipeline().parameters.tableName, '/load_date=', formatDateTime(utcNow(), 'yyyy-MM-dd'))"
+            }
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "SapTableSource",
+            "partitionOption": "None"
+          },
+          "sink": {
+            "type": "ParquetSink",
+            "storeSettings": {
+              "type": "AzureBlobFSWriteSettings"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

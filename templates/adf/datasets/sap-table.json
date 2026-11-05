@@ -1,0 +1,19 @@
+{
+  "name": "DS_SapTable",
+  "properties": {
+    "type": "SapTableResource",
+    "linkedServiceName": {
+      "referenceName": "LS_SapTable",
+      "type": "LinkedServiceReference"
+    },
+    "parameters": {
+      "tableName": { "type": "string" }
+    },
+    "typeProperties": {
+      "tableName": {
+        "value": "@dataset().tableName",
+        "type": "Expression"
+      }
+    }
+  }
+}

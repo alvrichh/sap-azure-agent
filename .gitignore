@@ -1,0 +1,12 @@
+# Secrets and local configuration: never commit credentials
+.env
+.env.*
+*.pfx
+*.pem
+*.key
+secrets/
+.claude/settings.local.json
+
+# Local tooling
+node_modules/
+.DS_Store
