@@ -31,8 +31,8 @@ jobs:
     if: inputs.action == 'export'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '8.0.x'
       - name: Install Power Platform CLI
@@ -44,7 +44,7 @@ jobs:
           pac solution export --name "$SOLUTION_NAME" --path out/solution.zip --overwrite
           pac solution unpack --zipfile out/solution.zip --folder "$SOLUTION_FOLDER" --packagetype Unmanaged --allowDelete
           pac solution create-settings --solution-folder "$SOLUTION_FOLDER" --settings-file out/settings.generated.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: unpacked-solution
           path: |
@@ -55,8 +55,8 @@ jobs:
     if: inputs.action == 'deploy'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '8.0.x'
       - name: Install Power Platform CLI
@@ -71,7 +71,7 @@ jobs:
         run: |
           pac auth create --githubFederated --tenant "${{ vars.PP_TENANT_ID }}" --applicationId "${{ vars.PP_APP_ID }}" --environment "${{ vars.PP_DEV_URL }}"
           pac solution check --path out/SapSalesAssistant_managed.zip --outputDirectory out/checker
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: managed-solution
           path: out/
@@ -81,12 +81,12 @@ jobs:
     runs-on: ubuntu-latest
     environment: powerplatform-test
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
         with:
           name: managed-solution
           path: out/
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '8.0.x'
       - run: dotnet tool install --global Microsoft.PowerApps.CLI.Tool
@@ -100,12 +100,12 @@ jobs:
     runs-on: ubuntu-latest
     environment: powerplatform-prod
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
         with:
           name: managed-solution
           path: out/
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '8.0.x'
       - run: dotnet tool install --global Microsoft.PowerApps.CLI.Tool
