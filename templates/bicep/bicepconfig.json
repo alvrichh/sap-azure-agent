@@ -1,0 +1,18 @@
+{
+  "analyzers": {
+    "core": {
+      "enabled": true,
+      "rules": {
+        "no-hardcoded-env-urls": { "level": "error" },
+        "secure-parameter-default": { "level": "error" },
+        "outputs-should-not-contain-secrets": { "level": "error" },
+        "use-secure-value-for-secure-inputs": { "level": "error" },
+        "no-unused-params": { "level": "warning" },
+        "no-unused-vars": { "level": "warning" },
+        "use-recognized-resource-type": { "level": "warning" },
+        "use-recent-module-versions": { "level": "warning" },
+        "use-description-outputs": { "level": "warning" }
+      }
+    }
+  }
+}

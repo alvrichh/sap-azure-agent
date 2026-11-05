@@ -8,6 +8,9 @@ param baseName string
 @description('Azure region.')
 param location string = resourceGroup().location
 
+@description('Tags applied to every resource (environment, workload, owner, cost center...).')
+param tags object = {}
+
 var factoryName = 'adf-${baseName}'
 var storageName = take('st${baseName}${uniqueString(resourceGroup().id)}', 24)
 var keyVaultName = take('kv-${baseName}-${uniqueString(resourceGroup().id)}', 24)
@@ -19,6 +22,7 @@ var keyVaultSecretsUser = '4633458b-17de-408a-b874-0445c86b69e6'
 resource factory 'Microsoft.DataFactory/factories@2018-06-01' = {
   name: factoryName
   location: location
+  tags: tags
   identity: {
     type: 'SystemAssigned'
   }
@@ -28,6 +32,7 @@ resource factory 'Microsoft.DataFactory/factories@2018-06-01' = {
 resource storage 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   name: storageName
   location: location
+  tags: tags
   sku: {
     name: 'Standard_LRS'
   }
@@ -53,6 +58,7 @@ resource rawContainer 'Microsoft.Storage/storageAccounts/blobServices/containers
 resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' = {
   name: keyVaultName
   location: location
+  tags: tags
   properties: {
     tenantId: subscription().tenantId
     sku: {
@@ -84,6 +90,9 @@ resource factoryKeyVaultRole 'Microsoft.Authorization/roleAssignments@2022-04-01
   }
 }
 
+@description('Name of the data factory.')
 output factoryName string = factory.name
+@description('Name of the ADLS Gen2 storage account.')
 output storageAccountName string = storage.name
+@description('Name of the Key Vault.')
 output keyVaultName string = keyVault.name

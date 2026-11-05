@@ -5,6 +5,9 @@ Reusable, parameterized templates. Replace every `<placeholder>`; never put secr
 | Path | What it is |
 | --- | --- |
 | `bicep/data-factory.bicep` | Data factory (managed identity), ADLS Gen2 with a `raw` container, Key Vault (RBAC), and role assignments. |
+| `bicep/bicepconfig.json` | Bicep linter configuration (security rules as errors). |
+| `bicep/params/data-factory.dev.bicepparam`, `bicep/params/data-factory.prod.bicepparam` | Per-environment parameters for `data-factory.bicep`. |
+| `github-actions/bicep-ci.yml` | Lint + what-if on pull requests, deploy on merge to main (OIDC). |
 | `bicep/github-oidc-identity.bicep` | User-assigned managed identity with a GitHub Actions federated credential (OIDC, no secrets) and a role assignment. |
 | `github-actions/azure-login-oidc.yml` | Example workflow: Azure login with OIDC and Bicep deployment. |
 | `adf/linked-services/key-vault.json` | Key Vault linked service used to resolve all secrets. |
@@ -22,5 +25,9 @@ Reusable, parameterized templates. Replace every `<placeholder>`; never put secr
 Deploy the Bicep template:
 
 ```bash
-az deployment group create --resource-group <resource-group> --template-file templates/bicep/data-factory.bicep --parameters baseName=<name>
+az deployment group what-if --resource-group <resource-group> --parameters templates/bicep/params/data-factory.dev.bicepparam
+```
+
+```bash
+az deployment group create --resource-group <resource-group> --parameters templates/bicep/params/data-factory.dev.bicepparam
 ```

@@ -1,0 +1,74 @@
+# Bicep CI/CD: lint + what-if on pull requests, deploy on merge to main.
+# Copy to .github/workflows/ in the target repository.
+# Requires OIDC federated credentials (templates/bicep/github-oidc-identity.bicep) for:
+#   repo:<org>/<repo>:pull_request          (what-if; Reader on the resource group is enough)
+#   repo:<org>/<repo>:environment:production (deploy; protect this environment with required reviewers)
+# Repository variables: AZURE_RESOURCE_GROUP. Secrets: AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID.
+
+name: bicep-ci
+
+on:
+  pull_request:
+    paths: ['templates/bicep/**']
+  push:
+    branches: [main]
+    paths: ['templates/bicep/**']
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  BICEP_FILE: templates/bicep/data-factory.bicep
+  PARAMS_FILE: templates/bicep/params/data-factory.prod.bicepparam
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lint and build (fails on linter errors)
+        run: |
+          az bicep install
+          az bicep lint --file "$BICEP_FILE"
+          az bicep build --file "$BICEP_FILE" --stdout > /dev/null
+          az bicep build-params --file "$PARAMS_FILE" --stdout > /dev/null
+
+      - name: Azure login (OIDC)
+        if: github.event_name == 'pull_request'
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: What-if (preview changes)
+        if: github.event_name == 'pull_request'
+        run: |
+          az deployment group what-if \
+            --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" \
+            --parameters "$PARAMS_FILE"
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: validate
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy
+        run: |
+          az deployment group create \
+            --name "bicep-${{ github.run_number }}" \
+            --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" \
+            --parameters "$PARAMS_FILE"
