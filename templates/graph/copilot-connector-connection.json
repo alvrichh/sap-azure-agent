@@ -1,0 +1,5 @@
+{
+  "id": "sapmaterials",
+  "name": "SAP materials",
+  "description": "Material master data from SAP S/4HANA (description, material group, plant availability) for Microsoft 365 Copilot and Microsoft Search."
+}

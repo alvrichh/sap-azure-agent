@@ -1,0 +1,11 @@
+{
+  "roles": ["write"],
+  "grantedToIdentities": [
+    {
+      "application": {
+        "id": "<application-client-id>",
+        "displayName": "<application-display-name>"
+      }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "baseType": "microsoft.graph.externalItem",
+  "properties": [
+    { "name": "title", "type": "String", "isSearchable": true, "isRetrievable": true, "labels": ["title"] },
+    { "name": "url", "type": "String", "isRetrievable": true, "labels": ["url"] },
+    { "name": "iconUrl", "type": "String", "isRetrievable": true, "labels": ["iconUrl"] },
+    { "name": "materialNumber", "type": "String", "isQueryable": true, "isRetrievable": true, "isExactMatchRequired": true },
+    { "name": "materialGroup", "type": "String", "isQueryable": true, "isRetrievable": true, "isRefinable": true },
+    { "name": "description", "type": "String", "isSearchable": true, "isRetrievable": true },
+    { "name": "lastModifiedDateTime", "type": "DateTime", "isQueryable": true, "isRetrievable": true, "labels": ["lastModifiedDateTime"] }
+  ]
+}
