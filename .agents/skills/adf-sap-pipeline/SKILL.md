@@ -21,19 +21,20 @@ Use together with the `azure-data-factory` skill. Always confirm connector suppo
 
 | Need | Typical connector |
 | --- | --- |
-| Incremental / delta extraction from S/4HANA or ECC (CDS views, extractors, SLT) | **SAP CDC** (ODP framework, used in mapping data flows) |
-| Full extraction of tables or views via RFC | **SAP Table** |
+| Incremental / delta extraction from S/4HANA or ECC (CDS views, extractors, SLT) | **SAP CDC** (ODP framework, used in mapping data flows) → `sap-cdc-incremental` skill, `templates/adf/linked-services/sap-cdc.json` |
+| Full extraction of tables or views via RFC | **SAP Table** → `templates/adf/linked-services/sap-table.json` |
 | Data from SAP BW via Open Hub destinations | **SAP BW Open Hub** |
 | BW queries / InfoCubes | **SAP BW (MDX)** |
 | Direct read from a HANA database | **SAP HANA** |
-| Data exposed via OData services (e.g. SAP Gateway, S/4HANA Cloud APIs) | **SAP ECC** / generic **OData** connector |
+| Data exposed via OData services (e.g. SAP Gateway, S/4HANA Cloud APIs) | **SAP ECC** / generic **OData** connector → `templates/adf/linked-services/sap-ecc-odata.json` (works with the Azure IR for public endpoints) |
 
 ## 3. Prerequisites
 
 - **Self-hosted integration runtime** on a Windows machine with network access to the SAP system (or to SAP Router / Cloud Connector setups as applicable).
 - **SAP client libraries** on the IR machine as required by the connector (for example SAP .NET Connector for RFC-based connectors, the HANA ODBC driver for SAP HANA). Check the exact versions in the connector docs.
 - **SAP technical user** with the minimum authorizations required by the connector (RFC, ODP, table read). Ask the SAP Basis team; document the roles granted.
-- **Secrets in Azure Key Vault**; the ADF managed identity needs `get`/`list` access to secrets.
+- **Secrets in Azure Key Vault** (RBAC mode); the ADF managed identity needs the *Key Vault Secrets User* role (granted by `templates/bicep/data-factory.bicep`).
+- **Fabric Data Factory** uses the **on-premises data gateway** instead of a self-hosted IR (see `microsoft-fabric`).
 
 ## 4. Reference architecture
 
@@ -65,3 +66,10 @@ Land raw data unchanged first (bronze), then curate (silver/gold). Partition by 
 - Running the IR on an undersized VM → slow throughput; scale up or add nodes.
 - Extracting with a dialog user instead of a technical user, or with excessive authorizations.
 - Licensing: confirm with SAP that the chosen extraction method is permitted under the customer's SAP license (especially direct database access and RFC table reads).
+
+## Related skills
+
+- `sap-cdc-incremental` — delta replication with ODP into Delta tables.
+- `microsoft-fabric` — landing SAP data in Fabric (shortcuts, connectors, Mirroring via SAP Datasphere).
+- `sap-api-integration` — transactional access (OData, RFC/BAPI/IDoc) instead of bulk extraction.
+- `azure-auth-entra`, `azure-bicep-iac`, `adf-cicd` — identities, infrastructure and release.
