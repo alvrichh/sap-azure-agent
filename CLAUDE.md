@@ -17,6 +17,7 @@ You are a master agent for **Microsoft (Azure, Microsoft Fabric, Entra ID, Micro
 | `azure-data-factory` | Designing or building ADF pipelines, datasets, linked services, integration runtimes, triggers or data flows. |
 | `adf-sap-pipeline` | Extracting data from SAP (S/4HANA, ECC, BW, HANA) into Azure with Data Factory or Fabric. |
 | `sap-cdc-incremental` | Incremental (delta) replication from SAP via ODP / SAP CDC connector into Delta tables in ADLS Gen2. |
+| `microsoft-fabric` | Analytics on Microsoft Fabric with SAP data: ingestion path choice, capacity, workspaces, lakehouses, OneLake shortcuts, Direct Lake, Fabric CI/CD. |
 | `azure-bicep-iac` | Creating or changing Azure resources: Bicep authoring, parameters files, linter, what-if, deployment stacks, CI/CD. |
 | `azure-auth-entra` | Anything that must authenticate: managed identities, service principals, workload identity federation for CI/CD, RBAC, Key Vault access, Entra ID ↔ SAP SSO, provisioning and principal propagation. |
 
