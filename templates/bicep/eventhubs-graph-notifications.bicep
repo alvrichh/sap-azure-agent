@@ -37,7 +37,7 @@ param tags object = {}
 var eventHubsDataSender = '2b629674-e913-4c01-ae53-ef4638d8f975'
 var eventHubsDataReceiver = 'a638d3c7-ab3a-418d-83e6-5f17a39d4fde'
 
-resource namespace 'Microsoft.EventHub/namespaces@2021-11-01' = {
+resource namespace 'Microsoft.EventHub/namespaces@2024-01-01' = {
   name: namespaceName
   location: location
   tags: tags
@@ -52,7 +52,7 @@ resource namespace 'Microsoft.EventHub/namespaces@2021-11-01' = {
   }
 }
 
-resource hub 'Microsoft.EventHub/namespaces/eventhubs@2021-11-01' = {
+resource hub 'Microsoft.EventHub/namespaces/eventhubs@2024-01-01' = {
   parent: namespace
   name: eventHubName
   properties: {
@@ -61,7 +61,7 @@ resource hub 'Microsoft.EventHub/namespaces/eventhubs@2021-11-01' = {
   }
 }
 
-resource consumerGroup 'Microsoft.EventHub/namespaces/eventhubs/consumergroups@2021-11-01' = {
+resource consumerGroup 'Microsoft.EventHub/namespaces/eventhubs/consumergroups@2024-01-01' = {
   parent: hub
   name: 'sap-approvals'
 }
