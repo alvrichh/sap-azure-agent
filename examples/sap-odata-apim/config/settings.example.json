@@ -1,0 +1,22 @@
+{
+  "_comment": "Non-secret values for the SAP OData + API Management test case. Copy to settings.json. Secrets live only in Key Vault.",
+  "authMode": "sandbox",
+  "azure": {
+    "tenantId": "<tenant-id>",
+    "subscriptionId": "<subscription-id>",
+    "resourceGroup": "rg-sapodata-dev",
+    "location": "westeurope",
+    "keyVaultName": "<key-vault-name>",
+    "apimName": "apim-sapodata-dev-<suffix>"
+  },
+  "entra": {
+    "apiAppId": "<api-app-registration-client-id>",
+    "apiAudience": "api://sap-odata-apim-test",
+    "roles": ["BusinessPartner.Read", "BusinessPartner.Write"]
+  },
+  "api": {
+    "apiId": "sap-business-partner",
+    "path": "sap/opu/odata/sap/API_BUSINESS_PARTNER",
+    "testBusinessPartner": "<business-partner-id-for-write-test>"
+  }
+}

@@ -1,0 +1,72 @@
+<!--
+  Policy for API "sap-business-partner" — option B: own S/4HANA (SAP Gateway), read and write.
+  Named values (created by templates/bicep/apim-sap-odata.bicep): entra-tenant-id, entra-api-audience,
+  sap-odata-service-root, sap-client, sap-user, sap-password (Key Vault).
+  Order: authenticate the caller → throttle → authorize writes → call SAP with a technical user (+ CSRF for writes).
+-->
+<policies>
+    <inbound>
+        <base />
+        <validate-azure-ad-token tenant-id="{{entra-tenant-id}}" output-token-variable-name="jwt">
+            <audiences>
+                <audience>{{entra-api-audience}}</audience>
+            </audiences>
+            <required-claims>
+                <claim name="roles" match="any">
+                    <value>BusinessPartner.Read</value>
+                    <value>BusinessPartner.Write</value>
+                </claim>
+            </required-claims>
+        </validate-azure-ad-token>
+        <rate-limit-by-key calls="60" renewal-period="60" counter-key="@(((Jwt)context.Variables[&quot;jwt&quot;]).Claims.GetValueOrDefault(&quot;oid&quot;, &quot;unknown&quot;))" />
+        <choose>
+            <when condition="@(context.Request.Method != &quot;GET&quot; &amp;&amp; context.Request.Method != &quot;HEAD&quot; &amp;&amp; !((Jwt)context.Variables[&quot;jwt&quot;]).Claims.GetValueOrDefault(&quot;roles&quot;, &quot;&quot;).Contains(&quot;BusinessPartner.Write&quot;))">
+                <return-response>
+                    <set-status code="403" reason="Forbidden" />
+                    <set-body>Write operations require the BusinessPartner.Write role.</set-body>
+                </return-response>
+            </when>
+        </choose>
+        <set-backend-service backend-id="sap-odata-backend" />
+        <set-header name="Authorization" exists-action="delete" />
+        <set-query-parameter name="sap-client" exists-action="override">
+            <value>{{sap-client}}</value>
+        </set-query-parameter>
+        <authentication-basic username="{{sap-user}}" password="{{sap-password}}" />
+        <choose>
+            <when condition="@(context.Request.Method != &quot;GET&quot; &amp;&amp; context.Request.Method != &quot;HEAD&quot;)">
+                <send-request mode="new" response-variable-name="csrfResponse" timeout="20" ignore-error="false">
+                    <set-url>@("{{sap-odata-service-root}}/?sap-client={{sap-client}}")</set-url>
+                    <set-method>HEAD</set-method>
+                    <set-header name="X-CSRF-Token" exists-action="override">
+                        <value>Fetch</value>
+                    </set-header>
+                    <authentication-basic username="{{sap-user}}" password="{{sap-password}}" />
+                </send-request>
+                <set-header name="X-CSRF-Token" exists-action="override">
+                    <value>@(((IResponse)context.Variables["csrfResponse"]).Headers.GetValueOrDefault("x-csrf-token", ""))</value>
+                </set-header>
+                <set-header name="Cookie" exists-action="override">
+                    <value>@{
+                        var response = (IResponse)context.Variables["csrfResponse"];
+                        string[] cookies;
+                        return response.Headers.TryGetValue("Set-Cookie", out cookies)
+                            ? string.Join("; ", cookies.Select(c => c.Split(';')[0]))
+                            : "";
+                    }</value>
+                </set-header>
+            </when>
+        </choose>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+        <set-header name="Set-Cookie" exists-action="delete" />
+        <set-header name="X-CSRF-Token" exists-action="delete" />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

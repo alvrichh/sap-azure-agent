@@ -19,6 +19,7 @@ Skill: [`azure-bicep-iac`](../.agents/skills/azure-bicep-iac/SKILL.md)
 | [`bicep/params/data-factory.dev.bicepparam`](bicep/params/data-factory.dev.bicepparam), [`bicep/params/data-factory.prod.bicepparam`](bicep/params/data-factory.prod.bicepparam) | Parameters per environment for `data-factory.bicep`. | `azure-bicep-iac` |
 | [`bicep/fabric-capacity.bicep`](bicep/fabric-capacity.bicep) | Microsoft Fabric capacity (F2–F2048) with administrators and tags. | `microsoft-fabric` |
 | [`bicep/params/fabric-capacity.dev.bicepparam`](bicep/params/fabric-capacity.dev.bicepparam) | Dev parameters for the Fabric capacity (F2). | `microsoft-fabric` |
+| [`bicep/apim-sap-odata.bicep`](bicep/apim-sap-odata.bicep) | API Management for SAP OData: system identity with Key Vault access, named values (Entra ID, SAP, Key Vault-backed secrets), SAP backend with TLS validation; `sandbox` or `s4hana` mode. | `sap-api-integration` |
 | [`bicep/github-oidc-identity.bicep`](bicep/github-oidc-identity.bicep) | User-assigned managed identity with a GitHub Actions federated credential (no secrets) and a role on the resource group. | `azure-auth-entra` |
 | [`bicep/bicepconfig.json`](bicep/bicepconfig.json) | Linter rules; security rules (hardcoded URLs, secure defaults, secrets in outputs) fail the build. | `azure-bicep-iac` |
 
@@ -116,5 +117,5 @@ Skill: [`microsoft-graph`](../.agents/skills/microsoft-graph/SKILL.md) · Usage:
 | --- | --- |
 | SAP table → data lake (full load) | `bicep/data-factory.bicep` → `adf/linked-services/key-vault.json`, `adls-gen2.json`, `sap-table.json` → `adf/datasets/sap-table.json`, `adls-parquet.json` → `adf/pipelines/copy-sap-table-to-adls.json` |
 | SAP delta → Delta tables → Fabric | `bicep/data-factory.bicep` → `adf/linked-services/key-vault.json`, `adls-gen2.json`, `sap-cdc.json` → `adf/datasets/adls-json.json` → `adf/control-files/sap-cdc-objects.json` → `adf/pipelines/sap-cdc-incremental-to-delta.json` → `bicep/fabric-capacity.bicep` → `fabric/shortcut-adls-delta.json` |
-| SAP OData as a secure API | `apim/sap-odata-csrf-policy.xml` (+ identity setup from `azure-auth-entra`) |
+| SAP OData as a secure API | `bicep/apim-sap-odata.bicep` → import OpenAPI → `apim/sap-odata-csrf-policy.xml` (+ identity setup from `azure-auth-entra`); worked example in `examples/sap-odata-apim/` |
 | Everything deployed by pipelines | `bicep/github-oidc-identity.bicep` → `github-actions/bicep-ci.yml` → `adf-cicd/package.json` + `github-actions/adf-cicd.yml` |

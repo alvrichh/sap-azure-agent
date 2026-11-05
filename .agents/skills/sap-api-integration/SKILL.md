@@ -31,15 +31,15 @@ Never expose SAP Gateway directly to the internet; put APIM (with WAF / Applicat
 
 ## 3. Expose SAP OData through Azure API Management
 
-1. Get the metadata: SAP Gateway client (`/IWFND/GW_CLIENT`), `https://<host>:<port>/sap/opu/odata/sap/<SERVICE>/$metadata`, or the Business Accelerator Hub. Activate services with `/IWFND/MAINT_SERVICE`.
-2. **Recommended**: convert the metadata to OpenAPI (Microsoft `odata-openapi-converter`) and import as **OpenAPI**; alternatively import directly as an **OData** API. Use the same URL suffix as the SAP service path.
-3. Create an APIM **backend** pointing to SAP (proper certificates; never disable chain validation in production).
+1. Deploy APIM with `templates/bicep/apim-sap-odata.bicep`: system identity with Key Vault access, Key Vault-backed named values and the SAP **backend** with TLS validation (never disable chain validation in production). Worked example with tests: `examples/sap-odata-apim/`.
+2. Get the metadata: SAP Gateway client (`/IWFND/GW_CLIENT`), `https://<host>:<port>/sap/opu/odata/sap/<SERVICE>/$metadata`, or the Business Accelerator Hub (which also offers the OpenAPI file). Activate services with `/IWFND/MAINT_SERVICE`.
+3. **Recommended**: convert the metadata to OpenAPI (Microsoft `odata-openapi-converter`) and import as **OpenAPI** (`az apim api import`); alternatively import directly as an **OData** API in the portal. Use the same URL suffix as the SAP service path.
 4. Apply policies — template `templates/apim/sap-odata-csrf-policy.xml`:
    - `sap-client` query parameter;
    - technical-user authentication from Key Vault-backed named values **or** SAP **principal propagation** (official APIM snippet) when each user must act with their own SAP authorizations (see `azure-auth-entra`);
    - **X-CSRF-Token fetch** before write operations (SAP Gateway rejects POST/PUT/PATCH/DELETE without it);
    - the `validate-odata-request` policy when imported as an OData API.
-5. Protect with Entra ID (validate-jwt / OAuth on APIM), rate limits, **Defender for APIs**. Manage APIs as code (APIOps).
+5. Protect with Entra ID (`validate-azure-ad-token` with audience and app roles), rate limits, **Defender for APIs**. Manage APIs as code (APIOps).
 
 ## 4. Consume SAP OData
 

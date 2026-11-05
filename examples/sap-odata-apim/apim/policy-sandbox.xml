@@ -1,0 +1,45 @@
+<!--
+  Policy for API "sap-business-partner" — option A: SAP Business Accelerator Hub sandbox (read-only).
+  Named values (created by templates/bicep/apim-sap-odata.bicep): entra-tenant-id, entra-api-audience,
+  sap-apikey (Key Vault).
+-->
+<policies>
+    <inbound>
+        <base />
+        <validate-azure-ad-token tenant-id="{{entra-tenant-id}}" output-token-variable-name="jwt">
+            <audiences>
+                <audience>{{entra-api-audience}}</audience>
+            </audiences>
+            <required-claims>
+                <claim name="roles" match="any">
+                    <value>BusinessPartner.Read</value>
+                    <value>BusinessPartner.Write</value>
+                </claim>
+            </required-claims>
+        </validate-azure-ad-token>
+        <rate-limit-by-key calls="60" renewal-period="60" counter-key="@(((Jwt)context.Variables[&quot;jwt&quot;]).Claims.GetValueOrDefault(&quot;oid&quot;, &quot;unknown&quot;))" />
+        <choose>
+            <when condition="@(context.Request.Method != &quot;GET&quot; &amp;&amp; context.Request.Method != &quot;HEAD&quot;)">
+                <return-response>
+                    <set-status code="405" reason="Method Not Allowed" />
+                    <set-body>The SAP sandbox is read-only.</set-body>
+                </return-response>
+            </when>
+        </choose>
+        <set-backend-service backend-id="sap-odata-backend" />
+        <set-header name="Authorization" exists-action="delete" />
+        <set-header name="APIKey" exists-action="override">
+            <value>{{sap-apikey}}</value>
+        </set-header>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+        <set-header name="Set-Cookie" exists-action="delete" />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

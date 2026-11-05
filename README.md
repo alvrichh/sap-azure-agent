@@ -67,7 +67,7 @@ Describe the outcome you want; you don't need to name the skill. Examples:
 - "Notify a Teams channel when a purchase order above 50,000 EUR is created in SAP."
 - "Configure GitHub Actions to deploy our Data Factory to test and production without secrets."
 
-More detail: [docs/getting-started.md](docs/getting-started.md). Complete worked example: [S/4HANA → Fabric test case](examples/s4hana-to-fabric/README.md).
+More detail: [docs/getting-started.md](docs/getting-started.md). Complete worked examples: [S/4HANA → Fabric](examples/s4hana-to-fabric/README.md) and [SAP OData behind API Management](examples/sap-odata-apim/README.md).
 
 ## How the agent works
 
@@ -106,7 +106,7 @@ All templates use `<placeholder>` values and contain **no secrets**. Index: [tem
 
 | Area | Files |
 | --- | --- |
-| Infrastructure (Bicep) | Data factory + ADLS Gen2 + Key Vault with RBAC, Fabric capacity, GitHub OIDC identity, linter config, parameters per environment |
+| Infrastructure (Bicep) | Data factory + ADLS Gen2 + Key Vault with RBAC, Fabric capacity, API Management for SAP OData, GitHub OIDC identity, linter config, parameters per environment |
 | Data Factory | Linked services (Key Vault, ADLS Gen2, SAP Table, SAP CDC, SAP OData), datasets, full-copy pipeline, metadata-driven SAP CDC pipeline and control file |
 | Fabric | OneLake shortcut to Delta tables |
 | API Management | SAP OData policy (sap-client, Key Vault credentials, CSRF token) |
@@ -141,7 +141,7 @@ Full rules: [AGENTS.md](AGENTS.md).
 | `.mcp.json`, `.codex/config.toml` | MCP server configuration for Claude Code and Codex. |
 | `templates/` | Bicep, ADF JSON, Fabric, APIM, Graph and GitHub Actions templates. |
 | `docs/` | User guides. |
-| `examples/` | End-to-end test cases with filled-in configuration, runbook, SQL checks and automated static tests (`examples/s4hana-to-fabric/`). |
+| `examples/` | End-to-end test cases with configuration, runbook, test cases and automated checks: `s4hana-to-fabric/` (data) and `sap-odata-apim/` (APIs). |
 | `.github/workflows/validate.yml` | CI: syntax of every template and the examples' static tests. |
 | `learning/` | Study notes used as background knowledge. |
 
@@ -155,7 +155,7 @@ Full rules: [AGENTS.md](AGENTS.md).
 
 ## Roadmap
 
-- Run the runtime test cases of `examples/s4hana-to-fabric` (TC-01…TC-14) against a real SAP dev/QA system and Azure subscription.
+- Run the runtime test cases of `examples/s4hana-to-fabric` (TC-01…TC-14) and `examples/sap-odata-apim` (TC-01…TC-11) against real SAP and Azure environments.
 
 ## Learning material
 
