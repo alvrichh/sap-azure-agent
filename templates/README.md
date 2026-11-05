@@ -5,6 +5,8 @@ Reusable, parameterized templates. Replace every `<placeholder>`; never put secr
 | Path | What it is |
 | --- | --- |
 | `bicep/data-factory.bicep` | Data factory (managed identity), ADLS Gen2 with a `raw` container, Key Vault (RBAC), and role assignments. |
+| `bicep/github-oidc-identity.bicep` | User-assigned managed identity with a GitHub Actions federated credential (OIDC, no secrets) and a role assignment. |
+| `github-actions/azure-login-oidc.yml` | Example workflow: Azure login with OIDC and Bicep deployment. |
 | `adf/linked-services/key-vault.json` | Key Vault linked service used to resolve all secrets. |
 | `adf/linked-services/sap-table.json` | SAP Table (RFC) connection through a self-hosted integration runtime. |
 | `adf/linked-services/adls-gen2.json` | ADLS Gen2 connection with managed identity. |

@@ -16,6 +16,7 @@ You are a master agent for **Microsoft (Azure, Microsoft Fabric, Entra ID, Micro
 | --- | --- |
 | `azure-data-factory` | Designing or building ADF pipelines, datasets, linked services, integration runtimes, triggers or data flows. |
 | `adf-sap-pipeline` | Extracting data from SAP (S/4HANA, ECC, BW, HANA) into Azure with Data Factory or Fabric. |
+| `azure-auth-entra` | Anything that must authenticate: managed identities, service principals, workload identity federation for CI/CD, RBAC, Key Vault access, Entra ID ↔ SAP SSO, provisioning and principal propagation. |
 
 ## Subagents
 
