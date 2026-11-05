@@ -2,13 +2,13 @@
 
 Learning lessons and info for LLM and AI developer tools.
 
-Repositorio de aprendizaje sobre SAP y Microsoft (Azure, Microsoft Learn): LLMs, IA generativa, integración de datos y su aplicación en SAP.
+Learning repository about SAP and Microsoft (Azure, Microsoft Learn): LLMs, generative AI, data integration, and how they apply to SAP.
 
-## Material disponible
+## Available material
 
-### SAP: IA generativa y LLMs
+### SAP: Generative AI and LLMs
 
-[Índice de lecciones: fundamentos de LLMs, estrategia de SAP e ingeniería de prompts](learning/sap-approach-to-large-language-models.md)
+[Lesson index: LLM fundamentals, SAP strategy, and prompt engineering](learning/sap-approach-to-large-language-models.md)
 
 - [Describing LLMs](learning/sap-generative-ai/01-describing-llms.md)
 - [Describing SAP's Generative AI Strategy](learning/sap-generative-ai/02-sap-generative-ai-strategy.md)
@@ -23,14 +23,16 @@ Repositorio de aprendizaje sobre SAP y Microsoft (Azure, Microsoft Learn): LLMs,
 
 ### Microsoft Azure
 
-[Índice de Microsoft Azure y Microsoft Learn](learning/microsoft-azure/README.md)
+[Microsoft Azure and Microsoft Learn index](learning/microsoft-azure/README.md)
 
-- [¿Qué es Azure Data Factory?](learning/microsoft-azure/data-factory/01-introduccion-azure-data-factory.md)
+- [What is Azure Data Factory?](learning/microsoft-azure/data-factory/01-azure-data-factory-introduction.md)
 
-## Criterio de conservación
+## Content guidelines
 
-Guardar y organizar el material aportado, las decisiones y las correcciones del usuario. Mantener las ideas provisionales como provisionales y distinguir las fuentes de las interpretaciones.
+All documentation in this repository is written in English.
 
-Para las lecciones de SAP, usar solo el texto aportado: ignorar los enlaces externos y no buscar información adicional en internet.
+Keep and organize the material provided by the user, along with the user's decisions and corrections. Keep provisional ideas marked as provisional, and separate sources from interpretations.
 
-Para la sección de Microsoft Azure sí se consultan las páginas públicas de Microsoft Learn, citando la URL y la fecha de consulta y marcando los complementos propios.
+For the SAP lessons, use only the text provided by the user: ignore external links and do not search the internet for additional information.
+
+For the Microsoft Azure section, public Microsoft Learn pages may be consulted. Cite the URL and the access date, and mark any additions of our own.
