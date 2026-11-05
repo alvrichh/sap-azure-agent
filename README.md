@@ -1,6 +1,6 @@
 # sap-azure-agent
 
-[![validate](https://github.com/alvrichh/sap-azure-agent/actions/workflows/validate.yml/badge.svg)](https://github.com/alvrichh/sap-azure-agent/actions/workflows/validate.yml)
+[![validate](https://github.com/alvrichh/sap-azure-agent/actions/workflows/validate.yml/badge.svg)](https://github.com/alvrichh/sap-azure-agent/actions/workflows/validate.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ![sap-azure-agent overview: you ask in Claude Code or Codex, the agent picks skills and checks Microsoft Learn and Azure, delivers reviewable code, and connects SAP securely with Azure, Fabric and Microsoft 365](docs/images/sap-azure-agent-overview.svg)
 
@@ -149,7 +149,8 @@ Full rules: [AGENTS.md](AGENTS.md).
 | `docs/` | User guides. |
 | `examples/` | End-to-end test cases with configuration, runbook, test cases and automated checks: `s4hana-to-fabric/` (data), `sap-odata-apim/` (APIs), `graph-teams-approvals/` (Microsoft 365) `logicapps-sap-rfc/` (RFC/BAPI) `logicapps-sap-idoc/` (IDoc) `adf-sap-to-snowflake/` (Snowflake) and `powerplatform-sap/` (Power Platform). |
 | `.env.example`, `scripts/check_env_example.py` | Template for local settings (no secrets) and the check that keeps it clean. |
-| `.github/workflows/validate.yml` | CI: syntax of every template and the examples' static checks and unit tests. |
+| `.github/workflows/validate.yml` | CI: syntax of every template, Bicep compilation and linter (`scripts/build_bicep.sh`), and the examples' static checks and unit tests. |
+| `LICENSE` | MIT license. |
 | `learning/` | Study notes used as background knowledge. |
 
 ## Contributing
@@ -192,3 +193,7 @@ Full rules: [AGENTS.md](AGENTS.md).
 - Keep and organize the material provided by the user, along with the user's decisions and corrections. Keep provisional ideas marked as provisional, and separate sources from interpretations.
 - SAP lessons: use only the text provided by the user; ignore external links and don't search the internet to complete them.
 - Microsoft Azure section: public Microsoft Learn pages may be consulted; cite the URL and access date, and mark any additions of our own.
+
+## License
+
+[MIT](LICENSE). The templates and examples are provided as is and haven't been validated end to end against real SAP systems: test them in a development environment first. SAP, Microsoft, Azure, Snowflake and other product names are trademarks of their respective owners; this project isn't affiliated with or endorsed by them.
