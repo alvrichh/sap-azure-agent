@@ -25,9 +25,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: '20.x'
 
@@ -45,7 +45,7 @@ jobs:
         run: |
           if [ -d "${{ vars.ADF_ROOT_FOLDER }}/cicd" ]; then cp ${{ vars.ADF_ROOT_FOLDER }}/cicd/*.parameters.json build/ArmTemplate/ 2>/dev/null || true; fi
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: adf-arm-template
           path: build/ArmTemplate
@@ -56,13 +56,13 @@ jobs:
     runs-on: ubuntu-latest
     environment: test
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: adf-arm-template
           path: arm
 
       - name: Azure login (OIDC)
-        uses: azure/login@v2
+        uses: azure/login@v3
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
@@ -70,7 +70,7 @@ jobs:
           enable-AzPSSession: true
 
       - name: Stop triggers, deploy, start triggers
-        uses: azure/powershell@v2
+        uses: azure/powershell@v3
         env:
           RG: ${{ vars.TEST_RESOURCE_GROUP }}
           DF: ${{ vars.TEST_FACTORY_NAME }}
@@ -97,13 +97,13 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: adf-arm-template
           path: arm
 
       - name: Azure login (OIDC)
-        uses: azure/login@v2
+        uses: azure/login@v3
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
@@ -111,7 +111,7 @@ jobs:
           enable-AzPSSession: true
 
       - name: Stop triggers, deploy, start triggers
-        uses: azure/powershell@v2
+        uses: azure/powershell@v3
         env:
           RG: ${{ vars.PROD_RESOURCE_GROUP }}
           DF: ${{ vars.PROD_FACTORY_NAME }}
