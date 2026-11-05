@@ -1,0 +1,46 @@
+# Creates (or updates) the GitHub Release for a version tag, using that version's section of CHANGELOG.md.
+# Runs when a tag vX.Y.Z is pushed, or on demand for an existing tag (Actions > release > Run workflow).
+# Versions below 1.0.0 are published as pre-releases (not yet validated end to end against real systems).
+name: release
+
+on:
+  push:
+    tags: ['v*.*.*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing tag to publish, e.g. v0.7.0
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ inputs.tag || github.ref_name }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      # Tag push: the tagged commit. Manual run: the branch it runs on (main), whose changelog lists every release.
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Extract release notes from CHANGELOG.md
+        run: |
+          python3 scripts/check_changelog.py
+          python3 scripts/release_notes.py "$TAG" > release-notes.md
+          cat release-notes.md
+
+      - name: Create or update the release
+        run: |
+          prerelease=""
+          [[ "$TAG" == v0.* ]] && prerelease="--prerelease"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release edit "$TAG" --title "$TAG" --notes-file release-notes.md $prerelease
+          else
+            gh release create "$TAG" --title "$TAG" --notes-file release-notes.md --verify-tag $prerelease
+          fi
