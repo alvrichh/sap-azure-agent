@@ -14,7 +14,7 @@ Versions stay below `1.0.0` until at least one test case has passed end to end a
 
 ### Added
 
-- Release workflow (`.github/workflows/release.yml`): pushing a tag `vX.Y.Z` publishes a GitHub Release with that version's changelog section (`scripts/release_notes.py`). Versions below 1.0.0 are marked as pre-releases.
+- Release workflow (`.github/workflows/release.yml`): pushing a tag `vX.Y.Z` publishes a GitHub Release with that version's changelog section (`scripts/release_notes.py`), and every push to `main` publishes releases for tags that don't have one yet. Versions below 1.0.0 are marked as pre-releases.
 
 ## [0.7.0] - 2026-11-05
 

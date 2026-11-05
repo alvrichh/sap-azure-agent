@@ -1,11 +1,15 @@
-# Creates (or updates) the GitHub Release for a version tag, using that version's section of CHANGELOG.md.
-# Runs when a tag vX.Y.Z is pushed, or on demand for an existing tag (Actions > release > Run workflow).
-# Versions below 1.0.0 are published as pre-releases (not yet validated end to end against real systems).
+# Publishes GitHub Releases from CHANGELOG.md.
+# - Tag push vX.Y.Z: creates (or updates) that release.
+# - Push to main: creates a release for every vX.Y.Z tag that doesn't have one yet (backfill; existing releases untouched).
+# - Manual run: creates or updates the release of the given existing tag.
+# Notes come from the version's section in the changelog on main. Versions below 1.0.0 are pre-releases
+# (not yet validated end to end against real systems).
 name: release
 
 on:
   push:
     tags: ['v*.*.*']
+    branches: [main]
   workflow_dispatch:
     inputs:
       tag:
@@ -15,32 +19,54 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: release
+  cancel-in-progress: false
+
 jobs:
   release:
     runs-on: ubuntu-latest
     env:
-      TAG: ${{ inputs.tag || github.ref_name }}
       GH_TOKEN: ${{ github.token }}
     steps:
-      # Tag push: the tagged commit. Manual run: the branch it runs on (main), whose changelog lists every release.
       - uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+          fetch-tags: true
 
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
-      - name: Extract release notes from CHANGELOG.md
-        run: |
-          python3 scripts/check_changelog.py
-          python3 scripts/release_notes.py "$TAG" > release-notes.md
-          cat release-notes.md
+      - name: Check the changelog
+        run: python3 scripts/check_changelog.py
 
-      - name: Create or update the release
+      - name: Publish releases
         run: |
-          prerelease=""
-          [[ "$TAG" == v0.* ]] && prerelease="--prerelease"
-          if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release edit "$TAG" --title "$TAG" --notes-file release-notes.md $prerelease
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            tags="${{ inputs.tag }}"; update=true
+          elif [[ "${{ github.ref_type }}" == "tag" ]]; then
+            tags="${{ github.ref_name }}"; update=true
           else
-            gh release create "$TAG" --title "$TAG" --notes-file release-notes.md --verify-tag $prerelease
+            tags=$(git tag --list 'v*.*.*' --sort=version:refname); update=false
           fi
+          for tag in $tags; do
+            exists=false
+            gh release view "$tag" >/dev/null 2>&1 && exists=true
+            if $exists && ! $update; then
+              echo "skip $tag (release exists)"
+              continue
+            fi
+            python3 scripts/release_notes.py "$tag" > notes.md
+            prerelease=""
+            [[ "$tag" == v0.* ]] && prerelease="--prerelease"
+            if $exists; then
+              gh release edit "$tag" --title "$tag" --notes-file notes.md $prerelease
+              echo "updated $tag"
+            else
+              gh release create "$tag" --title "$tag" --notes-file notes.md --verify-tag $prerelease
+              echo "created $tag"
+            fi
+          done
