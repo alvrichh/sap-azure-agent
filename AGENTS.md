@@ -73,6 +73,7 @@ Both agents get the same two MCP servers: `microsoft-learn` (official docs searc
   - `examples/logicapps-sap-idoc/` — Logic Apps Standard sending (ORDERS05, explicit TID) and receiving (DEBMAS) IDocs: `python3 examples/logicapps-sap-idoc/tests/validate_example.py` (needs `lxml`, `jsonschema`)
   - `examples/adf-sap-to-snowflake/` — SAP tables → ADLS → Snowflake with staged COPY (storage integration), row-count reconciliation and MERGE: `python3 examples/adf-sap-to-snowflake/tests/validate_example.py` (needs `duckdb`)
   - `examples/powerplatform-sap/` — Power Apps + Power Automate with the SAP ERP (BAPI via gateway) and SAP OData (via APIM, Entra ID) connectors, solution ALM with pac CLI and OIDC: `python3 examples/powerplatform-sap/tests/validate_example.py` (needs `pyyaml`)
+- `scripts/build_bicep.sh` — compiles every Bicep template and parameter file with the linter (needs the Azure CLI; also runs in CI). Run it after changing any `.bicep` or `.bicepparam` file.
 - `.env.example` — template of every non-secret setting (Azure, Microsoft 365, SAP hosts and URLs, Snowflake). Users copy it to `.env` (ignored by Git). Real secrets go to Key Vault; only their secret names appear in `.env`. Run `python3 scripts/check_env_example.py` after changing it, and add any new variable that a script or runbook reads.
 
 ## Repository layout for multiple agents

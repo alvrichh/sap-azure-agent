@@ -42,6 +42,9 @@ jobs:
           sys.exit(1 if bad else 0)
           PY
 
+      - name: Bicep templates and parameter files compile (linter errors fail)
+        run: bash scripts/build_bicep.sh
+
       - name: S/4HANA to Fabric test case (static checks)
         run: python3 examples/s4hana-to-fabric/tests/validate_example.py
 
