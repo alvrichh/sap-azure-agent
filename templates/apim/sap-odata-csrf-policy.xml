@@ -1,0 +1,56 @@
+<!--
+  Azure API Management policy for an SAP OData API (SAP Gateway / S/4HANA).
+  - Adds the sap-client query parameter.
+  - Authenticates to SAP with a technical user whose password is a Key Vault-backed named value.
+  - For write operations (POST/PUT/PATCH/MERGE/DELETE) fetches an X-CSRF-Token and session cookies
+    from SAP first, as SAP Gateway requires.
+  Named values required: sap-backend-id, sap-client, sap-odata-service-root, sap-user, sap-password (Key Vault reference).
+  For per-user access (principal propagation) replace authentication-basic with the official snippet:
+  https://github.com/Azure/api-management-policy-snippets/blob/master/examples/Request%20OAuth2%20access%20token%20from%20SAP%20using%20AAD%20JWT%20token.xml
+  Escaped XML: import with policy format 'xml' (not 'rawxml').
+  Template: validate it in a non-production APIM instance before use.
+-->
+<policies>
+    <inbound>
+        <base />
+        <set-backend-service backend-id="{{sap-backend-id}}" />
+        <set-query-parameter name="sap-client" exists-action="override">
+            <value>{{sap-client}}</value>
+        </set-query-parameter>
+        <authentication-basic username="{{sap-user}}" password="{{sap-password}}" />
+        <choose>
+            <when condition="@(context.Request.Method != &quot;GET&quot; &amp;&amp; context.Request.Method != &quot;HEAD&quot;)">
+                <send-request mode="new" response-variable-name="csrfResponse" timeout="20" ignore-error="false">
+                    <set-url>@("{{sap-odata-service-root}}/?sap-client={{sap-client}}")</set-url>
+                    <set-method>HEAD</set-method>
+                    <set-header name="X-CSRF-Token" exists-action="override">
+                        <value>Fetch</value>
+                    </set-header>
+                    <authentication-basic username="{{sap-user}}" password="{{sap-password}}" />
+                </send-request>
+                <set-header name="X-CSRF-Token" exists-action="override">
+                    <value>@(((IResponse)context.Variables["csrfResponse"]).Headers.GetValueOrDefault("x-csrf-token", ""))</value>
+                </set-header>
+                <set-header name="Cookie" exists-action="override">
+                    <value>@{
+                        var response = (IResponse)context.Variables["csrfResponse"];
+                        string[] cookies;
+                        return response.Headers.TryGetValue("Set-Cookie", out cookies)
+                            ? string.Join("; ", cookies.Select(c => c.Split(';')[0]))
+                            : "";
+                    }</value>
+                </set-header>
+            </when>
+        </choose>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+        <set-header name="Set-Cookie" exists-action="delete" />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

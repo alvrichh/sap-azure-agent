@@ -1,0 +1,23 @@
+{
+  "name": "LS_SapOData",
+  "properties": {
+    "type": "SapEcc",
+    "description": "SAP ECC / S/4HANA OData service via SAP Gateway (copy and lookup, basic authentication). Use the self-hosted IR for private networks or the Azure IR for public endpoints.",
+    "typeProperties": {
+      "url": "https://<sap-gateway-host>:<port>/sap/opu/odata/sap/<SERVICE_NAME>/",
+      "username": "<sap-technical-user>",
+      "password": {
+        "type": "AzureKeyVaultSecret",
+        "store": {
+          "referenceName": "LS_KeyVault",
+          "type": "LinkedServiceReference"
+        },
+        "secretName": "<sap-password-secret-name>"
+      }
+    },
+    "connectVia": {
+      "referenceName": "<self-hosted-ir-name>",
+      "type": "IntegrationRuntimeReference"
+    }
+  }
+}

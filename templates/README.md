@@ -20,6 +20,8 @@ Reusable, parameterized templates. Replace every `<placeholder>`; never put secr
 | `adf/datasets/adls-json.json` | JSON file dataset in ADLS Gen2 (control files). |
 | `adf/control-files/sap-cdc-objects.json` | Example control file: SAP objects to replicate incrementally. |
 | `adf/pipelines/sap-cdc-incremental-to-delta.json` | Metadata-driven SAP CDC pipeline (Lookup → ForEach → data flow) into Delta tables. |
+| `adf/linked-services/sap-ecc-odata.json`, `adf/datasets/sap-ecc-odata.json` | SAP OData service via SAP Gateway (`SapEcc` connector), parameterized entity set. |
+| `apim/sap-odata-csrf-policy.xml` | API Management policy for SAP OData: sap-client, Key Vault-backed auth, X-CSRF-Token fetch for writes. |
 | `adf/datasets/sap-table.json` | Parameterized SAP table dataset. |
 | `adf/datasets/adls-parquet.json` | Parameterized Parquet dataset in ADLS Gen2. |
 | `adf/pipelines/copy-sap-table-to-adls.json` | Full copy of one SAP table to ADLS, partitioned by load date. |
