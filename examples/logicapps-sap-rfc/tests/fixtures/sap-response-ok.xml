@@ -1,0 +1,11 @@
+<BAPI_MATERIAL_AVAILABILITYResponse xmlns="http://Microsoft.LobServices.Sap/2007/03/Rfc/">
+  <AV_QTY_PLT>125.000</AV_QTY_PLT>
+  <DIALOGFLAG></DIALOGFLAG>
+  <ENDLEADTME>20261120</ENDLEADTME>
+  <RETURN>
+    <TYPE xmlns="http://Microsoft.LobServices.Sap/2007/03/Types/Rfc/">S</TYPE>
+    <MESSAGE xmlns="http://Microsoft.LobServices.Sap/2007/03/Types/Rfc/"></MESSAGE>
+  </RETURN>
+  <WMDVEX/>
+  <WMDVSX/>
+</BAPI_MATERIAL_AVAILABILITYResponse>

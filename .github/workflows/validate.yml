@@ -50,3 +50,8 @@ jobs:
 
       - name: Microsoft Graph + Teams approvals test case (static checks and unit tests)
         run: python3 examples/graph-teams-approvals/tests/validate_example.py
+
+      - name: Logic Apps + SAP RFC test case (static checks and unit tests)
+        run: |
+          pip install --quiet lxml jsonschema
+          python3 examples/logicapps-sap-rfc/tests/validate_example.py

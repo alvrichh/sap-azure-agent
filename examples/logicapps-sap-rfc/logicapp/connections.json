@@ -1,0 +1,21 @@
+{
+  "serviceProviderConnections": {
+    "sap": {
+      "displayName": "sap-s4p-100",
+      "serviceProvider": {
+        "id": "/serviceProviders/sap"
+      },
+      "parameterValues": {
+        "client": "@appsetting('SAP_CLIENT')",
+        "authType": "Basic",
+        "userName": "@appsetting('SAP_USER')",
+        "password": "@appsetting('SAP_PASSWORD')",
+        "logonType": "ApplicationServer",
+        "appServerHost": "@appsetting('SAP_APPSERVER_HOST')",
+        "systemNumber": "@appsetting('SAP_SYSTEM_NUMBER')",
+        "language": "@appsetting('SAP_LANGUAGE')"
+      }
+    }
+  },
+  "managedApiConnections": {}
+}

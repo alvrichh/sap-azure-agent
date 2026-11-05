@@ -1,0 +1,8 @@
+<BAPI_MATERIAL_AVAILABILITYResponse xmlns="http://Microsoft.LobServices.Sap/2007/03/Rfc/">
+  <AV_QTY_PLT>12.000</AV_QTY_PLT>
+  <ENDLEADTME>20261203</ENDLEADTME>
+  <RETURN>
+    <TYPE xmlns="http://Microsoft.LobServices.Sap/2007/03/Types/Rfc/">W</TYPE>
+    <MESSAGE xmlns="http://Microsoft.LobServices.Sap/2007/03/Types/Rfc/">Checking rule not maintained, default used</MESSAGE>
+  </RETURN>
+</BAPI_MATERIAL_AVAILABILITYResponse>

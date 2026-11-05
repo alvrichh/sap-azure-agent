@@ -65,6 +65,8 @@ OData practicalities with SAP Gateway:
 
 Prefer the **built-in connector**. Use a dedicated RFC user with least authorizations; for BAPIs that change data enable **Auto Commit** or call `BAPI_TRANSACTION_COMMIT` explicitly.
 
+Infrastructure: `templates/bicep/logicapp-standard-sap.bicep` (64-bit, VNet integration, SAP password as Key Vault reference). Worked example with offline tests of the workflow JSON: `examples/logicapps-sap-rfc/`. Build RFC XML with `xml()` from a JSON object (values get escaped) and, inside `'…'` expression literals, use double quotes in XPath (`local-name()="X"`).
+
 ## 6. SAP BTP and Integration Suite with Azure
 
 - **Cloud Integration (CPI)** iFlows can call Azure services (Service Bus, Event Grid, Storage, APIM-fronted APIs) — keep credentials in the BTP keystore / Azure Key Vault, not in iFlows.
