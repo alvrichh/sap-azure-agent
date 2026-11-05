@@ -1,23 +1,23 @@
-# Microsoft Azure y Microsoft Learn
+# Microsoft Azure and Microsoft Learn
 
-Apuntes de estudio sobre el ecosistema Microsoft (Azure, Microsoft Fabric, Entra ID, etc.) y su relación con SAP.
+Study notes on the Microsoft ecosystem (Azure, Microsoft Fabric, Entra ID, etc.) and how it relates to SAP.
 
-## Rutas de estudio
+## Study paths
 
-| Área | Tema | Apuntes | Fuente |
+| Area | Topic | Notes | Source |
 | --- | --- | --- | --- |
-| Integración de datos | ¿Qué es Azure Data Factory? | [Apuntes](data-factory/01-introduccion-azure-data-factory.md) | [Microsoft Learn](https://learn.microsoft.com/es-es/azure/data-factory/introduction) |
+| Data integration | What is Azure Data Factory? | [Notes](data-factory/01-azure-data-factory-introduction.md) | [Microsoft Learn](https://learn.microsoft.com/en-us/azure/data-factory/introduction) |
 
-## Próximos temas sugeridos (Data Factory)
+## Suggested next topics (Data Factory)
 
-Siguientes artículos que recomienda la propia página de introducción:
+Follow-up articles recommended by the introduction page itself:
 
-- [Conjuntos de datos y servicios vinculados](https://learn.microsoft.com/es-es/azure/data-factory/concepts-datasets-linked-services)
-- [Canalizaciones y actividades](https://learn.microsoft.com/es-es/azure/data-factory/concepts-pipelines-activities)
-- [Integration runtime](https://learn.microsoft.com/es-es/azure/data-factory/concepts-integration-runtime)
-- [Mapeo de flujos de datos](https://learn.microsoft.com/es-es/azure/data-factory/concepts-data-flow-overview)
-- [Información general sobre los conectores de SAP](https://learn.microsoft.com/es-es/azure/data-factory/industry-sap-overview)
+- [Datasets and linked services](https://learn.microsoft.com/en-us/azure/data-factory/concepts-datasets-linked-services)
+- [Pipelines and activities](https://learn.microsoft.com/en-us/azure/data-factory/concepts-pipelines-activities)
+- [Integration runtime](https://learn.microsoft.com/en-us/azure/data-factory/concepts-integration-runtime)
+- [Mapping data flows](https://learn.microsoft.com/en-us/azure/data-factory/concepts-data-flow-overview)
+- [SAP connectors overview](https://learn.microsoft.com/en-us/azure/data-factory/industry-sap-overview)
 
-## Criterio para esta sección
+## Guidelines for this section
 
-A diferencia del material SAP aportado como texto, en esta sección sí se consultan las páginas públicas de Microsoft Learn. Cada archivo indica la URL de origen y la fecha de consulta, y separa el resumen de la fuente de los complementos o interpretaciones propias (marcados como tales).
+Unlike the SAP material provided as text, this section does consult public Microsoft Learn pages. Each file states the source URL and access date, and separates the summary of the source from our own additions or interpretations (marked as such).
