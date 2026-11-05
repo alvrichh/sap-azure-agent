@@ -49,6 +49,9 @@ resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
 }
 
 // Values to store as GitHub secrets/variables (identifiers, not credentials).
+@description('Client ID of the managed identity (GitHub secret AZURE_CLIENT_ID).')
 output AZURE_CLIENT_ID string = identity.properties.clientId
+@description('Tenant ID (GitHub secret AZURE_TENANT_ID).')
 output AZURE_TENANT_ID string = identity.properties.tenantId
+@description('Subscription ID (GitHub secret AZURE_SUBSCRIPTION_ID).')
 output AZURE_SUBSCRIPTION_ID string = subscription().subscriptionId

@@ -27,7 +27,7 @@ cd sap-azure-agent && claude
 Claude Code loads automatically:
 
 - `CLAUDE.md` — the agent's instructions and rules.
-- `.claude/skills/` — step-by-step skills (Azure Data Factory, SAP → Azure pipelines, SAP CDC incremental replication, Microsoft Entra ID authentication).
+- `.claude/skills/` — step-by-step skills (Azure Data Factory, SAP → Azure pipelines, SAP CDC incremental replication, Microsoft Entra ID authentication, Bicep infrastructure as code).
 - `.claude/agents/` — specialized subagents (Azure architect, SAP integration expert).
 - `.mcp.json` — MCP servers: **Microsoft Learn** (official docs search) and **Azure** (acts on your subscription with your `az login` credentials). Approve them when Claude Code asks.
 
@@ -35,7 +35,7 @@ Claude Code loads automatically:
 
 - "Design an architecture to load SAP S/4HANA sales data into Fabric daily."
 - "Create the ADF linked services and pipeline to copy table MARA to ADLS."
-- "Deploy `templates/bicep/data-factory.bicep` into resource group rg-data-dev."
+- "Preview and deploy `templates/bicep/params/data-factory.dev.bicepparam` into resource group rg-data-dev."
 - "What changed in the SAP CDC connector? Check Microsoft Learn."
 
 ## 4. Security
