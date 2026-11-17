@@ -92,6 +92,7 @@ Local settings: copy [`.env.example`](.env.example) to `.env` (ignored by Git) a
 | [`sap-cdc-incremental`](.agents/skills/sap-cdc-incremental/SKILL.md) | Delta replication via ODP with the SAP CDC connector into Delta tables: contexts, run modes, checkpoint keys, partitioning, ODQMON operations. |
 | [`microsoft-fabric`](.agents/skills/microsoft-fabric/SKILL.md) | SAP analytics on Fabric: ingestion path (ADF + shortcuts, Fabric connectors, Mirroring via Datasphere), capacity, lakehouses, Direct Lake. |
 | [`sap-api-integration`](.agents/skills/sap-api-integration/SKILL.md) | Transactional integration: SAP OData behind API Management, RFC/BAPI/IDoc with Logic Apps, Power Platform, SAP BTP / Integration Suite, connectivity. |
+| [`sap-ai-agents`](.agents/skills/sap-ai-agents/SKILL.md) | AI agents and copilots over SAP: Foundry and Copilot Studio tools, SAP OData as MCP tools through API Management, Joule ↔ Microsoft 365 Copilot, AI SDK for SAP ABAP. |
 | [`microsoft-graph`](.agents/skills/microsoft-graph/SKILL.md) | Microsoft 365 integration: Teams, Outlook, SharePoint, change notifications, least-privilege permissions, Copilot connectors for SAP data. |
 | [`azure-auth-entra`](.agents/skills/azure-auth-entra/SKILL.md) | Identity: managed identities, OIDC for CI/CD, RBAC, Key Vault, Entra ID ↔ SAP SSO, provisioning and principal propagation. |
 | [`azure-bicep-iac`](.agents/skills/azure-bicep-iac/SKILL.md) | Infrastructure as code: Bicep authoring, parameters per environment, linter, what-if, deployment stacks, CI/CD. |

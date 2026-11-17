@@ -39,7 +39,7 @@ claude
 Claude Code loads automatically:
 
 - `CLAUDE.md` → imports `AGENTS.md`: instructions, security rules and conventions.
-- `.claude/skills/` (→ `.agents/skills/`): the nine skills listed below.
+- `.claude/skills/` (→ `.agents/skills/`): the ten skills listed below.
 - `.claude/agents/`: subagents `azure-architect` and `sap-integration-expert`.
 - `.mcp.json`: MCP servers `microsoft-learn` and `azure`. Approve them when asked.
 
@@ -71,7 +71,7 @@ The specialist roles in `.claude/agents/` are plain Markdown: in Codex, ask it t
 
 Ask the agent:
 
-- "Which skills do you have in this repository?" → it should list the nine skills below.
+- "Which skills do you have in this repository?" → it should list the ten skills below.
 - "Search Microsoft Learn for the SAP CDC connector." → confirms the `microsoft-learn` MCP server.
 - "List my Azure resource groups." → confirms the `azure` MCP server and your `az login`.
 
@@ -93,6 +93,12 @@ You don't need to name a skill: describe the outcome and the agent picks it. The
 | Skill | What it does | Try asking |
 | --- | --- | --- |
 | [`microsoft-fabric`](../.agents/skills/microsoft-fabric/SKILL.md) | Chooses the SAP → Fabric path (ADF + OneLake shortcuts, Fabric connectors, Mirroring via SAP Datasphere, partners), capacity, workspaces, lakehouses, Direct Lake. | "We have SAP Datasphere: compare mirroring with our ADF SAP CDC pipeline for Fabric, and set up the winner." |
+
+### AI agents and copilots
+
+| Skill | What it does | Try asking |
+| --- | --- | --- |
+| [`sap-ai-agents`](../.agents/skills/sap-ai-agents/SKILL.md) | Chooses between Joule ↔ Microsoft 365 Copilot, Copilot Studio, Foundry Agent Service, the AI SDK for SAP ABAP and Logic Apps agents; exposes SAP OData APIs in API Management as MCP tools with Entra ID, human approval for writes and AI gateway limits. | "Build a Teams agent that answers purchase order status from S/4HANA and asks for approval before releasing a PO." |
 
 ### Applications and Microsoft 365
 

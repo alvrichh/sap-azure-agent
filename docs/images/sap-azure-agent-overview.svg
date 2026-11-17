@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="820" viewBox="0 0 1280 820" font-family="Segoe UI, -apple-system, Helvetica, Arial, sans-serif" role="img" aria-labelledby="title desc">
   <title id="title">sap-azure-agent overview</title>
-  <desc id="desc">You describe the goal to Claude Code or OpenAI Codex. The agent reads AGENTS.md, picks one of nine skills, checks Microsoft Learn and your Azure context through MCP, and delivers reviewable infrastructure as code, pipelines, API policies and workflows that connect SAP with Azure, Microsoft Fabric and Microsoft 365. Seven end-to-end test cases and CI check the templates.</desc>
+  <desc id="desc">You describe the goal to Claude Code or OpenAI Codex. The agent reads AGENTS.md, picks one of ten skills, checks Microsoft Learn and your Azure context through MCP, and delivers reviewable infrastructure as code, pipelines, API policies and workflows that connect SAP with Azure, Microsoft Fabric and Microsoft 365. Seven end-to-end test cases and CI check the templates.</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M0,0 L10,5 L0,10 z" fill="#5b6b7f"/>

@@ -14,6 +14,7 @@ Versions stay below `1.0.0` until at least one test case has passed end to end a
 
 ### Added
 
+- Skill `sap-ai-agents`: AI agents and copilots over SAP. Covers choosing between Joule ↔ Microsoft 365 Copilot, Copilot Studio, Microsoft Foundry Agent Service, the Microsoft AI SDK for SAP ABAP and Logic Apps agent workflows; exposing the SAP OData API in API Management as an MCP server; identity (principal propagation for writes), tool design with human approval for write tools, prompt-injection, cost and licensing guidance.
 - Release workflow (`.github/workflows/release.yml`): pushing a tag `vX.Y.Z` publishes a GitHub Release with that version's changelog section (`scripts/release_notes.py`), and every push to `main` publishes releases for tags that don't have one yet. Versions below 1.0.0 are marked as pre-releases.
 
 ## [0.7.0] - 2026-11-05

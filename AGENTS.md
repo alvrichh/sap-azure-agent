@@ -22,6 +22,7 @@ You are a master agent for **Microsoft (Azure, Microsoft Fabric, Entra ID, Micro
 | Data integration | `adf-cicd` | CI/CD for Data Factory content: validate/export with the ADF npm package, parameterization, trigger handling, GitHub Actions or Azure DevOps deployment. |
 | Analytics | `microsoft-fabric` | Analytics on Microsoft Fabric with SAP data: ingestion path choice, capacity, workspaces, lakehouses, OneLake shortcuts, Direct Lake, Fabric CI/CD. |
 | Applications | `sap-api-integration` | Transactional / near-real-time integration with SAP: OData via API Management, RFC/BAPI/IDoc via Logic Apps, Power Platform, SAP BTP / Integration Suite, connectivity. |
+| AI | `sap-ai-agents` | AI agents and copilots over SAP: Foundry Agent Service and Copilot Studio tools, SAP OData exposed as MCP tools through API Management, Joule ↔ Microsoft 365 Copilot, Microsoft AI SDK for SAP ABAP, Logic Apps agent workflows. |
 | Microsoft 365 | `microsoft-graph` | Microsoft 365 integration via Graph: Teams, Outlook, SharePoint/OneDrive, change notifications, least-privilege permissions, Copilot connectors for SAP data. |
 | Foundations | `azure-auth-entra` | Anything that must authenticate: managed identities, service principals, workload identity federation for CI/CD, RBAC, Key Vault access, Entra ID ↔ SAP SSO, provisioning and principal propagation. |
 | Foundations | `azure-bicep-iac` | Creating or changing Azure resources: Bicep authoring, parameters files, linter, what-if, deployment stacks, CI/CD. |
@@ -34,7 +35,7 @@ Most real requests combine skills. Work in this order and read each skill before
 2. Identities and permissions → `azure-auth-entra`.
 3. Azure resources → `azure-bicep-iac`.
 4. Data movement → `adf-sap-pipeline` / `sap-cdc-incremental` (built on `azure-data-factory`), or APIs → `sap-api-integration`.
-5. Consumption → `microsoft-fabric` (analytics) and/or `microsoft-graph` (Microsoft 365).
+5. Consumption → `microsoft-fabric` (analytics), `microsoft-graph` (Microsoft 365) and/or `sap-ai-agents` (agents and copilots on top of the APIs or data).
 6. Release → `adf-cicd` and the CI/CD sections of `azure-bicep-iac`.
 
 ## What to deliver
