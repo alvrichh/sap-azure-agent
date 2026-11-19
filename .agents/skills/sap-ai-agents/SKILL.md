@@ -30,10 +30,10 @@ User ─► Teams / Microsoft 365 Copilot / web app
 ```
 
 1. Build and secure the SAP OData API in APIM first, with `templates/bicep/apim-sap-odata.bicep`, `templates/apim/sap-odata-csrf-policy.xml` and `examples/sap-odata-apim/`. The agent work starts only when that API passes its tests.
-2. In APIM, create an MCP server from that REST API (**APIs → MCP servers → Expose an API as an MCP server**) and select only the operations the agent needs. Limits to state to the user:
+2. In APIM, create an MCP server from that REST API and select only the operations the agent needs: `templates/bicep/apim-mcp-server.bicep` (API version `2025-09-01-preview`, one `apis/tools` resource per operation) with the MCP-scope policy `templates/apim/mcp-server-policy.xml`, or in the portal **APIs → MCP servers → Expose an API as an MCP server**. Prefer a small **read-only facade API** with narrow, well-described operations over the generated OData API. Worked example with tests: `examples/foundry-sap-po-agent/`. Limits to state to the user:
    - APIM MCP servers built from REST APIs expose **tools only**, not MCP resources or prompts.
-   - Only HTTP APIs can be exposed, and only in the tiers the feature supports (check Developer, Basic/Basic v2, Standard/Standard v2, Premium/Premium v2 on Microsoft Learn).
-   - MCP servers can also be managed with Bicep, ARM, REST, the Azure CLI or Terraform; prefer IaC and verify the resource type and API version before writing it.
+   - Only HTTP APIs can be exposed; tiers: Developer, Basic, Basic v2, Standard, Standard v2, Premium, Premium v2; not in workspaces.
+   - If global diagnostics log the frontend response body, set its payload bytes to 0, and never read `context.Response.Body` in MCP policies: both break MCP streaming.
 3. Add the MCP endpoint (or the OpenAPI document of the same API) as a tool:
    - **Foundry** (`mcp` tool with `server_label` and `server_url`; remote endpoints only):
      - Store credentials in a **project connection**, never in code. Auth types: `none`, `custom-keys`, `agentic-identity` (the agent's Entra identity), `project-managed-identity`, `oauth2`, and `user-entra-token` (the caller's Entra token passed through). For SAP data use `user-entra-token` or OAuth identity passthrough, so APIM can apply principal propagation.

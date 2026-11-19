@@ -14,6 +14,9 @@ Versions stay below `1.0.0` until at least one test case has passed end to end a
 
 ### Added
 
+- Test case `examples/foundry-sap-po-agent`. A Microsoft Foundry prompt agent answers questions about SAP purchase orders (`API_PURCHASEORDER_PROCESS_SRV`) through two read-only MCP tools. The tools are operations of a facade API in API Management, exposed as an MCP server and protected with Entra ID and an app role. Includes input validation in the policy, explicit `allowed_tools` and approvals, an evaluation set, runtime MCP tests (TC-01…TC-11) and static checks in CI.
+- Template `templates/bicep/apim-mcp-server.bicep`: exposes operations of a REST API in API Management as an MCP server, one tool per operation (API version `2025-09-01-preview`).
+- Template `templates/apim/mcp-server-policy.xml`: MCP-server-scope policy with Entra ID token and app role, per-caller rate limit and trace.
 - Skill `sap-ai-agents`: AI agents and copilots over SAP. Covers choosing between Joule ↔ Microsoft 365 Copilot, Copilot Studio, Microsoft Foundry Agent Service, the Microsoft AI SDK for SAP ABAP and Logic Apps agent workflows; exposing the SAP OData API in API Management as an MCP server; identity (principal propagation for writes), tool design with human approval for write tools, prompt-injection, cost and licensing guidance.
 - Release workflow (`.github/workflows/release.yml`): pushing a tag `vX.Y.Z` publishes a GitHub Release with that version's changelog section (`scripts/release_notes.py`), and every push to `main` publishes releases for tags that don't have one yet. Versions below 1.0.0 are marked as pre-releases.
 

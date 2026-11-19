@@ -1,0 +1,33 @@
+{
+  "_comment": "Non-secret values for the Foundry SAP purchase order agent test case. Copy to settings.json (ignored by Git). Secrets live only in Key Vault; tokens come from az login.",
+  "authMode": "sandbox",
+  "azure": {
+    "tenantId": "<tenant-id>",
+    "subscriptionId": "<subscription-id>",
+    "resourceGroup": "rg-sappo-dev",
+    "location": "swedencentral",
+    "keyVaultName": "<key-vault-name>",
+    "apimName": "apim-sappo-dev-<suffix>"
+  },
+  "entra": {
+    "apiAppId": "<api-app-registration-client-id>",
+    "apiAudience": "api://sap-po-agent",
+    "appRole": "PurchaseOrder.Read"
+  },
+  "mcp": {
+    "serverLabel": "sap-purchase-orders",
+    "serverUrl": "https://apim-sappo-dev-<suffix>.azure-api.net/sap-po-mcp/mcp",
+    "tools": ["get_purchase_order_status", "list_supplier_purchase_orders"],
+    "readOnlyTools": ["get_purchase_order_status", "list_supplier_purchase_orders"]
+  },
+  "foundry": {
+    "projectEndpoint": "https://<foundry-resource>.services.ai.azure.com/api/projects/<project-name>",
+    "modelDeployment": "<model-deployment-name>",
+    "agentName": "sap-po-agent",
+    "mcpConnectionName": "sap-po-mcp-connection"
+  },
+  "test": {
+    "purchaseOrder": "<existing-purchase-order-number>",
+    "supplier": "<existing-supplier-number>"
+  }
+}

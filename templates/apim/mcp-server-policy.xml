@@ -1,0 +1,38 @@
+<!--
+  MCP-server-scope policy for SAP tools exposed through API Management (templates/bicep/apim-mcp-server.bicep).
+  Applies to every tool of the server, before the backing API's own policy.
+  Named values (created by templates/bicep/apim-sap-odata.bicep): entra-tenant-id, entra-api-audience.
+  __APP_ROLE__ is replaced at deployment with the app role an agent or user needs (e.g. PurchaseOrder.Read).
+  Rules: never read context.Response.Body here (breaks MCP streaming); don't remove the Authorization
+  header here, so the backing API can validate the same token.
+-->
+<policies>
+    <inbound>
+        <base />
+        <validate-azure-ad-token tenant-id="{{entra-tenant-id}}" output-token-variable-name="jwt">
+            <audiences>
+                <audience>{{entra-api-audience}}</audience>
+            </audiences>
+            <required-claims>
+                <claim name="roles" match="any">
+                    <value>__APP_ROLE__</value>
+                </claim>
+            </required-claims>
+        </validate-azure-ad-token>
+        <rate-limit-by-key calls="30" renewal-period="60" counter-key="@(((Jwt)context.Variables[&quot;jwt&quot;]).Claims.GetValueOrDefault(&quot;oid&quot;, &quot;unknown&quot;))" />
+        <trace source="sap-mcp" severity="information">
+            <message>MCP tool call</message>
+            <metadata name="caller-oid" value="@(((Jwt)context.Variables[&quot;jwt&quot;]).Claims.GetValueOrDefault(&quot;oid&quot;, &quot;unknown&quot;))" />
+            <metadata name="caller-app" value="@(((Jwt)context.Variables[&quot;jwt&quot;]).Claims.GetValueOrDefault(&quot;azp&quot;, &quot;unknown&quot;))" />
+        </trace>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

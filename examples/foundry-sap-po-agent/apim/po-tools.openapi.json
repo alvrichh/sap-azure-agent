@@ -1,0 +1,130 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "SAP purchase order tools",
+    "version": "1.0.0",
+    "description": "Read-only facade over the SAP OData service API_PURCHASEORDER_PROCESS_SRV, designed as agent tools: narrow operations, validated inputs, compact responses. The API policy maps each operation to an OData request with $select, $filter and a capped $top."
+  },
+  "paths": {
+    "/purchase-orders/{purchaseOrder}": {
+      "get": {
+        "operationId": "get-purchase-order-status",
+        "summary": "Get the status of one SAP purchase order",
+        "description": "Returns the header of one purchase order: supplier, company code, type, date, currency, processing status and whether release (approval) is still pending. Use it when the user gives a purchase order number. Read-only.",
+        "parameters": [
+          {
+            "name": "purchaseOrder",
+            "in": "path",
+            "required": true,
+            "description": "SAP purchase order number, digits only, up to 10 characters, e.g. 4500000001.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]{1,10}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Purchase order header (OData v2 JSON, wrapped in d).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurchaseOrderResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid purchase order number."
+          },
+          "404": {
+            "description": "Purchase order not found in SAP."
+          }
+        }
+      }
+    },
+    "/suppliers/{supplier}/purchase-orders": {
+      "get": {
+        "operationId": "list-supplier-purchase-orders",
+        "summary": "List the most recent purchase orders of one SAP supplier",
+        "description": "Returns the latest purchase orders of a supplier, newest first, with their status. Use it when the user asks about a supplier, not about one specific order. Read-only; at most 20 rows.",
+        "parameters": [
+          {
+            "name": "supplier",
+            "in": "path",
+            "required": true,
+            "description": "SAP supplier (business partner) number, letters and digits only, up to 10 characters, e.g. 17300001.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9]{1,10}$"
+            }
+          },
+          {
+            "name": "top",
+            "in": "query",
+            "required": false,
+            "description": "Number of purchase orders to return, 1 to 20. Default 10.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20,
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Purchase order headers (OData v2 JSON, wrapped in d.results).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurchaseOrderListResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid supplier or top."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PurchaseOrder": {
+        "type": "object",
+        "properties": {
+          "PurchaseOrder": { "type": "string", "description": "Purchase order number." },
+          "Supplier": { "type": "string", "description": "Supplier number." },
+          "CompanyCode": { "type": "string", "description": "Company code." },
+          "PurchaseOrderType": { "type": "string", "description": "Purchase order type, e.g. NB." },
+          "PurchaseOrderDate": { "type": "string", "description": "Order date (OData v2 date literal)." },
+          "DocumentCurrency": { "type": "string", "description": "Currency key." },
+          "PurchasingProcessingStatus": { "type": "string", "description": "Processing status code." },
+          "ReleaseIsNotCompleted": { "type": "boolean", "description": "True while release (approval) is still pending." }
+        }
+      },
+      "PurchaseOrderResult": {
+        "type": "object",
+        "properties": {
+          "d": { "$ref": "#/components/schemas/PurchaseOrder" }
+        }
+      },
+      "PurchaseOrderListResult": {
+        "type": "object",
+        "properties": {
+          "d": {
+            "type": "object",
+            "properties": {
+              "results": {
+                "type": "array",
+                "items": { "$ref": "#/components/schemas/PurchaseOrder" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,82 @@
+<!--
+  Policy for API "sap-po-tools" (facade over API_PURCHASEORDER_PROCESS_SRV) — option A: SAP Business Accelerator Hub sandbox.
+  Read-only. Each operation is mapped to one OData request with $select, $filter and a capped $top.
+  Named values (created by templates/bicep/apim-sap-odata.bicep): entra-tenant-id, entra-api-audience, sap-apikey (Key Vault).
+  Inputs are validated here as well as in the OpenAPI schema: the model is not trusted to respect the schema.
+-->
+<policies>
+    <inbound>
+        <base />
+        <validate-azure-ad-token tenant-id="{{entra-tenant-id}}" output-token-variable-name="jwt">
+            <audiences>
+                <audience>{{entra-api-audience}}</audience>
+            </audiences>
+            <required-claims>
+                <claim name="roles" match="any">
+                    <value>PurchaseOrder.Read</value>
+                </claim>
+            </required-claims>
+        </validate-azure-ad-token>
+        <rate-limit-by-key calls="30" renewal-period="60" counter-key="@(((Jwt)context.Variables[&quot;jwt&quot;]).Claims.GetValueOrDefault(&quot;oid&quot;, &quot;unknown&quot;))" />
+        <choose>
+            <when condition="@(context.Request.Method != &quot;GET&quot;)">
+                <return-response>
+                    <set-status code="405" reason="Method Not Allowed" />
+                    <set-body>These SAP tools are read-only.</set-body>
+                </return-response>
+            </when>
+        </choose>
+        <set-variable name="op" value="@(context.Operation.Id)" />
+        <set-variable name="purchaseOrder" value="@(context.Request.MatchedParameters.GetValueOrDefault(&quot;purchaseOrder&quot;, &quot;&quot;))" />
+        <set-variable name="supplier" value="@(context.Request.MatchedParameters.GetValueOrDefault(&quot;supplier&quot;, &quot;&quot;))" />
+        <set-variable name="top" value="@{ int t; var raw = context.Request.Url.Query.GetValueOrDefault(&quot;top&quot;, &quot;10&quot;); return int.TryParse(raw, out t) ? t : -1; }" />
+        <choose>
+            <when condition="@((string)context.Variables[&quot;op&quot;] == &quot;get-purchase-order-status&quot; &amp;&amp; !System.Text.RegularExpressions.Regex.IsMatch((string)context.Variables[&quot;purchaseOrder&quot;], &quot;^[0-9]{1,10}$&quot;))">
+                <return-response>
+                    <set-status code="400" reason="Bad Request" />
+                    <set-body>purchaseOrder must be 1 to 10 digits.</set-body>
+                </return-response>
+            </when>
+            <when condition="@((string)context.Variables[&quot;op&quot;] == &quot;list-supplier-purchase-orders&quot; &amp;&amp; (!System.Text.RegularExpressions.Regex.IsMatch((string)context.Variables[&quot;supplier&quot;], &quot;^[A-Za-z0-9]{1,10}$&quot;) || (int)context.Variables[&quot;top&quot;] &lt; 1 || (int)context.Variables[&quot;top&quot;] &gt; 20))">
+                <return-response>
+                    <set-status code="400" reason="Bad Request" />
+                    <set-body>supplier must be 1 to 10 letters or digits and top between 1 and 20.</set-body>
+                </return-response>
+            </when>
+        </choose>
+        <set-variable name="select" value="PurchaseOrder,Supplier,CompanyCode,PurchaseOrderType,PurchaseOrderDate,DocumentCurrency,PurchasingProcessingStatus,ReleaseIsNotCompleted" />
+        <choose>
+            <when condition="@((string)context.Variables[&quot;op&quot;] == &quot;get-purchase-order-status&quot;)">
+                <rewrite-uri template="@(&quot;/A_PurchaseOrder('&quot; + (string)context.Variables[&quot;purchaseOrder&quot;] + &quot;')?$select=&quot; + (string)context.Variables[&quot;select&quot;])" copy-unmatched-params="false" />
+            </when>
+            <when condition="@((string)context.Variables[&quot;op&quot;] == &quot;list-supplier-purchase-orders&quot;)">
+                <rewrite-uri template="@(&quot;/A_PurchaseOrder?$filter=Supplier%20eq%20'&quot; + Uri.EscapeDataString(((string)context.Variables[&quot;supplier&quot;]).Replace(&quot;'&quot;, &quot;''&quot;)) + &quot;'&amp;$orderby=PurchaseOrderDate%20desc&amp;$top=&quot; + ((int)context.Variables[&quot;top&quot;]).ToString() + &quot;&amp;$select=&quot; + (string)context.Variables[&quot;select&quot;])" copy-unmatched-params="false" />
+            </when>
+            <otherwise>
+                <return-response>
+                    <set-status code="404" reason="Not Found" />
+                    <set-body>Unknown operation.</set-body>
+                </return-response>
+            </otherwise>
+        </choose>
+        <set-backend-service backend-id="sap-odata-backend" />
+        <set-header name="Accept" exists-action="override">
+            <value>application/json</value>
+        </set-header>
+        <set-header name="Authorization" exists-action="delete" />
+        <set-header name="APIKey" exists-action="override">
+            <value>{{sap-apikey}}</value>
+        </set-header>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+        <set-header name="Set-Cookie" exists-action="delete" />
+        <set-header name="X-CSRF-Token" exists-action="delete" />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

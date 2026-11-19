@@ -73,5 +73,8 @@ jobs:
       - name: SAP with Power Platform test case (static checks and unit tests)
         run: python3 examples/powerplatform-sap/tests/validate_example.py
 
+      - name: Foundry agent over SAP purchase orders test case (static checks and unit tests)
+        run: python3 examples/foundry-sap-po-agent/tests/validate_example.py
+
       - name: Local settings template has no secrets (.env.example)
         run: python3 scripts/check_env_example.py

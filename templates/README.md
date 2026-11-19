@@ -20,6 +20,7 @@ Skill: [`azure-bicep-iac`](../.agents/skills/azure-bicep-iac/SKILL.md)
 | [`bicep/fabric-capacity.bicep`](bicep/fabric-capacity.bicep) | Microsoft Fabric capacity (F2–F2048) with administrators and tags. | `microsoft-fabric` |
 | [`bicep/params/fabric-capacity.dev.bicepparam`](bicep/params/fabric-capacity.dev.bicepparam) | Dev parameters for the Fabric capacity (F2). | `microsoft-fabric` |
 | [`bicep/apim-sap-odata.bicep`](bicep/apim-sap-odata.bicep) | API Management for SAP OData: system identity with Key Vault access, named values (Entra ID, SAP, Key Vault-backed secrets), SAP backend with TLS validation; `sandbox` or `s4hana` mode. | `sap-api-integration` |
+| [`bicep/apim-mcp-server.bicep`](bicep/apim-mcp-server.bicep) | Exposes operations of a REST API already in API Management as an MCP server (one tool per operation), with an optional MCP-scope policy. API version `2025-09-01-preview`. | `sap-ai-agents` |
 | [`bicep/github-oidc-identity.bicep`](bicep/github-oidc-identity.bicep) | User-assigned managed identity with a GitHub Actions federated credential (no secrets) and a role on the resource group. | `azure-auth-entra` |
 | [`bicep/bicepconfig.json`](bicep/bicepconfig.json) | Linter rules; security rules (hardcoded URLs, secure defaults, secrets in outputs) fail the build. | `azure-bicep-iac` |
 
@@ -103,6 +104,7 @@ Skill: [`sap-api-integration`](../.agents/skills/sap-api-integration/SKILL.md)
 | File | What it is |
 | --- | --- |
 | [`apim/sap-odata-csrf-policy.xml`](apim/sap-odata-csrf-policy.xml) | Policy for SAP OData APIs: `sap-client`, Key Vault-backed technical user (or swap in principal propagation), X-CSRF-Token fetch before writes. Import with policy format `xml`. |
+| [`apim/mcp-server-policy.xml`](apim/mcp-server-policy.xml) | MCP-server-scope policy for SAP tools: Entra ID token with an app role (`__APP_ROLE__` replaced at deployment), per-caller rate limit, trace of caller and app. Never reads the response body (that breaks MCP streaming). Skill: `sap-ai-agents`. |
 
 ## Microsoft Graph (`graph/`)
 
@@ -124,6 +126,7 @@ Skill: [`microsoft-graph`](../.agents/skills/microsoft-graph/SKILL.md) · Usage:
 | SAP table → data lake (full load) | `bicep/data-factory.bicep` → `adf/linked-services/key-vault.json`, `adls-gen2.json`, `sap-table.json` → `adf/datasets/sap-table.json`, `adls-parquet.json` → `adf/pipelines/copy-sap-table-to-adls.json` |
 | SAP delta → Delta tables → Fabric | `bicep/data-factory.bicep` → `adf/linked-services/key-vault.json`, `adls-gen2.json`, `sap-cdc.json` → `adf/datasets/adls-json.json` → `adf/control-files/sap-cdc-objects.json` → `adf/pipelines/sap-cdc-incremental-to-delta.json` → `bicep/fabric-capacity.bicep` → `fabric/shortcut-adls-delta.json` |
 | SAP OData as a secure API | `bicep/apim-sap-odata.bicep` → import OpenAPI → `apim/sap-odata-csrf-policy.xml` (+ identity setup from `azure-auth-entra`); worked example in `examples/sap-odata-apim/` |
+| SAP data as tools for AI agents | `bicep/apim-sap-odata.bicep` → read-only facade API with narrow operations → `bicep/apim-mcp-server.bicep` + `apim/mcp-server-policy.xml` → Foundry or Copilot Studio MCP tool; worked example in `examples/foundry-sap-po-agent/` |
 | SAP data → Snowflake (worked example: `examples/adf-sap-to-snowflake/`) | `bicep/data-factory.bicep` → `adf/linked-services/key-vault.json`, `adls-gen2.json`, `sap-table.json` or `sap-cdc.json` → SAP extract to Parquet → `azure-blob-staging.json`, `snowflake-v2.json` → `adf/datasets/snowflake-v2-table.json` → `adf/pipelines/copy-adls-parquet-to-snowflake.json` |
 | IDocs to and from SAP | `bicep/logicapp-standard-sap.bicep` (`vnetPrivatePortsCount = 2`) → worked example `examples/logicapps-sap-idoc/` |
 | Everything deployed by pipelines | `bicep/github-oidc-identity.bicep` → `github-actions/bicep-ci.yml` → `adf-cicd/package.json` + `github-actions/adf-cicd.yml` |

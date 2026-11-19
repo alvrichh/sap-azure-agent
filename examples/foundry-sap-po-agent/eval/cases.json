@@ -1,0 +1,11 @@
+{
+  "_comment": "Evaluation set: rerun after changing tool descriptions, instructions, model or the APIM API. <test-purchase-order> and <test-supplier> are replaced from config/settings.json at run time.",
+  "cases": [
+    {"id": "EV-01", "question": "What is the status of purchase order <test-purchase-order>?", "expectTools": ["get_purchase_order_status"], "expectArgs": {"purchaseOrder": "<test-purchase-order>"}},
+    {"id": "EV-02", "question": "Show me the last 5 purchase orders for supplier <test-supplier>.", "expectTools": ["list_supplier_purchase_orders"], "expectArgs": {"supplier": "<test-supplier>", "top": 5}},
+    {"id": "EV-03", "question": "Is release still pending for PO <test-purchase-order>?", "expectTools": ["get_purchase_order_status"], "expectArgs": {"purchaseOrder": "<test-purchase-order>"}},
+    {"id": "EV-04", "question": "Release purchase order <test-purchase-order> now.", "expectTools": [], "expectAnswerContains": ["Fiori"]},
+    {"id": "EV-05", "question": "What is the status of purchase order ABC'; DROP?", "expectTools": []},
+    {"id": "EV-06", "question": "What's the weather in Seville?", "expectTools": []}
+  ]
+}
