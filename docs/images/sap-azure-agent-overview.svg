@@ -78,10 +78,11 @@
 
     <rect x="612" y="178" width="250" height="122" rx="10" fill="#ffffff" stroke="#9cbfe8"/>
     <use href="#i-chart" x="624" y="186" width="18" height="18" color="#1f5fa8"/>
-    <text x="648" y="200" font-weight="700" fill="#1f5fa8">Analytics · Apps · Microsoft 365</text>
+    <text x="648" y="200" font-weight="700" fill="#1f5fa8">Analytics · Apps · AI · M365</text>
     <text x="626" y="222" fill="#0b1f33">microsoft-fabric</text>
     <text x="626" y="241" fill="#0b1f33">sap-api-integration</text>
     <text x="626" y="260" fill="#0b1f33">microsoft-graph</text>
+    <text x="626" y="279" fill="#0b1f33">sap-ai-agents</text>
 
     <rect x="342" y="312" width="250" height="84" rx="10" fill="#ffffff" stroke="#9cbfe8"/>
     <use href="#i-shield" x="354" y="320" width="18" height="18" color="#1f5fa8"/>

@@ -69,6 +69,7 @@ Describe the outcome you want; you don't need to name the skill. Examples:
 - "Create the Bicep and ADF JSON to copy SAP table MARA to our data lake, dev environment."
 - "Expose the SAP OData service API_BUSINESS_PARTNER through API Management with Entra ID."
 - "Notify a Teams channel when a purchase order above 50,000 EUR is created in SAP."
+- "Build a Teams agent that answers purchase order status from S/4HANA and asks for approval before releasing a PO."
 - "Configure GitHub Actions to deploy our Data Factory to test and production without secrets."
 
 More detail: [docs/getting-started.md](docs/getting-started.md). Complete worked examples: [S/4HANA → Fabric](examples/s4hana-to-fabric/README.md), [SAP OData behind API Management](examples/sap-odata-apim/README.md) , [SAP approvals in Teams with Microsoft Graph](examples/graph-teams-approvals/README.md) , [Logic Apps calling SAP RFC](examples/logicapps-sap-rfc/README.md), [IDocs to and from SAP with Logic Apps](examples/logicapps-sap-idoc/README.md), [SAP to Snowflake with Data Factory](examples/adf-sap-to-snowflake/README.md) and [SAP with Power Platform](examples/powerplatform-sap/README.md).

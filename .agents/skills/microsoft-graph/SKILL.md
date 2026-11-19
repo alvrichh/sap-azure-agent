@@ -49,6 +49,8 @@ One endpoint (`https://graph.microsoft.com/v1.0`) for Microsoft 365 data. Use `v
 
 ## 5. Bring SAP data into Microsoft 365 Copilot (Copilot connectors)
 
+Copilot connectors make SAP data searchable. For agents that call SAP or act on it (with approval for writes), use the `sap-ai-agents` skill.
+
 | | Synced connector | Federated connector |
 | --- | --- | --- |
 | Data | Indexed into Microsoft Graph (semantic index) | Stays in source; fetched at query time via **MCP** |

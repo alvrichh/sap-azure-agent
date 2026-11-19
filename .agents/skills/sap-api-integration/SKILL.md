@@ -75,6 +75,8 @@ IDocs (worked example `examples/logicapps-sap-idoc/`):
 
 ### Power Platform (Power Apps, Power Automate, Copilot Studio)
 
+For agents and copilots on top of these APIs (Copilot Studio agents, Foundry agents, SAP OData exposed as MCP tools through API Management, Joule ↔ Microsoft 365 Copilot), use the `sap-ai-agents` skill.
+
 Worked example: `examples/powerplatform-sap/`.
 
 - **SAP ERP connector** (RFC/BAPI, premium): needs the **on-premises data gateway** (3000.194+) with SAP NCo 3.1 x64; use *Call SAP function (V2)* (`CallRfcJson`), since support for v1 ended in July 2026. Put the *SAP system* JSON (host, system number, client, SNC; never credentials) in an **environment variable**. Gateway clusters: failover mode only for stateful sessions. tRFC and receiving from SAP aren't supported, so use Logic Apps for IDocs.
