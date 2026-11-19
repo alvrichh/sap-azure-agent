@@ -79,6 +79,7 @@ python3 examples/foundry-sap-po-agent/tests/validate_example.py --verbose
 | ST-17 | Python compiles; runtime script covers TC-01…TC-11 |
 | ST-18 | JSON parses; no secrets or tokens |
 | ST-19 | (`--strict`) no unfilled `<placeholders>` in settings and parameter files |
+| ST-20 | Tools return structured fields only (codes, dates, statuses), so no SAP free text reaches the model; the evaluation set has an indirect prompt-injection case |
 | UT | Unit tests, including the runtime script against a local MCP mock |
 
 ## 4. Runbook
@@ -166,13 +167,14 @@ Also check: APIM traces show `caller-oid` and `caller-app`; SAP Gateway logs (op
 
 **Open point to verify on the first real run:** whether a tool call through the MCP server forwards the caller's `Authorization` header to the facade API, whose policy validates it again. If tool calls fail with 401 while TC-03 passes, follow *Expose a REST API in API Management as an MCP server → Troubleshooting* on Microsoft Learn and record the fix here.
 
-**Acceptance:** ST and UT checks pass in strict mode, TC-01…TC-11 pass, and `run_agent.py --eval` passes EV-01…EV-06.
+**Acceptance:** ST and UT checks pass in strict mode, TC-01…TC-11 pass, and `run_agent.py --eval` passes EV-01…EV-07.
 
 ## 6. Production notes
 
 - Replace the technical user with **SAP principal propagation** so each user sees only what their SAP authorizations allow (`azure-auth-entra`); the agent must never see more than the user asking.
 - Write tools (for example, releasing a purchase order) go in a **separate** facade API and MCP server, with their own app role, CSRF handling (`templates/apim/sap-odata-csrf-policy.xml`) and **human approval** (`require_approval` stays `always` for them).
 - Private networking: APIM in a VNet, Foundry Standard agent setup with private networking if the MCP endpoint is private.
+- Keep the tools on structured fields. Before returning SAP free text (supplier names, header notes, item texts), add an evaluation case with an instruction hidden in that field and check the agent treats it as data (ST-20 fails until you do).
 - Production APIM tier with SLA; Defender for APIs; keep the evaluation set in CI for prompt and model changes.
 
 ## 7. Cost control and cleanup
@@ -189,4 +191,4 @@ Also check: APIM traces show `caller-oid` and `caller-app`; SAP Gateway logs (op
 | Runtime script vs mock | 2026-11-19 | 11 pass | Local mock of the APIM MCP endpoint; validates the test script, not APIM |
 | Bicep compile | 2026-11-19 | Pass | `po-tools.bicep`, MCP template and parameter files, Bicep CLI 0.49.2, no warnings |
 | TC-01…TC-11 | | Not run | Requires APIM, Entra ID app registration and SAP sandbox or S/4HANA |
-| EV-01…EV-06 | | Not run | Requires a Foundry project and model deployment |
+| EV-01…EV-07 | | Not run | Requires a Foundry project and model deployment |

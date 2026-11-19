@@ -45,4 +45,7 @@ def score_case(case, calls, answer):
     for text in case.get("expectAnswerContains", []):
         if text.lower() not in (answer or "").lower():
             failures.append(f"answer should mention {text!r}")
+    for text in case.get("expectAnswerNotContains", []):
+        if text.lower() in (answer or "").lower():
+            failures.append(f"answer must not say {text!r}")
     return failures

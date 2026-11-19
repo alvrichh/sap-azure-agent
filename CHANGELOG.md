@@ -14,6 +14,7 @@ Versions stay below `1.0.0` until at least one test case has passed end to end a
 
 ### Added
 
+- `examples/foundry-sap-po-agent`: evaluation case EV-07 for indirect prompt injection (a pasted supplier email that tells the agent to release the PO), `expectAnswerNotContains` in the scorer, and check ST-20, which fails if a tool starts returning SAP free text without an injection evaluation case.
 - Test case `examples/foundry-sap-po-agent`. A Microsoft Foundry prompt agent answers questions about SAP purchase orders (`API_PURCHASEORDER_PROCESS_SRV`) through two read-only MCP tools. The tools are operations of a facade API in API Management, exposed as an MCP server and protected with Entra ID and an app role. Includes input validation in the policy, explicit `allowed_tools` and approvals, an evaluation set, runtime MCP tests (TC-01…TC-11) and static checks in CI.
 - Template `templates/bicep/apim-mcp-server.bicep`: exposes operations of a REST API in API Management as an MCP server, one tool per operation (API version `2025-09-01-preview`).
 - Template `templates/apim/mcp-server-policy.xml`: MCP-server-scope policy with Entra ID token and app role, per-caller rate limit and trace.

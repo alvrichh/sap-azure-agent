@@ -198,6 +198,19 @@ for p in files:
         holes = PLACEHOLDER.findall(content)
         check(not holes, "ST-19", f"{p.name} has no unfilled placeholders" + (f" ({holes})" if holes else ""))
 
+# ST-20 tools return structured fields only, so no SAP free text (notes, names) reaches the model
+STRUCTURED_FIELDS = {"PurchaseOrder", "Supplier", "CompanyCode", "PurchaseOrderType", "PurchaseOrderDate",
+                     "DocumentCurrency", "PurchasingProcessingStatus", "ReleaseIsNotCompleted"}
+for pol in sorted((ROOT / "apim").glob("policy-po-tools-*.xml")):
+    selected = set()
+    for value in re.findall(r'name="select" value="([^"]+)"', pol.read_text()):
+        selected |= set(value.split(","))
+    extra = selected - STRUCTURED_FIELDS
+    check(selected and not extra, "ST-20",
+          f"{pol.name} returns structured fields only" + (f" — add an evaluation case for injected text before returning {sorted(extra)}" if extra else ""))
+check(any(c.get("expectAnswerNotContains") and c.get("expectTools") for c in cases), "ST-20",
+      "evaluation set has an indirect prompt-injection case (EV-07)")
+
 # UT unit tests
 ut = subprocess.run([sys.executable, str(ROOT / "tests/test_units.py")], capture_output=True, text=True)
 summary = (ut.stderr.strip().splitlines() or ["no output"])

@@ -167,7 +167,7 @@ Full rules: [AGENTS.md](AGENTS.md).
 
 ## Roadmap
 
-- Run the runtime test cases of `examples/s4hana-to-fabric` (TC-01…TC-14) `examples/sap-odata-apim` (TC-01…TC-11) `examples/graph-teams-approvals` (TC-01…TC-10) `examples/logicapps-sap-rfc` (TC-01…TC-10) `examples/logicapps-sap-idoc` (TC-01…TC-14) `examples/adf-sap-to-snowflake` (TC-01…TC-12) `examples/powerplatform-sap` (TC-01…TC-14) and `examples/foundry-sap-po-agent` (TC-01…TC-11, EV-01…EV-06) against real SAP, Azure and Microsoft 365 environments.
+- Run the runtime test cases of `examples/s4hana-to-fabric` (TC-01…TC-14) `examples/sap-odata-apim` (TC-01…TC-11) `examples/graph-teams-approvals` (TC-01…TC-10) `examples/logicapps-sap-rfc` (TC-01…TC-10) `examples/logicapps-sap-idoc` (TC-01…TC-14) `examples/adf-sap-to-snowflake` (TC-01…TC-12) `examples/powerplatform-sap` (TC-01…TC-14) and `examples/foundry-sap-po-agent` (TC-01…TC-11, EV-01…EV-07) against real SAP, Azure and Microsoft 365 environments.
 
 ## Learning material
 
