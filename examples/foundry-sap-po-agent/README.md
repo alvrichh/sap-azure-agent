@@ -143,8 +143,8 @@ The script creates an agent version and deletes it at the end (`--keep` to keep 
 ## 5. Runtime test cases
 
 ```bash
-export READER_TOKEN=$(az account get-access-token --resource api://sap-po-agent --query accessToken -o tsv)
-export NOROLE_TOKEN=<token of the test user without the role>
+export TOKEN_READER=$(az account get-access-token --resource api://sap-po-agent --query accessToken -o tsv)
+export TOKEN_NOROLE=<token of the test user without the role>
 python3 examples/foundry-sap-po-agent/tests/run_mcp_tests.py --rate-limit
 ```
 

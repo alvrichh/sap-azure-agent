@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Runtime tests against the deployed MCP server in API Management (TC-01…TC-11).
 
-  export READER_TOKEN=$(az account get-access-token --resource api://sap-po-agent --query accessToken -o tsv)
-  export NOROLE_TOKEN=<token of a test user without PurchaseOrder.Read>      # optional, for TC-02
+  export TOKEN_READER=$(az account get-access-token --resource api://sap-po-agent --query accessToken -o tsv)
+  export TOKEN_NOROLE=<token of a test user without PurchaseOrder.Read>      # optional, for TC-02
   python3 examples/foundry-sap-po-agent/tests/run_mcp_tests.py [--settings path] [--rate-limit]
 
 Values come from config/settings.json (mcp.serverUrl, test.purchaseOrder, test.supplier).
@@ -51,11 +51,11 @@ def run(settings, reader, norole, rate_limit):
         resp, _ = McpClient(url, norole).initialize()
         record("TC-02", resp.status in (401, 403), f"token without role -> {resp.status} (expected 401/403)")
     else:
-        skip("TC-02", "NOROLE_TOKEN not set")
+        skip("TC-02", "TOKEN_NOROLE not set")
 
     if not reader:
         for tc in ("TC-03", "TC-04", "TC-05", "TC-06", "TC-07", "TC-08", "TC-09", "TC-10", "TC-11"):
-            skip(tc, "READER_TOKEN not set")
+            skip(tc, "TOKEN_READER not set")
         return results
 
     client = McpClient(url, reader)
@@ -112,7 +112,7 @@ def main(argv=None):
     parser.add_argument("--rate-limit", action="store_true")
     args = parser.parse_args(argv)
     settings = json.loads(Path(args.settings).read_text())
-    results = run(settings, os.environ.get("READER_TOKEN"), os.environ.get("NOROLE_TOKEN"), args.rate_limit)
+    results = run(settings, os.environ.get("TOKEN_READER"), os.environ.get("TOKEN_NOROLE"), args.rate_limit)
     for test_id, status, detail in results:
         print(f"{status:4} {test_id}: {detail}")
     counts = {s: sum(1 for r in results if r[1] == s) for s in ("PASS", "FAIL", "SKIP")}
